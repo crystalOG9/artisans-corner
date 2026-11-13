@@ -1,0 +1,1270 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 597
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F2 22 Tf
+25.2999999999999972 TL
+0.071 0.094 0.149 rg
+45.354330708661422 779.5277952755905062 Td
+(Project Export) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.29 0.333 0.408 rg
+45.354330708661422 751.1813385826771992 Td
+(Domain: Web Development Export: Single project Projects: 1 Generated: 11/12/2026, 11:59:42 AM) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+45.354330708661422 25.5118110236220446 Td
+(Persevex Project Dashboard) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+509.2856692913384791 25.5118110236220446 Td
+(Page 1 of 4) Tj
+ET
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 6428
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F2 16 Tf
+18.3999999999999986 TL
+0.071 0.094 0.149 rg
+45.354330708661422 785.1970866141732586 Td
+(1. "Artisan's Corner" - An E-commerce Platform for Handmade) Tj
+ET
+BT
+/F2 16 Tf
+18.3999999999999986 TL
+0.071 0.094 0.149 rg
+45.354330708661422 765.3545669291338527 Td
+(Goods) Tj
+ET
+BT
+/F1 9.5 Tf
+10.9249999999999989 TL
+0.392 0.455 0.545 rg
+45.354330708661422 729.9214960629921052 Td
+(Domain: Web Development Slug: artisans-corner-ecommerce-platform Created: 1/13/2026) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.055 0.341 0.267 rg
+45.354330708661422 700.15771653543311 Td
+(Summary) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 683.1498425196850803 Td
+(Artisan's Corner is a multi-vendor e-commerce marketplace akin to Etsy, designed for creators to sell handmade) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 668.4096850393700606 Td
+(goods. This project involves building complex database relationships, vendor dashboards, secure payment) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 653.6695275590550409 Td
+(integration, and a seamless shopping cart experience.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0.055 0.341 0.267 rg
+45.354330708661422 623.3388188976377933 Td
+(Full Content) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0.071 0.094 0.149 rg
+45.354330708661422 597.827007874015635 Td
+(Project Overview) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 565.7955118110235162 Td
+(Case Study: Artisan's Corner) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 532.0632283464566399 Td
+(The market for unique, handcrafted items is booming, but individual artisans often lack the technical skills to build) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 516.7561417322833677 Td
+(their own standalone e-commerce sites. They need a centralized hub where they can set up a shop, list products,) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 501.4490551181100955 Td
+(and reach customers without worrying about hosting, security, or payment processing.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 467.7167716535431623 Td
+(As a Full Stack Developer Intern, you will build Artisan's Corner. This is not a standard single-seller shop; it is a) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 452.4096850393699469 Td
+(Multi-Vendor Marketplace. This adds a layer of complexity: users can be Buyers, Sellers, or both. You will architect) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 437.1025984251966747 Td
+(a system that allows artisans to manage their own inventories while providing customers with a unified shopping) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 421.7955118110234594 Td
+(experience.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 388.0632283464564694 Td
+(---) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0.071 0.094 0.149 rg
+45.354330708661422 345.8270078740155213 Td
+(Key Objectives & Technical Architecture) Tj
+ET
+BT
+/F2 10.5 Tf
+12.0749999999999993 TL
+0.071 0.094 0.149 rg
+45.354330708661422 305.2915748031493877 Td
+(Phase 1: Database Design & User Roles) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 277.5120472440942194 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 277.5120472440942194 Td
+(The Schema: This is the backbone of the project. You need to model complex relationships.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 259.3703149606296847 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 259.3703149606296847 Td
+(Users: Can have roles \(Buyer, Vendor, Admin\).) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 241.22858267716515 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 241.22858267716515 Td
+(Products: Must reference a specific Vendor ID.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 223.086850393700729 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 223.086850393700729 Td
+(Orders: Must link a Buyer to specific Products.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 204.9451181102361943 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 204.9451181102361943 Td
+(Vendor Onboarding: Create a workflow where a standard user can "Become a Seller," creating a Store) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 190.2049606299212883 Td
+(Profile \(Name, Logo, Description\).) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 172.0632283464567536 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 172.0632283464567536 Td
+(Technology: Use MongoDB \(with Mongoose population for relationships\) or PostgreSQL \(for strict relational) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 157.3230708661418475 Td
+(integrity\).) Tj
+ET
+BT
+/F2 10.5 Tf
+12.0749999999999993 TL
+0.071 0.094 0.149 rg
+45.354330708661422 126.4254330708662337 Td
+(Phase 2: The Vendor Dashboard) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 98.6459055118111792 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 98.6459055118111792 Td
+(Product Management: Build a dedicated protected route \(/dashboard/seller\) where vendors) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 83.9057480314961595 Td
+(can perform CRUD operations on their products.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 65.7640157480317384 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 65.7640157480317384 Td
+(Image Handling: Products need photos. You cannot store images directly in the database. Integrate) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+45.354330708661422 25.5118110236220446 Td
+(Persevex Project Dashboard) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+509.2856692913384791 25.5118110236220446 Td
+(Page 2 of 4) Tj
+ET
+endstream
+endobj
+7 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 8 0 R
+>>
+endobj
+8 0 obj
+<<
+/Length 7378
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 785.1970866141732586 Td
+(Cloudinary or AWS S3. When a vendor uploads a photo, upload it to the cloud, get the URL, and save that) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 770.4569291338582389 Td
+(URL in your database.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 752.3151968503937042 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 752.3151968503937042 Td
+(Analytics: A simple chart showing the vendor's Sales History and Total Earnings.) Tj
+ET
+BT
+/F2 10.5 Tf
+12.0749999999999993 TL
+0.071 0.094 0.149 rg
+45.354330708661422 721.4175590551180903 Td
+(Phase 3: Shopping Cart & Checkout Logic) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 693.6380314960629221 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 693.6380314960629221 Td
+(State Management: The Shopping Cart is a complex piece of state. It must persist even if the) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 678.8978740157480161 Td
+(user refreshes the page.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 660.7561417322833677 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 660.7561417322833677 Td
+(Approach: Use Redux Toolkit or Context API combined with localStorage to keep the cart data) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 646.0159842519684616 Td
+(synced.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 627.8742519685038133 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 627.8742519685038133 Td
+(The Checkout Flow:) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 609.7325196850392786 Td
+(1.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 609.7325196850392786 Td
+(Review Cart Items.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 591.5907874015747439 Td
+(2.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 591.5907874015747439 Td
+(Input Shipping Address.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 573.4490551181100955 Td
+(3.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 573.4490551181100955 Td
+(Payment Processing.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 555.3073228346454471 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 555.3073228346454471 Td
+(Reviews & Ratings: Implement a system allowing verified buyers to leave a 1-5 star rating and text review) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 540.567165354330541 Td
+(on products they have purchased.) Tj
+ET
+BT
+/F2 10.5 Tf
+12.0749999999999993 TL
+0.071 0.094 0.149 rg
+45.354330708661422 509.6695275590549272 Td
+(Phase 4: Payments & Monetization) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 481.8899999999998158 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 481.8899999999998158 Td
+(Payment Gateway: Integrate Stripe. You will use the Stripe API to process credit card) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 467.149842519684853 Td
+(transactions securely.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 449.0081102362203751 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 449.0081102362203751 Td
+(Commission Logic: The platform makes money by taking a cut \(e.g., 5%\).) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 430.8663779527558404 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 430.8663779527558404 Td
+(Calculation: If a product costs $100, the system must calculate the Platform Fee \($5\) and the Vendor) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 416.1262204724409344 Td
+(Payout \($95\). \(For the scope of this project, you can simulate the payout recording rather than) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 401.3860629921259715 Td
+(automating bank transfers\).) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 378.9923622047244862 Td
+(---) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0.071 0.094 0.149 rg
+45.354330708661422 336.7561417322835382 Td
+(Prerequisites) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 304.7246456692913625 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 304.7246456692913625 Td
+(Languages: JavaScript/TypeScript.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 286.5829133858268278 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 286.5829133858268278 Td
+(Frontend: React.js, Redux \(or Context API\), Axios.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 268.4411811023622931 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 268.4411811023622931 Td
+(Backend: Node.js, Express.js.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 250.2994488188978721 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 250.2994488188978721 Td
+(Database: MongoDB or SQL.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 232.1577165354333374 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 232.1577165354333374 Td
+(Services: Cloudinary \(Images\), Stripe \(Payments\).) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 209.7640157480318521 Td
+(---) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0.071 0.094 0.149 rg
+45.354330708661422 167.5277952755908473 Td
+(Deliverables) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 135.4962992125987284 Td
+(1. The GitHub Repository) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 106.015984251968689 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 106.015984251968689 Td
+(Clean code structure separating controllers, models, routes, and middleware.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 87.8742519685041543 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 87.8742519685041543 Td
+(Security: Ensure no API keys \(Stripe Secrets, Mongo URI\) are committed. Use .env files.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+45.354330708661422 25.5118110236220446 Td
+(Persevex Project Dashboard) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+509.2856692913384791 25.5118110236220446 Td
+(Page 3 of 4) Tj
+ET
+endstream
+endobj
+9 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 10 0 R
+>>
+endobj
+10 0 obj
+<<
+/Length 5702
+>>
+stream
+0.5670000000000001 w
+0 G
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 785.1970866141732586 Td
+(2. The Live Application) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 755.7167716535433328 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 755.7167716535433328 Td
+(A fully functional deployed link.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 737.5750393700786844 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 737.5750393700786844 Td
+(Demo Credentials: In your README, provide login details for a "Demo Vendor" and a "Demo Buyer" so the) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 722.8348818897637784 Td
+(evaluator can test both sides of the marketplace.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 700.4411811023621794 Td
+(3. Database Schema Diagram) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 670.9608661417322537 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 670.9608661417322537 Td
+(An image showing how Users, Products, Orders, and Reviews are connected.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0.141 0.165 0.22 rg
+45.354330708661422 648.5671653543306547 Td
+(---) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0.071 0.094 0.149 rg
+45.354330708661422 606.3309448818896499 Td
+(Project Timeline & Deadlines) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 574.2994488188975311 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 574.2994488188975311 Td
+(Week 1: Architecture & Products) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 556.1577165354328827 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 556.1577165354328827 Td
+(Goal: The Marketplace Foundation.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 538.015984251968348 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 538.015984251968348 Td
+(Tasks: Setup Server. Design DB Schema. Build Auth \(Login/Register\). Implement Image Upload to) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 523.2758267716533283 Td
+(Cloudinary. Build the "Add Product" API.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 500.8821259842517861 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 500.8821259842517861 Td
+(Week 2: Frontend & Dashboards) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 482.7403937007871946 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 482.7403937007871946 Td
+(Goal: Visualizing the Store.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 464.5986614173227167 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 464.5986614173227167 Td
+(Tasks: Build the Product Listing Page \(Grid view\). Build the Individual Product Detail page. Construct) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 449.8585039370078107 Td
+(the Vendor Dashboard \(Table view of their products\).) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 427.4648031496062686 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 427.4648031496062686 Td
+(Week 3: Cart & Orders) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 409.3230708661417907 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 409.3230708661417907 Td
+(Goal: The Transaction Flow.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 391.181338582677256 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 391.181338582677256 Td
+(Tasks: Implement "Add to Cart" logic \(Redux/Context\). Build the Cart Page \(Update quantities,) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 376.44118110236235 Td
+(remove items\). Design the Order Schema to track status \(Processing, Shipped\).) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+59.5275590551181182 354.0474803149608078 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+82.2047244094488292 354.0474803149608078 Td
+(Week 4: Payments & Reviews) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 335.90574803149633 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 335.90574803149633 Td
+(Goal: Closing the Loop.) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+87.8740157480315105 317.7640157480318521 Td
+(-) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 317.7640157480318521 Td
+(Tasks: Integrate Stripe Payment Intent. On successful payment, create the Order record and clear the) Tj
+ET
+BT
+/F1 9.8 Tf
+11.2699999999999996 TL
+0.141 0.165 0.22 rg
+110.5511811023622215 303.0238582677168324 Td
+(Cart. Implement the Review system. Final Deployment.) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+45.354330708661422 25.5118110236220446 Td
+(Persevex Project Dashboard) Tj
+ET
+BT
+/F1 8 Tf
+9.1999999999999993 TL
+0.58 0.639 0.722 rg
+509.2856692913384791 25.5118110236220446 Td
+(Page 4 of 4) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R 7 0 R 9 0 R ]
+/Count 4
+>>
+endobj
+11 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+12 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+13 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+14 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+15 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+16 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+19 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+20 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+21 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+24 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 11 0 R
+/F2 12 0 R
+/F3 13 0 R
+/F4 14 0 R
+/F5 15 0 R
+/F6 16 0 R
+/F7 17 0 R
+/F8 18 0 R
+/F9 19 0 R
+/F10 20 0 R
+/F11 21 0 R
+/F12 22 0 R
+/F13 23 0 R
+/F14 24 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+25 0 obj
+<<
+/Producer (jsPDF 4.2.1)
+/CreationDate (D:20261112115942+05'30')
+>>
+endobj
+26 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 27
+0000000000 65535 f 
+0000020877 00000 n 
+0000022717 00000 n 
+0000000015 00000 n 
+0000000152 00000 n 
+0000000800 00000 n 
+0000000937 00000 n 
+0000007417 00000 n 
+0000007554 00000 n 
+0000014984 00000 n 
+0000015122 00000 n 
+0000020952 00000 n 
+0000021078 00000 n 
+0000021209 00000 n 
+0000021343 00000 n 
+0000021481 00000 n 
+0000021605 00000 n 
+0000021734 00000 n 
+0000021866 00000 n 
+0000022002 00000 n 
+0000022130 00000 n 
+0000022257 00000 n 
+0000022386 00000 n 
+0000022519 00000 n 
+0000022621 00000 n 
+0000022970 00000 n 
+0000023056 00000 n 
+trailer
+<<
+/Size 27
+/Root 26 0 R
+/Info 25 0 R
+/ID [ <9A97666AC4FD82467AADC72EA0B278F4> <9A97666AC4FD82467AADC72EA0B278F4> ]
+>>
+startxref
+23160
+%%EOF

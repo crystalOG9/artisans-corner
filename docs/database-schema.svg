@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="720" viewBox="0 0 1120 720" role="img" aria-label="Artisan's Corner Database Schema ER Diagram">
+  <defs>
+    <style>
+      .bg { fill: #FAF8F5; }
+      .card { fill: #FFFFFF; stroke: #D8CFC2; stroke-width: 1.5; rx: 8; }
+      .header { fill: #F2EDE4; }
+      .title { font: 600 15px 'Segoe UI', Arial, sans-serif; fill: #1F1D1A; }
+      .field { font: 400 12.5px 'Consolas', monospace; fill: #3E3A34; }
+      .pk { fill: #B4533C; font-weight: 700; }
+      .fk { fill: #3F624D; font-weight: 700; }
+      .line { stroke: #7C7367; stroke-width: 1.8; fill: none; }
+      .label { font: 600 11.5px 'Segoe UI', Arial, sans-serif; fill: #5E584F; }
+      .heading { font: 700 22px Georgia, serif; fill: #1F1D1A; }
+      .sub { font: 400 13px 'Segoe UI', Arial, sans-serif; fill: #5E584F; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7C7367" />
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1120" height="720" />
+  <text x="40" y="44" class="heading">Artisan's Corner — Database Schema &amp; Relationships</text>
+  <text x="40" y="66" class="sub">MongoDB / Mongoose collections showing Users, Stores, Products, Orders, VendorPayouts, and Reviews</text>
+
+  <!-- USER -->
+  <rect class="card" x="40" y="100" width="240" height="175" rx="8" />
+  <rect class="header" x="40" y="100" width="240" height="34" rx="8" />
+  <text x="54" y="122" class="title">User</text>
+  <text x="54" y="152" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="54" y="172" class="field">name: String</text>
+  <text x="54" y="192" class="field">email: String (unique)</text>
+  <text x="54" y="212" class="field">passwordHash: String</text>
+  <text x="54" y="232" class="field">roles: [buyer|vendor|admin]</text>
+  <text x="54" y="252" class="field">createdAt, updatedAt</text>
+
+  <!-- STORE -->
+  <rect class="card" x="390" y="100" width="250" height="190" rx="8" />
+  <rect class="header" x="390" y="100" width="250" height="34" rx="8" />
+  <text x="404" y="122" class="title">Store</text>
+  <text x="404" y="152" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="404" y="172" class="field"><tspan class="fk">FK</tspan> ownerId -&gt; User._id</text>
+  <text x="404" y="192" class="field">name, slug (unique)</text>
+  <text x="404" y="212" class="field">description, location</text>
+  <text x="404" y="232" class="field">logoUrl, logoPublicId</text>
+  <text x="404" y="252" class="field">isActive: Boolean</text>
+  <text x="404" y="272" class="field">createdAt, updatedAt</text>
+
+  <!-- PRODUCT -->
+  <rect class="card" x="760" y="100" width="310" height="240" rx="8" />
+  <rect class="header" x="760" y="100" width="310" height="34" rx="8" />
+  <text x="774" y="122" class="title">Product</text>
+  <text x="774" y="152" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="774" y="172" class="field"><tspan class="fk">FK</tspan> storeId -&gt; Store._id</text>
+  <text x="774" y="192" class="field"><tspan class="fk">FK</tspan> vendorId -&gt; User._id</text>
+  <text x="774" y="212" class="field">title, slug (unique), category</text>
+  <text x="774" y="232" class="field">description, materials</text>
+  <text x="774" y="252" class="field">priceCents: Int, stock: Int</text>
+  <text x="774" y="272" class="field">images: [{ url, publicId }]</text>
+  <text x="774" y="292" class="field">ratingAvg, ratingCount</text>
+  <text x="774" y="312" class="field">isArchived: Boolean</text>
+
+  <!-- ORDER -->
+  <rect class="card" x="40" y="380" width="350" height="285" rx="8" />
+  <rect class="header" x="40" y="380" width="350" height="34" rx="8" />
+  <text x="54" y="402" class="title">Order</text>
+  <text x="54" y="432" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="54" y="452" class="field"><tspan class="fk">FK</tspan> buyerId -&gt; User._id</text>
+  <text x="54" y="472" class="field">orderNumber (unique)</text>
+  <text x="54" y="492" class="field">shippingAddress: { fullName, line1... }</text>
+  <text x="54" y="512" class="field">subtotalCents, platformFeeCents, totalCents</text>
+  <text x="54" y="532" class="field">paymentStatus: pending|paid|failed</text>
+  <text x="54" y="552" class="field">stripePaymentIntentId (unique sparse)</text>
+  <text x="54" y="572" class="field">vendorOrders: [{</text>
+  <text x="54" y="590" class="field">  <tspan class="fk">FK</tspan> storeId, <tspan class="fk">FK</tspan> vendorId, status (Processing|Shipped),</text>
+  <text x="54" y="608" class="field">  subtotalCents, platformFeeCents, vendorNetCents,</text>
+  <text x="54" y="626" class="field">  items: [{ <tspan class="fk">FK</tspan> productId, unitPriceCents, quantity }]</text>
+  <text x="54" y="644" class="field">}]</text>
+
+  <!-- VENDOR PAYOUT -->
+  <rect class="card" x="450" y="400" width="275" height="205" rx="8" />
+  <rect class="header" x="450" y="400" width="275" height="34" rx="8" />
+  <text x="464" y="422" class="title">VendorPayout (5% / 95%)</text>
+  <text x="464" y="452" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="464" y="472" class="field"><tspan class="fk">FK</tspan> orderId -&gt; Order._id</text>
+  <text x="464" y="492" class="field"><tspan class="fk">FK</tspan> storeId -&gt; Store._id</text>
+  <text x="464" y="512" class="field"><tspan class="fk">FK</tspan> vendorId -&gt; User._id</text>
+  <text x="464" y="532" class="field">grossCents, commissionCents (5%)</text>
+  <text x="464" y="552" class="field">netAmountCents (95%)</text>
+  <text x="464" y="572" class="field">status: recorded|settled_simulated</text>
+  <text x="464" y="592" class="field">settledAt, createdAt</text>
+
+  <!-- REVIEW -->
+  <rect class="card" x="780" y="420" width="290" height="190" rx="8" />
+  <rect class="header" x="780" y="420" width="290" height="34" rx="8" />
+  <text x="794" y="442" class="title">Review (Verified Buyer)</text>
+  <text x="794" y="472" class="field"><tspan class="pk">PK</tspan> _id: ObjectId</text>
+  <text x="794" y="492" class="field"><tspan class="fk">FK</tspan> productId -&gt; Product._id</text>
+  <text x="794" y="512" class="field"><tspan class="fk">FK</tspan> buyerId -&gt; User._id</text>
+  <text x="794" y="532" class="field"><tspan class="fk">FK</tspan> orderId -&gt; Order._id</text>
+  <text x="794" y="552" class="field">rating: Int (1..5), comment: String</text>
+  <text x="794" y="572" class="field">unique index (productId, buyerId)</text>
+  <text x="794" y="592" class="field">createdAt, updatedAt</text>
+
+  <!-- CONNECTIONS -->
+  <!-- User -> Store (1:0..1) -->
+  <path class="line" d="M 280 170 L 390 170" marker-end="url(#arrow)" />
+  <text x="305" y="160" class="label">1 : 0..1</text>
+
+  <!-- Store -> Product (1:N) -->
+  <path class="line" d="M 640 170 L 760 170" marker-end="url(#arrow)" />
+  <text x="680" y="160" class="label">1 : N</text>
+
+  <!-- User -> Order (1:N) -->
+  <path class="line" d="M 150 275 L 150 380" marker-end="url(#arrow)" />
+  <text x="160" y="330" class="label">1 : N (buyer)</text>
+
+  <!-- Order -> VendorPayout (1:N) -->
+  <path class="line" d="M 390 470 L 450 470" marker-end="url(#arrow)" />
+  <text x="398" y="460" class="label">1 : N</text>
+
+  <!-- Product -> Review (1:N) -->
+  <path class="line" d="M 920 340 L 920 420" marker-end="url(#arrow)" />
+  <text x="930" y="384" class="label">1 : N</text>
+
+  <!-- Order -> Review (verified purchase) -->
+  <path class="line" d="M 390 635 L 750 635 L 750 530 L 780 530" marker-end="url(#arrow)" />
+  <text x="530" y="652" class="label">Verified Purchase Check (Order -&gt; Review)</text>
+</svg>
+
