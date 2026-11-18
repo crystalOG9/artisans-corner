@@ -367,8 +367,8 @@ export function SellerDashboardPage() {
         </button>
       </div>
 
-      {/* Tabs */}
-      <div className="mt-6 flex flex-wrap gap-1 border-b border-hairline">
+      {/* Tabs (Horizontally Swipeable on Mobile) */}
+      <div className="-mx-4 flex gap-1 overflow-x-auto border-b border-hairline px-4 pb-0.5 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
         {[
           { id: 'overview', label: 'Analytics & Earnings', icon: BarChart3 },
           { id: 'products', label: `Products (${products.length})`, icon: Package },
@@ -383,14 +383,14 @@ export function SellerDashboardPage() {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as SellerTab)}
-              className={`inline-flex items-center gap-2 border-b-2 px-4 py-2.5 text-sm font-medium transition ${
+              className={`inline-flex shrink-0 min-h-[44px] items-center gap-2 border-b-2 px-3.5 py-2.5 text-xs sm:text-sm font-medium transition ${
                 active
-                  ? 'border-terracotta text-terracotta'
+                  ? 'border-terracotta text-terracotta font-semibold'
                   : 'border-transparent text-ink-muted hover:text-ink'
               }`}
             >
               <Icon className="h-4 w-4" aria-hidden="true" />
-              {tab.label}
+              <span>{tab.label}</span>
             </button>
           );
         })}
@@ -777,7 +777,7 @@ export function SellerDashboardPage() {
                           type="button"
                           onClick={() => openEditModal(product)}
                           aria-label={`Edit ${product.title}`}
-                          className="rounded border border-hairline p-2 text-ink-muted"
+                          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-hairline p-2 text-ink-muted hover:bg-linen"
                         >
                           <Edit3 className="h-4 w-4" />
                         </button>
@@ -785,7 +785,7 @@ export function SellerDashboardPage() {
                           type="button"
                           onClick={() => handleDelete(product._id, product.title)}
                           aria-label={`Delete ${product.title}`}
-                          className="rounded border border-hairline p-2 text-ink-muted"
+                          className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg border border-hairline p-2 text-ink-muted hover:border-red-300 hover:text-red-700 hover:bg-red-50"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>

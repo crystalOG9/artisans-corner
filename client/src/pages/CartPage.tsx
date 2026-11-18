@@ -115,7 +115,7 @@ export function CartPage() {
                     </div>
 
                     <div className="flex items-center justify-between gap-4 sm:justify-end">
-                      <div className="inline-flex items-center rounded-md border border-hairline bg-canvas">
+                      <div className="inline-flex items-center rounded-lg border border-hairline bg-canvas">
                         <button
                           type="button"
                           aria-label={`Decrease quantity of ${item.title}`}
@@ -127,11 +127,11 @@ export function CartPage() {
                               })
                             )
                           }
-                          className="p-2 text-ink hover:bg-linen"
+                          className="flex min-h-[44px] min-w-[44px] items-center justify-center text-ink transition hover:bg-linen"
                         >
-                          <Minus className="h-3.5 w-3.5" />
+                          <Minus className="h-4 w-4" />
                         </button>
-                        <span className="w-9 text-center text-sm font-medium tabular-nums">
+                        <span className="w-10 text-center font-serif text-sm font-semibold tabular-nums text-ink">
                           {item.quantity}
                         </span>
                         <button
@@ -146,13 +146,13 @@ export function CartPage() {
                               })
                             )
                           }
-                          className="p-2 text-ink hover:bg-linen disabled:opacity-40"
+                          className="flex min-h-[44px] min-w-[44px] items-center justify-center text-ink transition hover:bg-linen disabled:opacity-40"
                         >
-                          <Plus className="h-3.5 w-3.5" />
+                          <Plus className="h-4 w-4" />
                         </button>
                       </div>
 
-                      <span className="w-20 text-right font-semibold tabular-nums text-ink">
+                      <span className="w-20 text-right font-serif text-base font-semibold tabular-nums text-ink">
                         {formatMoney(item.priceCents * item.quantity)}
                       </span>
 
@@ -160,7 +160,7 @@ export function CartPage() {
                         type="button"
                         aria-label={`Remove ${item.title}`}
                         onClick={() => dispatch(removeFromCart(item.productId))}
-                        className="rounded p-1.5 text-ink-muted hover:text-red-700"
+                        className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg text-ink-muted transition hover:bg-red-50 hover:text-red-700"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

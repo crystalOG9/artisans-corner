@@ -47,6 +47,45 @@ export function LoginPage() {
           Welcome back to Artisan&apos;s Corner.
         </p>
 
+        {/* Demo Fast Sign-in helper */}
+        <div className="mt-4 rounded-lg border border-hairline bg-linen/60 p-3">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-faint">
+            Quick Demo Fast-Fill
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <button
+              type="button"
+              onClick={() => {
+                setEmail('buyer@artisanscorner.demo');
+                setPassword('DemoBuyer123!');
+              }}
+              className="rounded border border-hairline bg-surface px-2.5 py-1 text-xs font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
+            >
+              Buyer
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail('vendor@artisanscorner.demo');
+                setPassword('DemoVendor123!');
+              }}
+              className="rounded border border-hairline bg-surface px-2.5 py-1 text-xs font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
+            >
+              Artisan (Pottery)
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail('admin@artisanscorner.demo');
+                setPassword('DemoAdmin123!');
+              }}
+              className="rounded border border-hairline bg-surface px-2.5 py-1 text-xs font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
+            >
+              Admin
+            </button>
+          </div>
+        </div>
+
         {displayError && (
           <div
             role="alert"
