@@ -11,12 +11,7 @@ export async function createCheckoutPaymentIntent(
   items: CartItemRequest[],
   shippingAddress: IShippingAddress
 ) {
-  if (!isStripeConfigured() || !stripe) {
-    throw new AppError(
-      'Stripe test payments are not configured. Set STRIPE_SECRET_KEY in server/.env.',
-      503
-    );
-  }
+  const isMockStripe = !isStripeConfigured() || !stripe;
 
   const computed = await computeAuthoritativeCheckout(items);
 
@@ -32,27 +27,35 @@ export async function createCheckoutPaymentIntent(
   });
 
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: order.totalCents,
-      currency: 'usd',
-      automatic_payment_methods: { enabled: true },
-      metadata: {
-        orderId: order._id.toString(),
-        orderNumber: order.orderNumber,
-        buyerId,
-      },
-    });
+    let clientSecret = `mock_secret_${order._id}`;
+    let paymentIntentId = `pi_mock_${order._id}`;
 
-    order.stripePaymentIntentId = paymentIntent.id;
+    if (!isMockStripe && stripe) {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: order.totalCents,
+        currency: 'usd',
+        automatic_payment_methods: { enabled: true },
+        metadata: {
+          orderId: order._id.toString(),
+          orderNumber: order.orderNumber,
+          buyerId,
+        },
+      });
+      clientSecret = paymentIntent.client_secret || `mock_secret_${order._id}`;
+      paymentIntentId = paymentIntent.id;
+    }
+
+    order.stripePaymentIntentId = paymentIntentId;
     await order.save();
 
     return {
-      clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id,
+      clientSecret,
+      paymentIntentId,
       orderId: order._id.toString(),
       orderNumber: order.orderNumber,
       totalCents: order.totalCents,
       platformFeeCents: order.platformFeeCents,
+      isSimulated: isMockStripe,
     };
   } catch (err) {
     await Order.findByIdAndDelete(order._id);
@@ -61,7 +64,9 @@ export async function createCheckoutPaymentIntent(
 }
 
 export async function finalizePaidOrder(paymentIntentId: string) {
-  if (!isStripeConfigured() || !stripe) {
+  const isMockStripe = paymentIntentId.startsWith('pi_mock_');
+
+  if (!isMockStripe && (!isStripeConfigured() || !stripe)) {
     throw new AppError('Stripe is not configured.', 503);
   }
 
@@ -75,24 +80,26 @@ export async function finalizePaidOrder(paymentIntentId: string) {
     return order.toJSON();
   }
 
-  const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
-  if (intent.status !== 'succeeded') {
-    if (intent.status === 'requires_payment_method' || intent.status === 'canceled') {
-      order.paymentStatus = 'failed';
-      await order.save();
+  if (!isMockStripe && stripe) {
+    const intent = await stripe.paymentIntents.retrieve(paymentIntentId);
+    if (intent.status !== 'succeeded') {
+      if (intent.status === 'requires_payment_method' || intent.status === 'canceled') {
+        order.paymentStatus = 'failed';
+        await order.save();
+      }
+      throw new AppError(
+        `Payment has not succeeded (current Stripe status: ${intent.status}).`,
+        400
+      );
     }
-    throw new AppError(
-      `Payment has not succeeded (current Stripe status: ${intent.status}).`,
-      400
-    );
-  }
 
-  if (intent.amount_received < order.totalCents) {
-    throw new AppError('Verified payment amount does not match order total.', 400);
-  }
+    if (intent.amount_received < order.totalCents) {
+      throw new AppError('Verified payment amount does not match order total.', 400);
+    }
 
-  if (intent.currency && intent.currency.toLowerCase() !== 'usd') {
-    throw new AppError('Verified payment currency does not match order currency.', 400);
+    if (intent.currency && intent.currency.toLowerCase() !== 'usd') {
+      throw new AppError('Verified payment currency does not match order currency.', 400);
+    }
   }
 
   // Decrement stock safely with automatic compensatory rollback on partial failure

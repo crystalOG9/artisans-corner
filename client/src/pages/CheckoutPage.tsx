@@ -98,6 +98,7 @@ function StripePaymentForm({
 export function CheckoutPage() {
   const { items } = useAppSelector((s) => s.cart);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [step, setStep] = useState<'address' | 'payment'>('address');
   const [validating, setValidating] = useState(true);
@@ -122,6 +123,7 @@ export function CheckoutPage() {
   const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
   const [orderId, setOrderId] = useState<string | null>(null);
   const [creatingIntent, setCreatingIntent] = useState(false);
+  const [simulatingPayment, setSimulatingPayment] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -218,6 +220,21 @@ export function CheckoutPage() {
       setError(extractErrorMessage(err));
     } finally {
       setCreatingIntent(false);
+    }
+  };
+
+  const handleSimulatedPayment = async () => {
+    if (!paymentIntentId || !orderId) return;
+    setSimulatingPayment(true);
+    setError(null);
+    try {
+      await http.post('/payments/verify', { paymentIntentId });
+      dispatch(clearCart());
+      navigate(`/orders/${orderId}`, { replace: true });
+    } catch (err) {
+      setError(extractErrorMessage(err));
+    } finally {
+      setSimulatingPayment(false);
     }
   };
 
@@ -384,10 +401,26 @@ export function CheckoutPage() {
                 </button>
               </div>
 
-              {!stripePromise ? (
-                <div className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-                  Stripe publishable key is not configured in{' '}
-                  <code>client/.env</code> (<code>VITE_STRIPE_PUBLISHABLE_KEY</code>).
+              {Boolean(paymentIntentId?.startsWith('pi_mock_') || !stripePromise) ? (
+                <div className="space-y-4 rounded-xl border border-hairline bg-linen/50 p-6">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-terracotta">
+                    <ShieldCheck className="h-5 w-5 text-terracotta" />
+                    <span>Test Mode · Instant Payment Simulator</span>
+                  </div>
+                  <p className="text-sm leading-relaxed text-ink-muted">
+                    Stripe is running in local development mode. You can complete this transaction now with one click. Your order will be confirmed, stocks decremented, and the 95% artisan payout ledger generated.
+                  </p>
+                  <button
+                    type="button"
+                    disabled={simulatingPayment}
+                    onClick={handleSimulatedPayment}
+                    className="flex w-full items-center justify-center gap-2 rounded-md bg-terracotta px-5 py-3 text-sm font-medium text-white transition hover:bg-terracotta-hover disabled:opacity-60 shadow-sm"
+                  >
+                    <Lock className="h-4 w-4" />
+                    {simulatingPayment
+                      ? 'Confirming payment & recording order...'
+                      : `Confirm & Complete Order (${formatMoney(serverSummary?.totalCents || 0)})`}
+                  </button>
                 </div>
               ) : clientSecret && paymentIntentId && orderId ? (
                 <Elements stripe={stripePromise} options={{ clientSecret }}>

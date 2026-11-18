@@ -40,10 +40,16 @@ export async function uploadImageBuffer(
   }
 
   if (!isCloudinaryConfigured()) {
-    throw new AppError(
-      'Cloudinary is not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in server/.env.',
-      503
-    );
+    // Local / Demo mode fallback: return base64 Data URL so local testing works without Cloudinary keys
+    let mime = 'image/jpeg';
+    if (buffer[0] === 0x89 && buffer[1] === 0x50) mime = 'image/png';
+    else if (buffer.toString('ascii', 0, 4) === 'RIFF') mime = 'image/webp';
+
+    const base64 = buffer.toString('base64');
+    return {
+      url: `data:${mime};base64,${base64}`,
+      publicId: `local-demo/${folder}/${Date.now()}-${Math.random().toString(36).substring(7)}`,
+    };
   }
 
   return new Promise((resolve, reject) => {
@@ -70,7 +76,7 @@ export async function uploadImageBuffer(
 }
 
 export async function deleteCloudAsset(publicId: string): Promise<void> {
-  if (!isCloudinaryConfigured() || !publicId) return;
+  if (!isCloudinaryConfigured() || !publicId || publicId.startsWith('local-demo/')) return;
   try {
     await cloudinary.uploader.destroy(publicId);
   } catch {
