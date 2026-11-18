@@ -91,21 +91,37 @@ export async function finalizePaidOrder(paymentIntentId: string) {
     throw new AppError('Verified payment amount does not match order total.', 400);
   }
 
-  // Decrement stock safely for each item
-  for (const group of order.vendorOrders) {
-    for (const item of group.items) {
-      const updated = await Product.findOneAndUpdate(
-        { _id: item.productId, stock: { $gte: item.quantity } },
-        { $inc: { stock: -item.quantity } },
-        { new: true }
-      );
-      if (!updated) {
-        throw new AppError(
-          `Insufficient remaining stock for "${item.titleSnapshot}". Please contact support.`,
-          409
+  if (intent.currency && intent.currency.toLowerCase() !== 'usd') {
+    throw new AppError('Verified payment currency does not match order currency.', 400);
+  }
+
+  // Decrement stock safely with automatic compensatory rollback on partial failure
+  const decrementedItems: { productId: mongoose.Types.ObjectId; quantity: number }[] = [];
+  try {
+    for (const group of order.vendorOrders) {
+      for (const item of group.items) {
+        const updated = await Product.findOneAndUpdate(
+          { _id: item.productId, stock: { $gte: item.quantity } },
+          { $inc: { stock: -item.quantity } },
+          { new: true }
         );
+        if (!updated) {
+          throw new AppError(
+            `Insufficient remaining stock for "${item.titleSnapshot}". Please contact support.`,
+            409
+          );
+        }
+        decrementedItems.push({ productId: item.productId, quantity: item.quantity });
       }
     }
+  } catch (err) {
+    // Roll back any already-decremented stock items in this order batch
+    for (const roll of decrementedItems) {
+      await Product.updateOne({ _id: roll.productId }, { $inc: { stock: roll.quantity } });
+    }
+    order.paymentStatus = 'failed';
+    await order.save();
+    throw err;
   }
 
   order.paymentStatus = 'paid';

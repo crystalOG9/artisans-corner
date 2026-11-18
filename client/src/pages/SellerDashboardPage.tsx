@@ -321,28 +321,32 @@ export function SellerDashboardPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       {/* Header */}
-      <div className="flex flex-col gap-4 rounded-xl border border-hairline bg-surface p-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded border border-hairline bg-surface p-6 sm:flex-row sm:items-center sm:justify-between shadow-2xs">
         <div className="flex items-center gap-4">
-          {store?.logoUrl && (
+          {store?.logoUrl ? (
             <img
               src={store.logoUrl}
               alt={`${store.name} logo`}
-              className="h-14 w-14 rounded-lg border border-hairline object-cover"
+              className="h-14 w-14 rounded border border-hairline object-cover"
             />
+          ) : (
+            <span className="inline-flex h-14 w-14 items-center justify-center rounded border border-hairline bg-linen text-terracotta">
+              <Store className="h-7 w-7" />
+            </span>
           )}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-terracotta">
-              Seller Dashboard
-            </p>
-            <h1 className="font-serif text-2xl font-semibold text-ink">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+              Artisan Studio Workbench
+            </span>
+            <h1 className="font-serif text-2xl font-bold tracking-tight text-ink sm:text-3xl">
               {store?.name || 'Your Studio'}
             </h1>
             {store?.slug && (
               <Link
                 to={`/stores/${store.slug}`}
-                className="mt-0.5 inline-flex items-center gap-1 text-xs font-medium text-ink-muted hover:text-terracotta"
+                className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-terracotta hover:underline"
               >
-                View public storefront <ExternalLink className="h-3 w-3" />
+                View Public Atelier Storefront <ExternalLink className="h-3 w-3" />
               </Link>
             )}
           </div>
@@ -356,10 +360,10 @@ export function SellerDashboardPage() {
             setFormError(null);
             setFormSuccess(null);
           }}
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-terracotta px-4 py-2.5 text-sm font-medium text-white transition hover:bg-terracotta-hover"
+          className="inline-flex items-center justify-center gap-2 rounded bg-terracotta px-5 py-2.5 text-sm font-medium text-white shadow-xs transition hover:bg-terracotta-hover"
         >
           <Plus className="h-4 w-4" aria-hidden="true" />
-          {showAddForm ? 'Close form' : 'Add product'}
+          {showAddForm ? 'Close Form' : 'Publish New Piece'}
         </button>
       </div>
 

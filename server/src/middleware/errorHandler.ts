@@ -37,6 +37,22 @@ export function errorHandler(
     return;
   }
 
+  if (err instanceof Error && err.name === 'CastError') {
+    res.status(400).json({
+      success: false,
+      message: 'Resource identifier format is invalid.',
+    });
+    return;
+  }
+
+  if (err instanceof Error && err.name === 'ValidationError') {
+    res.status(400).json({
+      success: false,
+      message: err.message,
+    });
+    return;
+  }
+
   if (env.NODE_ENV !== 'test') {
     console.error('Unhandled error:', err);
   }

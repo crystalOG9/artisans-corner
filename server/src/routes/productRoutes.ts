@@ -19,13 +19,14 @@ import { imageUpload } from '../middleware/upload';
 import { validate } from '../middleware/validate';
 import {
   createProductSchema,
+  listProductsQuerySchema,
   updateProductSchema,
 } from '../validators/productValidator';
 import { createReviewSchema } from '../validators/reviewValidator';
 
 const router = Router();
 
-router.get('/', listPublicProductsHandler);
+router.get('/', validate(listProductsQuerySchema), listPublicProductsHandler);
 router.get('/mine', authenticate, requireRole('vendor'), listMyProductsHandler);
 
 router.get('/:id/reviews', listReviewsHandler);

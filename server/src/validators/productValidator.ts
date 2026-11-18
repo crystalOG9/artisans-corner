@@ -41,3 +41,26 @@ export const updateProductSchema = z.object({
   }),
 });
 
+export const listProductsQuerySchema = z.object({
+  query: z.object({
+    page: z.coerce.number().int().min(1).optional(),
+    limit: z.coerce.number().int().min(1).max(50).optional(),
+    category: z.enum(PRODUCT_CATEGORIES).optional(),
+    search: z
+      .string()
+      .trim()
+      .max(80, 'Search query must be 80 characters or fewer')
+      .optional(),
+    minPrice: z.coerce.number().min(0).max(100000).optional(),
+    maxPrice: z.coerce.number().min(0).max(100000).optional(),
+    storeId: z
+      .string()
+      .regex(/^[0-9a-fA-F]{24}$/, 'Invalid store identifier')
+      .optional(),
+    inStock: z.enum(['true', 'false']).optional(),
+    sort: z
+      .enum(['newest', 'price_asc', 'price_desc', 'top_rated'])
+      .optional(),
+  }),
+});
+

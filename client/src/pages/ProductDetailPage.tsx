@@ -1,11 +1,14 @@
 import {
   ArrowLeft,
   Check,
+  HeartHandshake,
   MapPin,
   Minus,
   PackageCheck,
   Plus,
+  ShieldCheck,
   ShoppingBag,
+  Sparkles,
   Star,
   Store,
 } from 'lucide-react';
@@ -203,147 +206,191 @@ export function ProductDetailPage() {
         </div>
 
         {/* Product Info + Purchase Controls */}
-        <div className="lg:col-span-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-terracotta">
-            {product.category}
-          </p>
-          <h1 className="mt-2 font-serif text-3xl font-semibold text-ink">
-            {product.title}
-          </h1>
-
-          <div className="mt-3 flex items-center gap-4">
-            <span className="text-2xl font-semibold tabular-nums text-ink">
-              {formatMoney(product.priceCents)}
-            </span>
-            {product.ratingCount > 0 && (
-              <span className="inline-flex items-center gap-1 text-sm text-ink-muted">
-                <Star className="h-4 w-4 fill-terracotta text-terracotta" />
-                <span className="font-medium text-ink tabular-nums">
-                  {product.ratingAvg.toFixed(1)}
+        <div className="lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+                {product.category}
+              </span>
+              {store?.location && (
+                <span className="inline-flex items-center gap-1 text-xs text-ink-faint">
+                  <MapPin className="h-3 w-3" />
+                  {store.location}
                 </span>
-                ({product.ratingCount} verified)
-              </span>
-            )}
-          </div>
-
-          <div className="mt-4 flex items-center gap-2 text-sm">
-            <PackageCheck
-              className={`h-4 w-4 ${product.stock > 0 ? 'text-sage' : 'text-red-700'}`}
-              aria-hidden="true"
-            />
-            {product.stock > 0 ? (
-              <span className="font-medium text-sage">
-                In stock — {product.stock} available
-              </span>
-            ) : (
-              <span className="font-medium text-red-700">Currently sold out</span>
-            )}
-          </div>
-
-          {/* Quantity + Add to Cart */}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="inline-flex items-center rounded-md border border-hairline bg-surface">
-              <button
-                type="button"
-                aria-label="Decrease quantity"
-                disabled={qty <= 1 || product.stock <= 0}
-                onClick={() => setQty((q) => Math.max(1, q - 1))}
-                className="p-2.5 text-ink disabled:opacity-40"
-              >
-                <Minus className="h-4 w-4" />
-              </button>
-              <span className="w-10 text-center text-sm font-medium tabular-nums">
-                {qty}
-              </span>
-              <button
-                type="button"
-                aria-label="Increase quantity"
-                disabled={qty >= product.stock || product.stock <= 0}
-                onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
-                className="p-2.5 text-ink disabled:opacity-40"
-              >
-                <Plus className="h-4 w-4" />
-              </button>
-            </div>
-
-            <button
-              type="button"
-              disabled={product.stock <= 0}
-              onClick={handleAddToCart}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-md bg-terracotta px-5 py-2.5 text-sm font-medium text-white transition hover:bg-terracotta-hover disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {addedFeedback ? (
-                <>
-                  <Check className="h-4 w-4" />
-                  Added to cart
-                </>
-              ) : (
-                <>
-                  <ShoppingBag className="h-4 w-4" />
-                  {product.stock > 0 ? 'Add to cart' : 'Sold out'}
-                </>
               )}
-            </button>
-          </div>
-
-          {addedFeedback && (
-            <div className="mt-3 text-sm">
-              <Link to="/cart" className="font-medium text-terracotta hover:underline">
-                View cart &amp; checkout &rarr;
-              </Link>
             </div>
-          )}
 
-          <div className="mt-6 border-t border-hairline pt-6">
-            <h2 className="font-serif text-base font-medium text-ink">
-              About this piece
-            </h2>
-            <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-muted">
-              {product.description}
-            </p>
+            <h1 className="mt-2.5 font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+              {product.title}
+            </h1>
 
-            {product.materials && (
-              <div className="mt-4 rounded-lg bg-linen/70 p-3.5 text-sm">
-                <span className="font-medium text-ink">Materials: </span>
-                <span className="text-ink-muted">{product.materials}</span>
+            <div className="mt-4 flex items-center gap-4">
+              <span className="font-serif text-2xl font-bold tabular-nums text-ink">
+                {formatMoney(product.priceCents)}
+              </span>
+              {product.ratingCount > 0 && (
+                <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
+                  <Star className="h-3.5 w-3.5 fill-terracotta text-terracotta" />
+                  <span className="font-semibold text-ink tabular-nums">
+                    {product.ratingAvg.toFixed(1)}
+                  </span>
+                  <span>({product.ratingCount} verified reviews)</span>
+                </span>
+              )}
+            </div>
+
+            {/* Scarcity & Batch Availability */}
+            <div className="mt-4 flex items-center gap-2">
+              <PackageCheck
+                className={`h-4 w-4 ${product.stock > 0 ? 'text-sage' : 'text-red-700'}`}
+                aria-hidden="true"
+              />
+              {product.stock > 0 ? (
+                <span className="text-xs font-medium text-sage">
+                  {product.stock <= 3
+                    ? `Small batch — only ${product.stock} pieces remaining in this run`
+                    : `In stock — ${product.stock} studio pieces ready to dispatch`}
+                </span>
+              ) : (
+                <span className="text-xs font-semibold uppercase tracking-wider text-red-700">
+                  Archived / Currently Sold Out
+                </span>
+              )}
+            </div>
+
+            {/* Direct Maker Assurance Banner */}
+            <div className="mt-5 rounded border border-hairline bg-surface p-3 text-xs text-ink-muted shadow-2xs">
+              <div className="flex items-start gap-2.5">
+                <HeartHandshake className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" />
+                <div>
+                  <p className="font-medium text-ink">Direct Studio Economics</p>
+                  <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">
+                    95% of your purchase directly funds the maker's workshop and raw materials.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quantity + Add to Cart */}
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center rounded border border-hairline bg-surface">
+                <button
+                  type="button"
+                  aria-label="Decrease quantity"
+                  disabled={qty <= 1 || product.stock <= 0}
+                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  className="p-2.5 text-ink transition hover:bg-linen disabled:opacity-40"
+                >
+                  <Minus className="h-4 w-4" />
+                </button>
+                <span className="w-10 text-center font-serif text-sm font-semibold tabular-nums">
+                  {qty}
+                </span>
+                <button
+                  type="button"
+                  aria-label="Increase quantity"
+                  disabled={qty >= product.stock || product.stock <= 0}
+                  onClick={() => setQty((q) => Math.min(product.stock, q + 1))}
+                  className="p-2.5 text-ink transition hover:bg-linen disabled:opacity-40"
+                >
+                  <Plus className="h-4 w-4" />
+                </button>
+              </div>
+
+              <button
+                type="button"
+                disabled={product.stock <= 0}
+                onClick={handleAddToCart}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded bg-terracotta px-6 py-3 text-sm font-medium text-white shadow-xs transition hover:bg-terracotta-hover disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {addedFeedback ? (
+                  <>
+                    <Check className="h-4 w-4" />
+                    Added to Your Studio Cart
+                  </>
+                ) : (
+                  <>
+                    <ShoppingBag className="h-4 w-4" />
+                    {product.stock > 0 ? 'Acquire Piece' : 'Sold Out'}
+                  </>
+                )}
+              </button>
+            </div>
+
+            {addedFeedback && (
+              <div className="mt-3 text-xs">
+                <Link to="/cart" className="font-semibold text-terracotta hover:underline">
+                  View Studio Cart &amp; Complete Checkout &rarr;
+                </Link>
               </div>
             )}
+
+            {/* About this Piece & Materials */}
+            <div className="mt-8 border-t border-hairline pt-6">
+              <h2 className="font-serif text-lg font-medium text-ink">
+                About this Piece
+              </h2>
+              <p className="mt-2.5 whitespace-pre-line text-xs leading-relaxed text-ink-muted">
+                {product.description}
+              </p>
+
+              {product.materials && (
+                <div className="mt-4 rounded border border-hairline bg-linen/50 p-3.5">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-ink-faint block">
+                    Materiality & Sourcing
+                  </span>
+                  <div className="mt-1.5 flex flex-wrap gap-1.5">
+                    {product.materials.split(',').map((mat, i) => (
+                      <span
+                        key={i}
+                        className="rounded border border-hairline bg-surface px-2.5 py-0.5 text-xs font-medium text-ink"
+                      >
+                        {mat.trim()}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
+          {/* Maker Atelier Bio Card */}
           {store && (
-            <div className="mt-6 rounded-xl border border-hairline bg-surface p-4">
-              <div className="flex items-center gap-3">
+            <div className="mt-8 rounded border border-hairline bg-surface p-4 shadow-2xs">
+              <div className="flex items-center gap-3.5">
                 {store.logoUrl ? (
                   <img
                     src={store.logoUrl}
                     alt={store.name}
-                    className="h-12 w-12 rounded-lg border border-hairline object-cover"
+                    className="h-12 w-12 rounded border border-hairline object-cover"
                   />
                 ) : (
-                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-lg bg-linen text-terracotta">
-                    <Store className="h-5 w-5" />
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded bg-linen text-terracotta">
+                    <Store className="h-6 w-6" />
                   </span>
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs text-ink-muted">Crafted by</p>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-faint">
+                    Crafted at the Atelier of
+                  </span>
                   <Link
                     to={`/stores/${store.slug}`}
-                    className="block truncate font-serif text-base font-medium text-ink hover:text-terracotta"
+                    className="block truncate font-serif text-base font-semibold text-ink transition hover:text-terracotta"
                   >
                     {store.name}
                   </Link>
                   {store.location && (
-                    <p className="mt-0.5 inline-flex items-center gap-1 text-xs text-ink-muted">
-                      <MapPin className="h-3 w-3" />
+                    <p className="flex items-center gap-1 text-[11px] text-ink-muted">
+                      <MapPin className="h-2.5 w-2.5" />
                       {store.location}
                     </p>
                   )}
                 </div>
                 <Link
                   to={`/stores/${store.slug}`}
-                  className="rounded-md border border-hairline px-3 py-1.5 text-xs font-medium text-ink hover:bg-linen"
+                  className="rounded border border-hairline px-3 py-1.5 text-xs font-medium text-ink transition hover:border-terracotta hover:bg-linen"
                 >
-                  Visit store
+                  Visit Studio
                 </Link>
               </div>
             </div>

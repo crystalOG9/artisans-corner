@@ -11,16 +11,39 @@ import apiRoutes from './routes';
 export function createApp() {
   const app = express();
 
-  app.use(helmet());
-
   const allowedOrigins = env.CLIENT_URL.split(',').map((o) => o.trim());
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'", 'https://js.stripe.com'],
+          styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+          fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+          imgSrc: [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://res.cloudinary.com',
+            'https://images.unsplash.com',
+          ],
+          connectSrc: ["'self'", 'https://api.stripe.com', ...allowedOrigins],
+          frameSrc: ["'self'", 'https://js.stripe.com', 'https://hooks.stripe.com'],
+          objectSrc: ["'none'"],
+        },
+      },
+      crossOriginEmbedderPolicy: false,
+    })
+  );
+
   app.use(
     cors({
       origin(origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
           return callback(null, true);
         }
-        return callback(new Error('Not allowed by CORS'));
+        return callback(new Error('Not allowed by CORS policy.'));
       },
       credentials: true,
     })
@@ -34,13 +57,48 @@ export function createApp() {
   );
 
   if (env.NODE_ENV !== 'test') {
+    // General API rate limiter
     app.use(
-      '/api/auth',
+      '/api',
       rateLimit({
         windowMs: 15 * 60 * 1000,
-        max: 100,
+        max: 300,
         standardHeaders: true,
         legacyHeaders: false,
+        message: {
+          success: false,
+          message: 'Too many requests. Please try again later.',
+        },
+      })
+    );
+
+    // Strict rate limiter for authentication endpoints (anti-brute-force)
+    app.use(
+      ['/api/auth/login', '/api/auth/register'],
+      rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 15,
+        standardHeaders: true,
+        legacyHeaders: false,
+        message: {
+          success: false,
+          message: 'Too many authentication attempts. Please wait 15 minutes.',
+        },
+      })
+    );
+
+    // Strict rate limiter for payment intent creation (anti-card-testing)
+    app.use(
+      '/api/payments/create-intent',
+      rateLimit({
+        windowMs: 15 * 60 * 1000,
+        max: 15,
+        standardHeaders: true,
+        legacyHeaders: false,
+        message: {
+          success: false,
+          message: 'Payment attempt limit reached. Please wait a few minutes.',
+        },
       })
     );
   }

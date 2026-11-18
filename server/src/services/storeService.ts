@@ -69,6 +69,13 @@ export async function updateVendorStore(
     throw new AppError('Store profile not found.', 404);
   }
 
+  if (store.isActive === false) {
+    throw new AppError(
+      'This store profile is suspended and cannot be modified. Please contact support.',
+      403
+    );
+  }
+
   if (updates.name !== undefined) store.name = updates.name;
   if (updates.description !== undefined) store.description = updates.description;
   if (updates.location !== undefined) store.location = updates.location;

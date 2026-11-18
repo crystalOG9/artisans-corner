@@ -429,13 +429,23 @@ export function CheckoutPage() {
           </div>
 
           <div className="mt-4 flex justify-between border-t border-hairline pt-4 text-base font-semibold text-ink">
-            <span>Server-Verified Total</span>
-            <span className="tabular-nums">
+            <span className="font-serif">Verified Total</span>
+            <span className="font-serif text-lg font-bold tabular-nums text-ink">
               {formatMoney(
                 serverSummary?.totalCents ??
                   items.reduce((s, i) => s + i.priceCents * i.quantity, 0)
               )}
             </span>
+          </div>
+
+          <div className="mt-4 rounded border border-hairline bg-linen/50 p-3 text-xs text-ink-muted">
+            <div className="flex items-center gap-1.5 font-medium text-ink">
+              <ShieldCheck className="h-4 w-4 text-sage" />
+              <span>Studio Dispatch Guarantee</span>
+            </div>
+            <p className="mt-1 text-[11px] leading-relaxed text-ink-faint">
+              Funds are held securely. Artisans receive 95% net payout automatically recorded to the platform ledger upon fulfillment.
+            </p>
           </div>
 
           <p className="mt-4 flex items-center gap-2 text-xs text-ink-muted">

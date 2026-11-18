@@ -107,8 +107,9 @@ export async function listPublicProducts(query: MarketplaceQuery) {
   }
 
   if (query.search && query.search.trim()) {
+    const sanitized = query.search.trim().slice(0, 80);
     const regex = new RegExp(
-      query.search.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      sanitized.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
       'i'
     );
     filter.$or = [{ title: regex }, { description: regex }, { materials: regex }];

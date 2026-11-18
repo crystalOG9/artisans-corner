@@ -1,4 +1,4 @@
-import { ArrowRight, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
+import { ArrowRight, HeartHandshake, Minus, Plus, ShieldCheck, ShoppingBag, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store';
 import {
@@ -172,32 +172,59 @@ export function CartPage() {
           ))}
         </div>
 
-        <aside className="h-fit rounded-xl border border-hairline bg-surface p-6 lg:col-span-4">
-          <h2 className="font-serif text-xl font-medium text-ink">Order Summary</h2>
-          <div className="mt-4 space-y-2.5 border-b border-hairline pb-4 text-sm">
+        <aside className="h-fit rounded border border-hairline bg-surface p-6 shadow-2xs lg:col-span-4">
+          <h2 className="font-serif text-xl font-semibold text-ink">Studio Order Summary</h2>
+          <div className="mt-4 space-y-2.5 border-b border-hairline pb-4 text-xs">
             <div className="flex justify-between text-ink-muted">
-              <span>Items ({items.reduce((s, i) => s + i.quantity, 0)})</span>
-              <span className="tabular-nums text-ink">{formatMoney(subtotalCents)}</span>
+              <span>Selected Studio Pieces ({items.reduce((s, i) => s + i.quantity, 0)})</span>
+              <span className="font-medium tabular-nums text-ink">{formatMoney(subtotalCents)}</span>
             </div>
             <div className="flex justify-between text-ink-muted">
-              <span>Estimated shipping</span>
-              <span className="text-sage font-medium">Included</span>
+              <span>Studio Workshop Dispatch</span>
+              <span className="font-medium text-sage">Complimentary</span>
             </div>
           </div>
 
-          <div className="mt-4 flex justify-between text-base font-semibold text-ink">
-            <span>Total</span>
-            <span className="tabular-nums">{formatMoney(subtotalCents)}</span>
+          {/* Maker Direct Economics Breakdown */}
+          <div className="mt-4 rounded border border-hairline bg-linen/50 p-3 text-[11px]">
+            <div className="flex items-center gap-1.5 font-medium text-ink">
+              <HeartHandshake className="h-3.5 w-3.5 text-terracotta" />
+              <span>Direct Studio Impact</span>
+            </div>
+            <div className="mt-2 space-y-1 text-ink-muted">
+              <div className="flex justify-between">
+                <span>95% Goes Directly to Makers:</span>
+                <span className="font-semibold text-terracotta tabular-nums">
+                  {formatMoney(Math.round(subtotalCents * 0.95))}
+                </span>
+              </div>
+              <div className="flex justify-between text-[10px] text-ink-faint">
+                <span>5% Platform Stewardship:</span>
+                <span className="tabular-nums">{formatMoney(Math.round(subtotalCents * 0.05))}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 flex justify-between text-base font-semibold text-ink">
+            <span className="font-serif">Estimated Total</span>
+            <span className="font-serif text-lg font-bold tabular-nums text-ink">
+              {formatMoney(subtotalCents)}
+            </span>
           </div>
 
           <Link
             to={user ? '/checkout' : '/login'}
             state={!user ? { from: '/checkout' } : undefined}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-md bg-terracotta px-5 py-2.5 text-sm font-medium text-white transition hover:bg-terracotta-hover"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded bg-terracotta px-5 py-3 text-sm font-medium text-white shadow-xs transition hover:bg-terracotta-hover"
           >
-            {user ? 'Proceed to checkout' : 'Sign in to checkout'}
+            {user ? 'Proceed to Secure Studio Checkout' : 'Sign In to Acquire Pieces'}
             <ArrowRight className="h-4 w-4" />
           </Link>
+
+          <div className="mt-4 flex items-center justify-center gap-1.5 text-center text-[10px] text-ink-faint">
+            <ShieldCheck className="h-3 w-3 text-sage" />
+            <span>Encrypted Stripe checkout • Zero hidden buyer markups</span>
+          </div>
         </aside>
       </div>
     </div>

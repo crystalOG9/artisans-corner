@@ -6,6 +6,9 @@ import { IUser, User } from '../models/User';
 import { AppError } from '../utils/AppError';
 
 const BCRYPT_ROUNDS = 12;
+// Precomputed valid bcrypt hash used to maintain constant-time login response and prevent email enumeration
+const DUMMY_BCRYPT_HASH =
+  '$2b$12$e8p2B3oB9Ea6oK9B6bO7.eRz3U.k5.P1f3I.5g2L4d6F8h0J2l4n6';
 
 export function signAuthToken(user: Pick<IUser, '_id' | 'roles'>): string {
   const payload = { sub: user._id.toString(), roles: user.roles };
@@ -39,6 +42,8 @@ export async function registerUser(input: {
 export async function loginUser(input: { email: string; password: string }) {
   const user = await User.findOne({ email: input.email }).select('+passwordHash');
   if (!user) {
+    // Constant-time execution prevents email existence disclosure via timing side-channel
+    await bcrypt.compare(input.password, DUMMY_BCRYPT_HASH);
     throw new AppError('Invalid email or password.', 401);
   }
 

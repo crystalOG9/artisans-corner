@@ -28,16 +28,32 @@ export function Navbar() {
     }`;
 
   return (
-    <header className="sticky top-0 z-30 border-b border-hairline bg-canvas/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 border-b border-hairline bg-canvas/95 backdrop-blur-md">
+      {/* Editorial Announcement Banner */}
+      <div className="border-b border-hairline/60 bg-linen/70 px-4 py-1.5 text-center text-[11px] font-medium tracking-wide text-ink-muted">
+        <span>Direct Studio Commerce</span>
+        <span className="mx-2 text-hairline-dark">•</span>
+        <span className="font-semibold text-terracotta">95% of every purchase</span> goes directly to the independent maker
+        <span className="mx-2 hidden sm:inline text-hairline-dark">•</span>
+        <span className="hidden sm:inline">Small-batch authentic craftsmanship</span>
+      </div>
+
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           to="/"
-          className="flex items-center gap-2 font-serif text-xl font-semibold text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta"
+          className="group flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta rounded"
         >
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-hairline bg-linen text-terracotta">
-            <Store className="h-4 w-4" aria-hidden="true" />
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded border border-hairline bg-surface text-terracotta shadow-sm transition-transform group-hover:scale-105">
+            <Store className="h-4.5 w-4.5" aria-hidden="true" />
           </span>
-          <span>Artisan&apos;s Corner</span>
+          <div className="flex flex-col">
+            <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+              Artisan&apos;s Corner
+            </span>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+              Independent Studios
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}
