@@ -1,13 +1,14 @@
-import { ArrowUpRight, Compass, HeartHandshake, ShieldCheck, Sparkles, Store } from 'lucide-react';
+import { ArrowUpRight, Compass, HeartHandshake, ShieldCheck, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PRODUCT_CATEGORIES } from '../types/marketplace';
+import { ArtisanLogo } from './ArtisanLogo';
 
 export function Footer() {
   return (
     <footer className="border-t border-hairline bg-surface text-ink">
       {/* Editorial Craft Statement Ribbon */}
-      <div className="border-b border-hairline/70 bg-linen/50 px-4 py-8 sm:px-6">
-        <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-3">
+      <div className="border-b border-hairline/70 bg-linen/50 px-4 py-8 sm:px-8 lg:px-12">
+        <div className="mx-auto grid max-w-[1440px] gap-6 sm:grid-cols-3">
           <div className="flex items-start gap-3">
             <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded border border-hairline bg-surface text-terracotta">
               <HeartHandshake className="h-4.5 w-4.5" aria-hidden="true" />
@@ -53,19 +54,17 @@ export function Footer() {
       </div>
 
       {/* Main Footer Navigation & Brand Directory */}
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-[1440px] px-4 py-12 sm:px-8 lg:px-12 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand Col */}
           <div className="lg:col-span-2">
-            <Link to="/" className="inline-flex items-center gap-2.5">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded border border-hairline bg-linen text-terracotta">
-                <Store className="h-4.5 w-4.5" aria-hidden="true" />
-              </span>
+            <Link to="/" className="inline-flex items-center gap-3">
+              <ArtisanLogo className="h-10 w-10" size={40} />
               <div className="flex flex-col">
-                <span className="font-serif text-xl font-bold tracking-tight text-ink">
+                <span className="font-serif text-2xl font-bold tracking-tight text-ink">
                   Artisan&apos;s Corner
                 </span>
-                <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-ink-faint">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-faint">
                   Independent Studios
                 </span>
               </div>

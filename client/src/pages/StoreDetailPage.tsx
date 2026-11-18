@@ -63,7 +63,7 @@ export function StoreDetailPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       <div className="rounded-xl border border-hairline bg-surface p-6 sm:p-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
           {store.logoUrl ? (

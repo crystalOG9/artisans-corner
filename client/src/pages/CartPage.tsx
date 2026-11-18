@@ -58,7 +58,7 @@ export function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       <h1 className="font-serif text-3xl font-semibold text-ink">Shopping Cart</h1>
       <p className="mt-1 text-sm text-ink-muted">
         Items are grouped by maker studio. Your cart is saved automatically across refreshes.

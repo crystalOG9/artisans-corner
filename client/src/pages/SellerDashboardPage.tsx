@@ -319,7 +319,7 @@ export function SellerDashboardPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* Header */}
       <div className="flex flex-col gap-4 rounded border border-hairline bg-surface p-6 sm:flex-row sm:items-center sm:justify-between shadow-2xs">
         <div className="flex items-center gap-4">

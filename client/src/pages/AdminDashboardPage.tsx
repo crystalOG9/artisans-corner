@@ -75,7 +75,7 @@ export function AdminDashboardPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-terracotta">
         <Shield className="h-4 w-4" />
         <span>Platform Administration</span>

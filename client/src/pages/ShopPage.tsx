@@ -79,7 +79,7 @@ export function ShopPage() {
   const hasFilters = Boolean(category || search || inStock || sort !== 'newest');
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* Header Banner */}
       <div className="border-b border-hairline pb-8">
         <div className="inline-flex items-center gap-1.5 rounded-full border border-terracotta/20 bg-linen/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">

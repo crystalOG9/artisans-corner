@@ -95,7 +95,7 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* 1. EDITORIAL ASYMMETRIC HERO SECTION */}
       <section className="grid gap-8 border-b border-hairline pb-14 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">

@@ -1,8 +1,9 @@
-import { LogOut, Menu, ShoppingBag, Store, User as UserIcon, X } from 'lucide-react';
+import { LogOut, Menu, ShoppingBag, User as UserIcon, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store';
 import { logoutAccount } from '../store/authSlice';
+import { ArtisanLogo } from './ArtisanLogo';
 
 export function Navbar() {
   const { user } = useAppSelector((s) => s.auth);
@@ -38,19 +39,17 @@ export function Navbar() {
         <span className="hidden sm:inline">Small-batch authentic craftsmanship</span>
       </div>
 
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-4 sm:px-8 lg:px-12">
         <Link
           to="/"
-          className="group flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta rounded"
+          className="group flex items-center gap-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta rounded-lg"
         >
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded border border-hairline bg-surface text-terracotta shadow-sm transition-transform group-hover:scale-105">
-            <Store className="h-4.5 w-4.5" aria-hidden="true" />
-          </span>
+          <ArtisanLogo className="h-11 w-11 transition-transform group-hover:scale-105" size={44} />
           <div className="flex flex-col">
-            <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+            <span className="font-serif text-2xl sm:text-[26px] font-bold tracking-tight text-ink group-hover:text-terracotta transition-colors">
               Artisan&apos;s Corner
             </span>
-            <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-ink-faint">
               Independent Studios
             </span>
           </div>
