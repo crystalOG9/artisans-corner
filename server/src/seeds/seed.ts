@@ -120,8 +120,8 @@ async function seed() {
       stock: 8,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/stoneware-carafe',
+          url: '/images/products/speckled-stoneware-pour-over-carafe.jpg',
+          publicId: 'local/speckled-stoneware-pour-over-carafe',
         },
       ],
       ratingAvg: 5,
@@ -140,8 +140,8 @@ async function seed() {
       stock: 6,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/celadon-bowl',
+          url: '/images/products/matte-celadon-matcha-chawan-bowl.jpg',
+          publicId: 'local/matte-celadon-matcha-chawan-bowl',
         },
       ],
       ratingAvg: 5,
@@ -162,8 +162,8 @@ async function seed() {
       stock: 5,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/flax-runner',
+          url: '/images/products/handwoven-european-flax-table-runner.jpg',
+          publicId: 'local/handwoven-european-flax-table-runner',
         },
       ],
       ratingAvg: 0,
@@ -182,8 +182,8 @@ async function seed() {
       stock: 4,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/waffle-throw',
+          url: '/images/products/waffle-weave-organic-cotton-studio-throw.jpg',
+          publicId: 'local/waffle-weave-organic-cotton-studio-throw',
         },
       ],
       ratingAvg: 0,
@@ -204,8 +204,8 @@ async function seed() {
       stock: 3,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1590736969955-71cc94801759?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/walnut-board',
+          url: '/images/products/end-grain-black-walnut-cutting-board.jpg',
+          publicId: 'local/end-grain-black-walnut-cutting-board',
         },
       ],
       ratingAvg: 5,
@@ -224,8 +224,8 @@ async function seed() {
       stock: 7,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1615486511484-92e172cc4fe0?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/cherry-spoons',
+          url: '/images/products/hand-carved-cherry-wood-serving-spoons.jpg',
+          publicId: 'local/hand-carved-cherry-wood-serving-spoons',
         },
       ],
       ratingAvg: 0,
@@ -246,8 +246,8 @@ async function seed() {
       stock: 5,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/brass-pendant',
+          url: '/images/products/forged-brass-botanical-pendant.jpg',
+          publicId: 'local/forged-brass-botanical-pendant',
         },
       ],
       ratingAvg: 5,
@@ -266,8 +266,8 @@ async function seed() {
       stock: 9,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/silver-band',
+          url: '/images/products/hammered-sterling-silver-studio-band.jpg',
+          publicId: 'local/hammered-sterling-silver-studio-band',
         },
       ],
       ratingAvg: 0,
@@ -288,8 +288,8 @@ async function seed() {
       stock: 4,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/leather-journal',
+          url: '/images/products/vegetable-tanned-saddle-leather-journal.jpg',
+          publicId: 'local/vegetable-tanned-saddle-leather-journal',
         },
       ],
       ratingAvg: 5,
@@ -308,8 +308,8 @@ async function seed() {
       stock: 6,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/leather-wallet',
+          url: '/images/products/hand-stitched-minimalist-card-wallet.jpg',
+          publicId: 'local/hand-stitched-minimalist-card-wallet',
         },
       ],
       ratingAvg: 0,
@@ -330,8 +330,8 @@ async function seed() {
       stock: 12,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/beeswax-candles',
+          url: '/images/products/hand-poured-beeswax-pillar-candle-duo.jpg',
+          publicId: 'local/hand-poured-beeswax-pillar-candle-duo',
         },
       ],
       ratingAvg: 5,
@@ -350,8 +350,8 @@ async function seed() {
       stock: 5,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/incense-vessel',
+          url: '/images/products/limestone-and-brass-incense-burner-vessel.jpg',
+          publicId: 'local/limestone-and-brass-incense-burner-vessel',
         },
       ],
       ratingAvg: 0,
@@ -372,8 +372,8 @@ async function seed() {
       stock: 10,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/woodblock-print',
+          url: '/images/products/hand-pressed-botanical-woodblock-print.jpg',
+          publicId: 'local/hand-pressed-botanical-woodblock-print',
         },
       ],
       ratingAvg: 5,
@@ -392,8 +392,8 @@ async function seed() {
       stock: 15,
       images: [
         {
-          url: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=900&q=80',
-          publicId: 'seed/letterpress-notebooks',
+          url: '/images/products/letterpress-studio-notebook-trio.jpg',
+          publicId: 'local/letterpress-studio-notebook-trio',
         },
       ],
       ratingAvg: 0,

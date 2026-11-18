@@ -27,34 +27,32 @@ const DISCIPLINE_PREVIEWS: Record<
   { image: string; blurb: string }
 > = {
   'Ceramics & Pottery': {
-    image:
-      'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/speckled-stoneware-pour-over-carafe.jpg',
     blurb: 'Wheel-thrown stoneware, ash glazes & tea wares',
   },
   'Textiles & Weaving': {
-    image:
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/handwoven-european-flax-table-runner.jpg',
     blurb: 'Hand-loomed European flax & natural botanic dyes',
   },
   Woodwork: {
-    image:
-      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=600&q=80',
-    blurb: 'Bench-built joinery in walnut, white oak & maple',
+    image: '/images/products/end-grain-black-walnut-cutting-board.jpg',
+    blurb: 'Bench-built joinery in walnut, white oak & cherry',
   },
   'Jewelry & Metalsmithing': {
-    image:
-      'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/forged-brass-botanical-pendant.jpg',
     blurb: 'Hand-forged recycled brass, silver & raw gems',
   },
   Leathercraft: {
-    image:
-      'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/vegetable-tanned-saddle-leather-journal.jpg',
     blurb: 'Vegetable-tanned hides with saddle-stitched edges',
   },
   'Home & Botanical': {
-    image:
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/hand-poured-beeswax-pillar-candle-duo.jpg',
     blurb: 'Studio-poured beeswax & hand-carved vessels',
+  },
+  'Paper & Printmaking': {
+    image: '/images/products/hand-pressed-botanical-woodblock-print.jpg',
+    blurb: 'Relief woodblock prints & letterpress notebooks',
   },
 };
 
