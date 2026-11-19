@@ -5,21 +5,40 @@ import { env } from './config/env';
 const app = createApp();
 let isConnected = false;
 
-export default async function handler(req: any, res: any) {
-  // Always set CORS/header safety for serverless
-  if (!isConnected && env.MONGODB_URI) {
-    try {
-      await connectDatabase(env.MONGODB_URI);
-      isConnected = true;
-    } catch (dbErr: any) {
-      console.error('Database connection failed in serverless function:', dbErr);
-      return res.status(503).json({
+async function handler(req: any, res: any) {
+  try {
+    // Normalize URL path so both /api/... and stripped /... work seamlessly
+    if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/images')) {
+      req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
+    }
+
+    if (!isConnected && env.MONGODB_URI) {
+      try {
+        await connectDatabase(env.MONGODB_URI);
+        isConnected = true;
+      } catch (dbErr: any) {
+        console.error('Database connection failed in serverless handler:', dbErr);
+        if (!res.headersSent) {
+          return res.status(503).json({
+            success: false,
+            message: 'Database connection failed. Please check MONGODB_URI.',
+            error: dbErr.message || String(dbErr),
+          });
+        }
+      }
+    }
+
+    return app(req, res);
+  } catch (err: any) {
+    console.error('Unhandled serverless error:', err);
+    if (!res.headersSent) {
+      res.status(500).json({
         success: false,
-        message: 'Database connection failed. Please check MONGODB_URI.',
-        error: dbErr.message || String(dbErr),
+        message: 'Internal server error in serverless handler',
+        error: err.message || String(err),
       });
     }
   }
-
-  return app(req, res);
 }
+
+export default handler;

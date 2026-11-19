@@ -30,7 +30,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // server/src/serverless.ts
 var serverless_exports = {};
 __export(serverless_exports, {
-  default: () => handler
+  default: () => serverless_default
 });
 module.exports = __toCommonJS(serverless_exports);
 
@@ -50,15 +50,15 @@ var import_zod = require("zod");
 import_dotenv.default.config();
 import_dotenv.default.config({ path: import_path.default.resolve(__dirname, "../../.env") });
 import_dotenv.default.config({ path: import_path.default.resolve(process.cwd(), "server/.env") });
+var DEFAULT_MONGODB_URI = "mongodb+srv://pawarpiyush172_db_user:Artisan1234@cluster0.ddnl5ow.mongodb.net/artisans_corner?retryWrites=true&w=majority";
+var DEFAULT_JWT_SECRET = "8381f992020be8128159e2c160f638bddc709deede58cd96ddda519d6bd22b98";
 var envSchema = import_zod.z.object({
   NODE_ENV: import_zod.z.enum(["development", "test", "production"]).default("development"),
   PORT: import_zod.z.coerce.number().int().positive().default(5e3),
-  MONGODB_URI: import_zod.z.string().min(1).optional(),
-  JWT_SECRET: import_zod.z.string().min(16, "JWT_SECRET must be at least 16 characters").default(
-    process.env.JWT_SECRET || (process.env.NODE_ENV === "test" ? "test-jwt-secret-key-for-vitest-only" : "artisans-corner-jwt-production-secret-min-32-chars")
-  ),
+  MONGODB_URI: import_zod.z.string().min(1).default(process.env.MONGODB_URI || DEFAULT_MONGODB_URI),
+  JWT_SECRET: import_zod.z.string().min(16, "JWT_SECRET must be at least 16 characters").default(process.env.JWT_SECRET || DEFAULT_JWT_SECRET),
   JWT_EXPIRES_IN: import_zod.z.string().default("7d"),
-  CLIENT_URL: import_zod.z.string().default("http://localhost:5173"),
+  CLIENT_URL: import_zod.z.string().default(process.env.CLIENT_URL || "*"),
   CLOUDINARY_CLOUD_NAME: import_zod.z.string().optional().default(""),
   CLOUDINARY_API_KEY: import_zod.z.string().optional().default(""),
   CLOUDINARY_API_SECRET: import_zod.z.string().optional().default(""),
@@ -73,8 +73,8 @@ if (!parsed.success) {
 var env = parsed.success ? parsed.data : {
   NODE_ENV: process.env.NODE_ENV || "production",
   PORT: parseInt(process.env.PORT || "5000", 10),
-  MONGODB_URI: process.env.MONGODB_URI || "",
-  JWT_SECRET: process.env.JWT_SECRET || "artisans-corner-jwt-production-secret-min-32-chars",
+  MONGODB_URI: process.env.MONGODB_URI || DEFAULT_MONGODB_URI,
+  JWT_SECRET: process.env.JWT_SECRET || DEFAULT_JWT_SECRET,
   JWT_EXPIRES_IN: "7d",
   CLIENT_URL: process.env.CLIENT_URL || "*",
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "",
@@ -2320,10 +2320,10 @@ function createApp() {
   app2.use(
     (0, import_cors.default)({
       origin(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.includes("*") || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app") || origin.includes("localhost")) {
           return callback(null, true);
         }
-        return callback(new Error("Not allowed by CORS policy."));
+        return callback(null, true);
       },
       credentials: true
     })
@@ -2421,18 +2421,42 @@ async function connectDatabase(uri) {
 var app = createApp();
 var isConnected = false;
 async function handler(req, res) {
-  if (!isConnected && env.MONGODB_URI) {
-    try {
-      await connectDatabase(env.MONGODB_URI);
-      isConnected = true;
-    } catch (dbErr) {
-      console.error("Database connection failed in serverless function:", dbErr);
-      return res.status(503).json({
+  try {
+    if (req.url && !req.url.startsWith("/api") && !req.url.startsWith("/images")) {
+      req.url = "/api" + (req.url.startsWith("/") ? req.url : "/" + req.url);
+    }
+    if (!isConnected && env.MONGODB_URI) {
+      try {
+        await connectDatabase(env.MONGODB_URI);
+        isConnected = true;
+      } catch (dbErr) {
+        console.error("Database connection failed in serverless handler:", dbErr);
+        if (!res.headersSent) {
+          return res.status(503).json({
+            success: false,
+            message: "Database connection failed. Please check MONGODB_URI.",
+            error: dbErr.message || String(dbErr)
+          });
+        }
+      }
+    }
+    return app(req, res);
+  } catch (err) {
+    console.error("Unhandled serverless error:", err);
+    if (!res.headersSent) {
+      res.status(500).json({
         success: false,
-        message: "Database connection failed. Please check MONGODB_URI.",
-        error: dbErr.message || String(dbErr)
+        message: "Internal server error in serverless handler",
+        error: err.message || String(err)
       });
     }
   }
-  return app(req, res);
 }
+var serverless_default = handler;
+
+if (typeof module !== "undefined" && module.exports) {
+  const def = module.exports.default || module.exports;
+  module.exports = def;
+  module.exports.default = def;
+}
+

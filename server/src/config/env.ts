@@ -7,21 +7,21 @@ dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
 
+const DEFAULT_MONGODB_URI =
+  'mongodb+srv://pawarpiyush172_db_user:Artisan1234@cluster0.ddnl5ow.mongodb.net/artisans_corner?retryWrites=true&w=majority';
+const DEFAULT_JWT_SECRET =
+  '8381f992020be8128159e2c160f638bddc709deede58cd96ddda519d6bd22b98';
+
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(5000),
-  MONGODB_URI: z.string().min(1).optional(),
+  MONGODB_URI: z.string().min(1).default(process.env.MONGODB_URI || DEFAULT_MONGODB_URI),
   JWT_SECRET: z
     .string()
     .min(16, 'JWT_SECRET must be at least 16 characters')
-    .default(
-      process.env.JWT_SECRET ||
-        (process.env.NODE_ENV === 'test'
-          ? 'test-jwt-secret-key-for-vitest-only'
-          : 'artisans-corner-jwt-production-secret-min-32-chars')
-    ),
+    .default(process.env.JWT_SECRET || DEFAULT_JWT_SECRET),
   JWT_EXPIRES_IN: z.string().default('7d'),
-  CLIENT_URL: z.string().default('http://localhost:5173'),
+  CLIENT_URL: z.string().default(process.env.CLIENT_URL || '*'),
   CLOUDINARY_CLOUD_NAME: z.string().optional().default(''),
   CLOUDINARY_API_KEY: z.string().optional().default(''),
   CLOUDINARY_API_SECRET: z.string().optional().default(''),
@@ -41,9 +41,8 @@ export const env = parsed.success
   : {
       NODE_ENV: (process.env.NODE_ENV as any) || 'production',
       PORT: parseInt(process.env.PORT || '5000', 10),
-      MONGODB_URI: process.env.MONGODB_URI || '',
-      JWT_SECRET:
-        process.env.JWT_SECRET || 'artisans-corner-jwt-production-secret-min-32-chars',
+      MONGODB_URI: process.env.MONGODB_URI || DEFAULT_MONGODB_URI,
+      JWT_SECRET: process.env.JWT_SECRET || DEFAULT_JWT_SECRET,
       JWT_EXPIRES_IN: '7d',
       CLIENT_URL: process.env.CLIENT_URL || '*',
       CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',

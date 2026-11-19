@@ -42,10 +42,16 @@ export function createApp() {
   app.use(
     cors({
       origin(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (
+          !origin ||
+          allowedOrigins.includes('*') ||
+          allowedOrigins.includes(origin) ||
+          origin.endsWith('.vercel.app') ||
+          origin.includes('localhost')
+        ) {
           return callback(null, true);
         }
-        return callback(new Error('Not allowed by CORS policy.'));
+        return callback(null, true);
       },
       credentials: true,
     })

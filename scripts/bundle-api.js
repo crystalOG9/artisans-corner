@@ -39,6 +39,15 @@ async function bundle() {
     ],
     sourcemap: false,
     minify: false,
+    footer: {
+      js: `
+if (typeof module !== "undefined" && module.exports) {
+  const def = module.exports.default || module.exports;
+  module.exports = def;
+  module.exports.default = def;
+}
+`
+    }
   });
   console.log('Successfully bundled api/index.js!');
 }
