@@ -2,6 +2,7 @@ import {
   ArrowLeft,
   Check,
   HeartHandshake,
+  Layers,
   MapPin,
   Minus,
   PackageCheck,
@@ -15,6 +16,7 @@ import {
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { extractErrorMessage, http } from '../api/http';
+import Stack from '../components/Stack';
 import { useAppDispatch, useAppSelector } from '../store';
 import { addToCart } from '../store/cartSlice';
 import { formatMoney, getStoreRef, Product, ProductReview } from '../types/marketplace';
@@ -159,6 +161,65 @@ export function ProductDetailPage() {
   const store = getStoreRef(product);
   const mainImage = product.images[activeImageIdx]?.url || product.images[0]?.url;
 
+  const galleryCards =
+    product.images.length > 1
+      ? product.images.map((img, idx) => (
+          <div key={img.publicId || idx} className="relative h-full w-full overflow-hidden bg-linen">
+            <img
+              src={img.url}
+              alt={`${product.title} perspective ${idx + 1}`}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute bottom-3 left-3 rounded-full bg-ink/75 px-3 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-xs">
+              Studio Angle {idx + 1} of {product.images.length}
+            </div>
+          </div>
+        ))
+      : [
+          <div key="primary" className="relative h-full w-full overflow-hidden bg-linen">
+            <img
+              src={product.images[0]?.url}
+              alt={product.title}
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute bottom-3 left-3 rounded-full bg-ink/75 px-3 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-xs">
+              Handmade Studio Original
+            </div>
+          </div>,
+          <div
+            key="craft"
+            className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-linen p-8 text-center"
+          >
+            <div className="relative z-10 max-w-xs space-y-3">
+              <span className="inline-block rounded-full bg-terracotta/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-terracotta">
+                Verified Workshop Provenance
+              </span>
+              <p className="font-serif text-xl font-medium text-ink">
+                Small-Batch Craftsmanship
+              </p>
+              <p className="text-xs leading-relaxed text-ink-muted">
+                Shaped individually by {store?.name || 'artisan studio'}. Natural grain, glaze, and hand-tooled marks certify this as an authentic handmade edition.
+              </p>
+            </div>
+          </div>,
+          <div
+            key="guarantee"
+            className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden bg-surface p-8 text-center"
+          >
+            <div className="relative z-10 max-w-xs space-y-3">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-sage/10 text-sage">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
+              <p className="font-serif text-lg font-medium text-ink">
+                95% Direct Maker Impact
+              </p>
+              <p className="text-xs leading-relaxed text-ink-muted">
+                Dispatched directly from {store?.location || 'artisan studio'} with studio-direct provenance and safe transit guarantee.
+              </p>
+            </div>
+          </div>,
+        ];
+
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       <Link
@@ -170,33 +231,54 @@ export function ProductDetailPage() {
       </Link>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-12">
-        {/* Image Gallery */}
+        {/* Interactive 3D Craft Inspection Stack Gallery */}
         <div className="lg:col-span-7">
-          <div className="aspect-[4/5] overflow-hidden rounded-xl border border-hairline bg-linen">
-            {mainImage && (
-              <img
-                src={mainImage}
-                alt={product.title}
-                className="h-full w-full object-cover"
-              />
-            )}
+          <div className="flex items-center justify-between pb-3">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
+              <Layers className="h-3.5 w-3.5" />
+              <span>Tactile Studio Inspection</span>
+            </span>
+            <span className="text-[11px] text-ink-faint">
+              Drag or click cards in 3D to shuffle angles
+            </span>
           </div>
 
+          <div className="relative mx-auto h-[440px] w-full max-w-[460px] sm:h-[500px]">
+            <Stack
+              layout="deck"
+              visible={Math.min(galleryCards.length, 4)}
+              spread={0.5}
+              depth={0.4}
+              radius={20}
+              frame={4}
+              frameColor="#FAF7F2"
+              shadow
+              tilt={28}
+              speed={1.1}
+              sendToBackOnClick
+              onChange={(idx) => setActiveImageIdx(idx % product.images.length)}
+              cards={galleryCards}
+            />
+          </div>
+
+          {/* Direct thumbnail selectors */}
           {product.images.length > 1 && (
-            <div className="mt-3 flex gap-3 overflow-x-auto pb-1">
+            <div className="mt-6 flex justify-center gap-3 overflow-x-auto pb-1">
               {product.images.map((img, idx) => (
                 <button
                   key={img.publicId}
                   type="button"
                   onClick={() => setActiveImageIdx(idx)}
                   aria-label={`View image ${idx + 1}`}
-                  className={`h-20 w-16 shrink-0 overflow-hidden rounded-md border-2 transition ${
-                    idx === activeImageIdx ? 'border-terracotta' : 'border-hairline'
+                  className={`h-16 w-14 shrink-0 overflow-hidden rounded-md border-2 transition ${
+                    idx === activeImageIdx
+                      ? 'border-terracotta scale-105 shadow-xs'
+                      : 'border-hairline opacity-75 hover:opacity-100'
                   }`}
                 >
                   <img
                     src={img.url}
-                    alt={`${product.title} view ${idx + 1}`}
+                    alt={`${product.title} angle ${idx + 1}`}
                     className="h-full w-full object-cover"
                   />
                 </button>

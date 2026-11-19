@@ -1,9 +1,12 @@
-import { Search, SlidersHorizontal, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Eye, Layers, Search, SlidersHorizontal, Sparkles, X } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { extractErrorMessage, http } from '../api/http';
 import { ProductCard } from '../components/ProductCard';
+import Stack from '../components/Stack';
 import {
+  formatMoney,
+  getStoreRef,
   PaginatedProductsResponse,
   PRODUCT_CATEGORIES,
 } from '../types/marketplace';
@@ -21,6 +24,11 @@ export function ShopPage() {
   const [data, setData] = useState<PaginatedProductsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [spotlightIdx, setSpotlightIdx] = useState(0);
+
+  const spotlightItems = data?.items?.slice(0, 5) || [];
+  const activeSpotlight = spotlightItems[spotlightIdx] || spotlightItems[0];
+  const activeSpotlightStore = activeSpotlight ? getStoreRef(activeSpotlight) : null;
 
   useEffect(() => {
     setSearchInput(search);
@@ -199,6 +207,108 @@ export function ShopPage() {
         >
           {error}
         </div>
+      )}
+
+      {/* Interactive Studio Spotlight Deck */}
+      {!loading && spotlightItems.length >= 2 && (
+        <section
+          aria-label="Curator's Interactive Tray"
+          className="mt-8 overflow-hidden rounded-2xl border border-hairline bg-surface/90 p-6 shadow-2xs sm:p-8"
+        >
+          <div className="grid items-center gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-terracotta/20 bg-linen/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+                <Layers className="h-3.5 w-3.5" />
+                <span>Interactive Studio Stack</span>
+              </div>
+              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                Touch, flick & discover bench-crafted objects
+              </h2>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-muted">
+                Drag cards in 3D or click to shuffle through our featured small-batch releases. Each piece is individually shaped, hand-finished, and dispatched straight from independent studios.
+              </p>
+
+              {activeSpotlight && (
+                <div className="mt-5 rounded-xl border border-hairline bg-linen/60 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-terracotta">
+                      {activeSpotlight.category}
+                    </span>
+                    <span className="font-serif text-lg font-bold tabular-nums text-ink">
+                      {formatMoney(activeSpotlight.priceCents)}
+                    </span>
+                  </div>
+                  <h3 className="mt-1 font-serif text-base font-semibold text-ink sm:text-lg">
+                    {activeSpotlight.title}
+                  </h3>
+                  <p className="mt-0.5 text-xs text-ink-faint">
+                    By {activeSpotlightStore?.name || 'Verified Artisan Workshop'}
+                    {activeSpotlightStore?.location ? ` • ${activeSpotlightStore.location}` : ''}
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <Link
+                      to={`/product/${activeSpotlight.slug}`}
+                      className="inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-terracotta px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-terracotta-hover"
+                    >
+                      <Eye className="h-3.5 w-3.5" />
+                      Inspect & Acquire Piece
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                    <span className="text-[11px] text-ink-faint">
+                      💡 Click card or drag in 3D to shuffle to next piece
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-center lg:col-span-5">
+              <div className="relative h-[290px] w-[260px] sm:h-[340px] sm:w-[290px]">
+                <Stack
+                  layout="fan"
+                  visible={Math.min(spotlightItems.length, 4)}
+                  spread={0.65}
+                  depth={0.45}
+                  radius={18}
+                  frame={3}
+                  frameColor="#FAF7F2"
+                  shadow
+                  tilt={28}
+                  speed={1.1}
+                  sendToBackOnClick
+                  autoplay
+                  autoplayDelay={4200}
+                  pauseOnHover
+                  onChange={(idx) => setSpotlightIdx(idx)}
+                  cards={spotlightItems.map((item) => (
+                    <div
+                      key={item._id}
+                      className="group relative h-full w-full overflow-hidden bg-linen"
+                    >
+                      <img
+                        src={item.images[0]?.url || ''}
+                        alt={item.title}
+                        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3.5 text-white">
+                        <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-200">
+                          {item.category}
+                        </span>
+                        <p className="line-clamp-1 font-serif text-xs font-medium sm:text-sm">
+                          {item.title}
+                        </p>
+                        <p className="mt-0.5 text-xs font-bold text-white/95">
+                          {formatMoney(item.priceCents)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {loading ? (
