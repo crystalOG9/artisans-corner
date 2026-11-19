@@ -2,7 +2,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Compass,
-  Flame,
   HeartHandshake,
   Layers,
   MapPin,
@@ -102,37 +101,6 @@ const VIBE_MOODS = [
   },
 ];
 
-const MAKERS_SPOTLIGHT = [
-  {
-    name: 'Elena Vasquez',
-    craft: 'Wheel-Thrown Stoneware',
-    location: 'Portland, OR',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    status: 'Firing kiln today',
-  },
-  {
-    name: 'Marcus Vance',
-    craft: 'Bench Joinery',
-    location: 'Burlington, VT',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    status: 'Hand-planing walnut',
-  },
-  {
-    name: 'Aoi Takahashi',
-    craft: 'Natural Botanical Flax',
-    location: 'Kyoto / Brooklyn',
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
-    status: 'Natural indigo baths',
-  },
-  {
-    name: 'Liam O’Connor',
-    craft: 'Vegetable Saddle Leather',
-    location: 'Dublin Atelier',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
-    status: 'Hand-stitching notebooks',
-  },
-];
-
 export function HomePage() {
   const { user } = useAppSelector((s) => s.auth);
   const isVendor = user?.roles.includes('vendor');
@@ -182,13 +150,7 @@ export function HomePage() {
       {/* 1. EDITORIAL ASYMMETRIC HERO SECTION */}
       <section className="grid gap-8 border-b border-hairline pb-12 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
-          {/* Studio Tag with Craft Kiln Flame Icon */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-terracotta/25 bg-linen/80 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-            <Flame className="h-3.5 w-3.5 text-terracotta animate-pulse-subtle" aria-hidden="true" />
-            <span>Drop 04 · Autumn Atelier Releases</span>
-          </div>
-
-          <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
+          <h1 className="font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
             Every object carries <br className="hidden sm:inline" />
             the human hand.
           </h1>
@@ -197,23 +159,6 @@ export function HomePage() {
             We bypass mass-manufactured supply chains to bring you wheel-thrown ceramics,
             bench-built joinery, and hand-loomed textiles sold directly from verified independent workshops.
           </p>
-
-          {/* Maker Community Live Presence Avatars */}
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <div className="flex -space-x-2.5 overflow-hidden">
-              {MAKERS_SPOTLIGHT.map((maker) => (
-                <img
-                  key={maker.name}
-                  src={maker.avatar}
-                  alt={maker.name}
-                  className="inline-block h-8 w-8 rounded-full ring-2 ring-canvas object-cover"
-                />
-              ))}
-            </div>
-            <div className="text-xs text-ink-muted">
-              <span className="font-semibold text-ink">14 verified makers</span> firing kilns &amp; hand-looming right now
-            </div>
-          </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
             <Link
