@@ -123,6 +123,7 @@ export function createApp() {
   );
 
   app.use('/api', apiRoutes);
+  app.use(apiRoutes);
 
   // Serve production client build if available
   const clientDistPath = path.resolve(__dirname, '../../client/dist');

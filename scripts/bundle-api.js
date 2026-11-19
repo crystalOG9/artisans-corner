@@ -50,6 +50,16 @@ if (typeof module !== "undefined" && module.exports) {
     }
   });
   console.log('Successfully bundled api/index.js!');
+
+  // Mirror to client/api/index.js so deployments configured with Root Directory = client also find the serverless API
+  const fs = require('fs');
+  const clientApiDir = path.resolve(__dirname, '../client/api');
+  fs.mkdirSync(clientApiDir, { recursive: true });
+  fs.copyFileSync(
+    path.resolve(__dirname, '../api/index.js'),
+    path.resolve(clientApiDir, 'index.js')
+  );
+  console.log('Mirrored serverless API to client/api/index.js');
 }
 
 bundle().catch((err) => {

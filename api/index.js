@@ -2384,6 +2384,7 @@ function createApp() {
     })
   );
   app2.use("/api", routes_default);
+  app2.use(routes_default);
   const clientDistPath = import_path3.default.resolve(__dirname, "../../client/dist");
   if (import_fs.default.existsSync(clientDistPath)) {
     app2.use(import_express9.default.static(clientDistPath));
