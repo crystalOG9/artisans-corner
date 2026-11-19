@@ -1,13 +1,4 @@
-let esbuild;
-try {
-  esbuild = require('esbuild');
-} catch {
-  try {
-    esbuild = require('../server/node_modules/esbuild');
-  } catch {
-    esbuild = require('../client/node_modules/esbuild');
-  }
-}
+const esbuild = require('esbuild');
 const path = require('path');
 
 async function bundle() {

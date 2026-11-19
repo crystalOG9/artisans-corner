@@ -9,7 +9,7 @@
     "artisans-corner-api": {
       "root": "server",
       "framework": "express",
-      "entrypoint": "dist/server.js",
+      "entrypoint": "src/server.ts",
       "buildCommand": "npm install && npm run build",
       "bindings": [
         {
