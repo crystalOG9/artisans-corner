@@ -2383,6 +2383,9 @@ function createApp() {
       maxAge: "1d"
     })
   );
+  app2.get(["/api", "/api/health"], (_req, res) => {
+    res.json({ success: true, message: "Artisan's Corner API is active and healthy" });
+  });
   app2.use("/api", routes_default);
   app2.use(routes_default);
   const clientDistPath = import_path3.default.resolve(__dirname, "../../client/dist");
@@ -2423,7 +2426,10 @@ var app = createApp();
 var isConnected = false;
 async function handler(req, res) {
   try {
-    if (req.url && !req.url.startsWith("/api") && !req.url.startsWith("/images")) {
+    const matchedPath = req.headers["x-matched-path"] || req.headers["x-vercel-matched-path"] || req.originalUrl;
+    if (matchedPath && matchedPath !== "/api") {
+      req.url = matchedPath.startsWith("/api") ? matchedPath : "/api" + (matchedPath.startsWith("/") ? matchedPath : "/" + matchedPath);
+    } else if (req.url && !req.url.startsWith("/api") && !req.url.startsWith("/images")) {
       req.url = "/api" + (req.url.startsWith("/") ? req.url : "/" + req.url);
     }
     if (!isConnected && env.MONGODB_URI) {

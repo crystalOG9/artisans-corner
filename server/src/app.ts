@@ -122,6 +122,10 @@ export function createApp() {
     })
   );
 
+  app.get(['/api', '/api/health'], (_req, res) => {
+    res.json({ success: true, message: "Artisan's Corner API is active and healthy" });
+  });
+
   app.use('/api', apiRoutes);
   app.use(apiRoutes);
 

@@ -7,8 +7,17 @@ let isConnected = false;
 
 async function handler(req: any, res: any) {
   try {
-    // Normalize URL path so both /api/... and stripped /... work seamlessly
-    if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/images')) {
+    // In Vercel serverless rewrites, resolve the actual requested path
+    const matchedPath =
+      req.headers['x-matched-path'] ||
+      req.headers['x-vercel-matched-path'] ||
+      req.originalUrl;
+
+    if (matchedPath && matchedPath !== '/api') {
+      req.url = matchedPath.startsWith('/api')
+        ? matchedPath
+        : '/api' + (matchedPath.startsWith('/') ? matchedPath : '/' + matchedPath);
+    } else if (req.url && !req.url.startsWith('/api') && !req.url.startsWith('/images')) {
       req.url = '/api' + (req.url.startsWith('/') ? req.url : '/' + req.url);
     }
 
