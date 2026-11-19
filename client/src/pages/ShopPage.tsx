@@ -289,9 +289,6 @@ export function ShopPage() {
                       Inspect &amp; Acquire Piece
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
-                    <span className="text-[11px] font-medium text-ink-muted">
-                      💡 Click top card or drag in 3D to shuffle
-                    </span>
                   </div>
                 </div>
               )}

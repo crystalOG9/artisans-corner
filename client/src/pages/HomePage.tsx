@@ -355,9 +355,6 @@ export function HomePage() {
                   <ArrowRight className="h-3 w-3" />
                 </Link>
               </div>
-              <p className="mt-2 text-[11px] text-ink-faint text-center">
-                👉 Click top card or drag in 3D to shuffle studio releases
-              </p>
             </div>
           </div>
         </div>
