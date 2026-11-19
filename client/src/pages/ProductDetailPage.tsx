@@ -9,7 +9,6 @@ import {
   Plus,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
   Star,
   Store,
 } from 'lucide-react';
@@ -341,13 +340,13 @@ export function ProductDetailPage() {
             </div>
 
             {/* Direct Maker Assurance Banner */}
-            <div className="mt-5 rounded border border-hairline bg-surface p-3 text-xs text-ink-muted shadow-2xs">
+            <div className="mt-5 rounded-xl border border-hairline bg-surface p-3.5 text-xs text-ink-muted shadow-2xs">
               <div className="flex items-start gap-2.5">
                 <HeartHandshake className="mt-0.5 h-4 w-4 shrink-0 text-terracotta" />
                 <div>
-                  <p className="font-medium text-ink">Direct Studio Economics</p>
+                  <p className="font-semibold text-ink">Direct Maker Economics</p>
                   <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">
-                    95% of your purchase directly funds the maker's workshop and raw materials.
+                    <strong className="text-terracotta">95% ({formatMoney(Math.round(product.priceCents * 0.95))})</strong> goes straight to {store?.name || 'the artisan workshop'}. No corporate distributor cuts.
                   </p>
                 </div>
               </div>

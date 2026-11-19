@@ -1,4 +1,4 @@
-import { ArrowUpRight, Compass, HeartHandshake, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Compass, Flame, HeartHandshake, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PRODUCT_CATEGORIES } from '../types/marketplace';
 import { ArtisanLogo } from './ArtisanLogo';
@@ -75,7 +75,7 @@ export function Footer() {
             </p>
 
             <div className="mt-5 inline-flex items-center gap-2 rounded border border-terracotta/25 bg-linen/60 px-3 py-1.5 text-xs text-terracotta">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+              <Flame className="h-3.5 w-3.5" aria-hidden="true" />
               <span className="font-medium">Direct-to-Studio Commerce</span>
             </div>
           </div>

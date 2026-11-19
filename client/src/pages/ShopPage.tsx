@@ -1,4 +1,4 @@
-import { ArrowRight, Eye, Layers, Search, SlidersHorizontal, Sparkles, X } from 'lucide-react';
+import { ArrowRight, Eye, Flame, Layers, Search, SlidersHorizontal, X } from 'lucide-react';
 import { FormEvent, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { extractErrorMessage, http } from '../api/http';
@@ -10,6 +10,15 @@ import {
   PaginatedProductsResponse,
   PRODUCT_CATEGORIES,
 } from '../types/marketplace';
+
+const VIBE_SHORTCUTS = [
+  { label: '☕ Morning Ritual', category: 'Ceramics & Pottery' },
+  { label: '🌿 Wabi-Sabi Sanctuary', category: 'Home & Botanical' },
+  { label: '🪵 Woodland Hearth', category: 'Woodwork' },
+  { label: '💍 Forged Heirlooms', category: 'Jewelry & Metalsmithing' },
+  { label: '📜 Desk Atelier', category: 'Paper & Printmaking' },
+  { label: '🧶 Loom & Flax', category: 'Textiles & Weaving' },
+];
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,8 +99,8 @@ export function ShopPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* Header Banner */}
       <div className="border-b border-hairline pb-8">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-terracotta/20 bg-linen/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-          <Sparkles className="h-3 w-3" />
+        <div className="inline-flex items-center gap-2 rounded-full border border-terracotta/25 bg-linen/80 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+          <Flame className="h-3.5 w-3.5 text-terracotta" />
           <span>Curated Studio Marketplace</span>
         </div>
         <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
@@ -101,14 +110,38 @@ export function ShopPage() {
           Explore authentic small-batch creations dispatched directly from verified maker workshops.
         </p>
 
-        {/* Tactile Category Quick-Pill Strip (Smooth Touch Scroll on Mobile) */}
-        <div className="mt-6 -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
+        {/* Gen-Z Mood / Vibe Quick Pills */}
+        <div className="mt-5 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
+          <span className="shrink-0 self-center text-[10px] font-semibold uppercase tracking-wider text-ink-faint mr-1">
+            Vibes:
+          </span>
+          {VIBE_SHORTCUTS.map((v) => {
+            const active = category === v.category;
+            return (
+              <button
+                key={v.label}
+                type="button"
+                onClick={() => updateParam('category', active ? null : v.category)}
+                className={`shrink-0 rounded-full border px-3.5 py-1 text-xs font-medium transition-all duration-200 active:scale-95 ${
+                  active
+                    ? 'border-terracotta bg-terracotta text-white shadow-xs'
+                    : 'border-hairline bg-surface text-ink hover:bg-linen hover:border-hairline-dark'
+                }`}
+              >
+                {v.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tactile Category Quick-Pill Strip */}
+        <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
           <button
             type="button"
             onClick={() => updateParam('category', null)}
-            className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-medium transition ${
+            className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition ${
               !category
-                ? 'border-terracotta bg-terracotta text-white shadow-xs'
+                ? 'border-ink bg-ink text-linen shadow-xs'
                 : 'border-hairline bg-surface text-ink hover:bg-linen'
             }`}
           >
@@ -123,7 +156,7 @@ export function ShopPage() {
                 onClick={() => updateParam('category', active ? null : cat)}
                 className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-medium transition ${
                   active
-                    ? 'border-terracotta bg-terracotta text-white shadow-xs'
+                    ? 'border-ink bg-ink text-linen shadow-xs'
                     : 'border-hairline bg-surface text-ink hover:bg-linen'
                 }`}
               >
@@ -146,11 +179,11 @@ export function ShopPage() {
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search ceramics, linen, walnut, studio..."
               aria-label="Search marketplace products"
-              className="min-h-[44px] w-full rounded-lg border border-hairline bg-surface py-2.5 pl-9 pr-24 text-sm text-ink focus:border-terracotta focus:outline-none focus:ring-1 focus:ring-terracotta"
+              className="min-h-[44px] w-full rounded-xl border border-hairline bg-surface py-2.5 pl-9 pr-24 text-sm text-ink focus:border-terracotta focus:outline-none focus:ring-1 focus:ring-terracotta shadow-2xs"
             />
             <button
               type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-md bg-linen px-3 py-1.5 text-xs font-semibold text-ink hover:bg-linen-hover"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 rounded-lg bg-linen px-3.5 py-1.5 text-xs font-semibold text-ink hover:bg-linen-hover"
             >
               Search
             </button>
@@ -166,7 +199,7 @@ export function ShopPage() {
               aria-label="Sort products"
               value={sort}
               onChange={(e) => updateParam('sort', e.target.value)}
-              className="min-h-[44px] rounded-lg border border-hairline bg-surface px-3 py-2 text-sm text-ink focus:border-terracotta focus:outline-none"
+              className="min-h-[44px] rounded-xl border border-hairline bg-surface px-3.5 py-2 text-sm text-ink focus:border-terracotta focus:outline-none shadow-2xs"
             >
               <option value="newest">Newest arrivals</option>
               <option value="price_asc">Price: Low to High</option>
@@ -174,7 +207,7 @@ export function ShopPage() {
               <option value="top_rated">Highest rated</option>
             </select>
 
-            <label className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-lg border border-hairline bg-surface px-3.5 py-2 text-sm text-ink">
+            <label className="inline-flex min-h-[44px] cursor-pointer items-center gap-2 rounded-xl border border-hairline bg-surface px-3.5 py-2 text-sm text-ink shadow-2xs">
               <input
                 type="checkbox"
                 checked={inStock}
@@ -203,17 +236,17 @@ export function ShopPage() {
       {error && (
         <div
           role="alert"
-          className="mt-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
         >
           {error}
         </div>
       )}
 
-      {/* Interactive Studio Spotlight Deck */}
+      {/* Interactive Studio Spotlight Deck (React Bits Stack) */}
       {!loading && spotlightItems.length >= 2 && (
         <section
           aria-label="Curator's Interactive Tray"
-          className="mt-8 overflow-hidden rounded-2xl border border-hairline bg-surface/90 p-6 shadow-2xs sm:p-8"
+          className="mt-8 overflow-hidden rounded-3xl border border-hairline bg-surface/90 p-6 shadow-subtle sm:p-8"
         >
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
@@ -222,41 +255,42 @@ export function ShopPage() {
                 <span>Interactive Studio Stack</span>
               </div>
               <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-                Touch, flick & discover bench-crafted objects
+                Touch, flick &amp; discover bench-crafted objects
               </h2>
               <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-muted">
                 Drag cards in 3D or click to shuffle through our featured small-batch releases. Each piece is individually shaped, hand-finished, and dispatched straight from independent studios.
               </p>
 
               {activeSpotlight && (
-                <div className="mt-5 rounded-xl border border-hairline bg-linen/60 p-4">
+                <div className="mt-5 rounded-2xl border border-hairline bg-linen/60 p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-terracotta">
                       {activeSpotlight.category}
                     </span>
-                    <span className="font-serif text-lg font-bold tabular-nums text-ink">
+                    <span className="font-serif text-xl font-bold tabular-nums text-ink">
                       {formatMoney(activeSpotlight.priceCents)}
                     </span>
                   </div>
-                  <h3 className="mt-1 font-serif text-base font-semibold text-ink sm:text-lg">
+
+                  <h3 className="mt-1 font-serif text-lg font-semibold text-ink sm:text-xl">
                     {activeSpotlight.title}
                   </h3>
-                  <p className="mt-0.5 text-xs text-ink-faint">
+                  <p className="mt-1 text-xs text-ink-faint">
                     By {activeSpotlightStore?.name || 'Verified Artisan Workshop'}
                     {activeSpotlightStore?.location ? ` • ${activeSpotlightStore.location}` : ''}
                   </p>
 
-                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
                     <Link
-                      to={`/product/${activeSpotlight.slug}`}
-                      className="inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-terracotta px-4 py-2 text-xs font-semibold text-white shadow-xs transition hover:bg-terracotta-hover"
+                      to={`/products/${activeSpotlight.slug}`}
+                      className="inline-flex min-h-[42px] items-center gap-2 rounded-xl bg-terracotta px-5 py-2.5 text-xs font-semibold text-white shadow-subtle transition-all duration-200 hover:bg-terracotta-hover active:scale-95"
                     >
                       <Eye className="h-3.5 w-3.5" />
-                      Inspect & Acquire Piece
+                      Inspect &amp; Acquire Piece
                       <ArrowRight className="h-3.5 w-3.5" />
                     </Link>
-                    <span className="text-[11px] text-ink-faint">
-                      💡 Click card or drag in 3D to shuffle to next piece
+                    <span className="text-[11px] font-medium text-ink-muted">
+                      💡 Click top card or drag in 3D to shuffle
                     </span>
                   </div>
                 </div>
@@ -278,28 +312,25 @@ export function ShopPage() {
                   speed={1.1}
                   sendToBackOnClick
                   autoplay
-                  autoplayDelay={4200}
+                  autoplayDelay={4000}
                   pauseOnHover
                   onChange={(idx) => setSpotlightIdx(idx)}
-                  cards={spotlightItems.map((item) => (
-                    <div
-                      key={item._id}
-                      className="group relative h-full w-full overflow-hidden bg-linen"
-                    >
+                  cards={spotlightItems.map((prod) => (
+                    <div key={prod._id} className="relative h-full w-full overflow-hidden rounded-[16px] bg-linen">
                       <img
-                        src={item.images[0]?.url || ''}
-                        alt={item.title}
-                        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                        src={prod.images[0]?.url || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'}
+                        alt={prod.title}
+                        className="h-full w-full object-cover select-none pointer-events-none"
                       />
-                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3.5 text-white">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-200">
-                          {item.category}
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/90 via-ink/40 to-transparent p-3.5 text-white">
+                        <span className="inline-block rounded-full bg-terracotta px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+                          {prod.category}
                         </span>
-                        <p className="line-clamp-1 font-serif text-xs font-medium sm:text-sm">
-                          {item.title}
+                        <p className="mt-1 font-serif text-sm font-semibold truncate leading-tight">
+                          {prod.title}
                         </p>
-                        <p className="mt-0.5 text-xs font-bold text-white/95">
-                          {formatMoney(item.priceCents)}
+                        <p className="font-serif text-xs font-bold text-linen mt-0.5">
+                          {formatMoney(prod.priceCents)}
                         </p>
                       </div>
                     </div>
@@ -311,69 +342,77 @@ export function ShopPage() {
         </section>
       )}
 
-      {loading ? (
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="space-y-3">
-              <div className="aspect-[4/5] animate-pulse rounded-lg bg-linen" />
-              <div className="h-4 w-2/3 animate-pulse rounded bg-linen" />
-              <div className="h-3 w-1/3 animate-pulse rounded bg-linen" />
-            </div>
-          ))}
-        </div>
-      ) : !data || data.items.length === 0 ? (
-        <div className="mt-12 rounded-xl border border-dashed border-hairline bg-surface px-6 py-16 text-center">
-          <p className="font-serif text-xl font-medium text-ink">
-            No handmade pieces match your current filters
-          </p>
-          <p className="mt-2 text-sm text-ink-muted">
-            Try resetting your search or exploring another craft discipline.
-          </p>
-          {hasFilters && (
+      {/* Main Catalog Product Grid */}
+      <section className="mt-10" aria-label="Catalog items">
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="aspect-[4/5] animate-pulse rounded-2xl bg-linen" />
+            ))}
+          </div>
+        ) : !data || data.items.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-hairline bg-surface p-12 text-center">
+            <p className="font-serif text-lg font-medium text-ink">No studio pieces match your search</p>
+            <p className="mt-1 text-xs text-ink-muted">
+              Try adjusting your craft category, search terms, or resetting filters.
+            </p>
             <button
               type="button"
               onClick={resetFilters}
-              className="mt-6 inline-flex min-h-[44px] items-center rounded-md bg-terracotta px-5 py-2.5 text-sm font-medium text-white shadow-xs hover:bg-terracotta-hover"
+              className="mt-4 inline-flex min-h-[40px] items-center rounded-xl bg-terracotta px-5 py-2 text-xs font-semibold text-white transition hover:bg-terracotta-hover active:scale-95"
             >
-              Show all studio pieces
+              Clear all filters
             </button>
-          )}
-        </div>
-      ) : (
-        <>
-          <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {data.items.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
           </div>
-
-          {/* Pagination */}
-          {data.pagination.totalPages > 1 && (
-            <div className="mt-12 flex items-center justify-center gap-2 border-t border-hairline pt-6">
-              <button
-                type="button"
-                disabled={page <= 1}
-                onClick={() => updateParam('page', String(page - 1))}
-                className="min-h-[44px] rounded-md border border-hairline bg-surface px-4 py-2 text-xs font-medium text-ink disabled:opacity-40"
-              >
-                Previous
-              </button>
-              <span className="px-3 text-xs text-ink-muted">
-                Page <strong className="text-ink">{data.pagination.page}</strong> of{' '}
-                {data.pagination.totalPages}
+        ) : (
+          <div>
+            <div className="mb-4 flex items-center justify-between text-xs text-ink-muted">
+              <span>
+                Showing <strong className="text-ink">{data.items.length}</strong> of{' '}
+                <strong className="text-ink">{data.pagination.total}</strong> pieces
               </span>
-              <button
-                type="button"
-                disabled={page >= data.pagination.totalPages}
-                onClick={() => updateParam('page', String(page + 1))}
-                className="min-h-[44px] rounded-md border border-hairline bg-surface px-4 py-2 text-xs font-medium text-ink disabled:opacity-40"
-              >
-                Next
-              </button>
+              {category && (
+                <span className="font-medium text-terracotta">Filter: {category}</span>
+              )}
             </div>
-          )}
-        </>
-      )}
+
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {data.items.map((prod) => (
+                <ProductCard key={prod._id} product={prod} />
+              ))}
+            </div>
+
+            {/* Pagination Controls */}
+            {data.pagination.totalPages > 1 && (
+              <nav
+                aria-label="Catalog Pagination"
+                className="mt-12 flex items-center justify-center gap-2"
+              >
+                <button
+                  type="button"
+                  disabled={page <= 1}
+                  onClick={() => updateParam('page', String(page - 1))}
+                  className="rounded-xl border border-hairline bg-surface px-4 py-2 text-xs font-semibold text-ink disabled:opacity-40 transition hover:bg-linen"
+                >
+                  Previous
+                </button>
+                <span className="px-3 text-xs text-ink-muted">
+                  Page <strong className="text-ink">{page}</strong> of{' '}
+                  <strong className="text-ink">{data.pagination.totalPages}</strong>
+                </span>
+                <button
+                  type="button"
+                  disabled={page >= data.pagination.totalPages}
+                  onClick={() => updateParam('page', String(page + 1))}
+                  className="rounded-xl border border-hairline bg-surface px-4 py-2 text-xs font-semibold text-ink disabled:opacity-40 transition hover:bg-linen"
+                >
+                  Next
+                </button>
+              </nav>
+            )}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

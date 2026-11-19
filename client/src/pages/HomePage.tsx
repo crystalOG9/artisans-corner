@@ -1,18 +1,20 @@
 import {
   ArrowRight,
+  CheckCircle2,
   Compass,
   Flame,
   HeartHandshake,
   Layers,
   MapPin,
   PackageCheck,
+  Send,
   ShieldCheck,
-  Sparkles,
   Store,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { http } from '../api/http';
+import { Marquee } from '../components/Marquee';
 import { ProductCard } from '../components/ProductCard';
 import { useAppSelector } from '../store';
 import {
@@ -28,11 +30,11 @@ const DISCIPLINE_PREVIEWS: Record<
 > = {
   'Ceramics & Pottery': {
     image: '/images/products/speckled-stoneware-pour-over-carafe.jpg',
-    blurb: 'Wheel-thrown stoneware, ash glazes & tea wares',
+    blurb: 'Wheel-thrown stoneware, ash glazes & slow coffee carafes',
   },
   'Textiles & Weaving': {
     image: '/images/products/handwoven-european-flax-table-runner.jpg',
-    blurb: 'Hand-loomed European flax & natural botanic dyes',
+    blurb: 'Hand-loomed European flax & natural botanical dyes',
   },
   Woodwork: {
     image: '/images/products/end-grain-black-walnut-cutting-board.jpg',
@@ -44,17 +46,93 @@ const DISCIPLINE_PREVIEWS: Record<
   },
   Leathercraft: {
     image: '/images/products/vegetable-tanned-saddle-leather-journal.jpg',
-    blurb: 'Vegetable-tanned hides with saddle-stitched edges',
+    blurb: 'Vegetable-tanned hides with hand saddle-stitched edges',
   },
   'Home & Botanical': {
     image: '/images/products/hand-poured-beeswax-pillar-candle-duo.jpg',
-    blurb: 'Studio-poured beeswax & hand-carved vessels',
+    blurb: 'Studio-poured beeswax & hand-carved stone vessels',
   },
   'Paper & Printmaking': {
     image: '/images/products/hand-pressed-botanical-woodblock-print.jpg',
-    blurb: 'Relief woodblock prints & letterpress notebooks',
+    blurb: 'Relief woodblock prints & letterpress stationery',
   },
 };
+
+const VIBE_MOODS = [
+  {
+    title: 'Slow Morning Ritual',
+    tagline: 'Pour-overs, celadon matcha & stoneware mugs',
+    category: 'Ceramics & Pottery',
+    image: '/images/products/speckled-stoneware-pour-over-carafe.jpg',
+    badge: 'Trending Morning Vibe',
+  },
+  {
+    title: 'Wabi-Sabi Sanctuary',
+    tagline: 'Raw limestone incense burners & beeswax pillars',
+    category: 'Home & Botanical',
+    image: '/images/products/minimalist-limestone-incense-vessel.jpg',
+    badge: 'Calm Living',
+  },
+  {
+    title: 'Raw Woodland Kitchen',
+    tagline: 'End-grain black walnut & hand-carved cherry spoons',
+    category: 'Woodwork',
+    image: '/images/products/end-grain-black-walnut-cutting-board.jpg',
+    badge: 'Chef Favorite',
+  },
+  {
+    title: 'Forged Talismans',
+    tagline: 'Hammered silver bands & botanical leaf pendants',
+    category: 'Jewelry & Metalsmithing',
+    image: '/images/products/forged-brass-botanical-pendant.jpg',
+    badge: 'One of a Kind',
+  },
+  {
+    title: 'Desk Atelier & Journal',
+    tagline: 'Saddle-stitched leather & letterpress notebook trios',
+    category: 'Paper & Printmaking',
+    image: '/images/products/letterpress-studio-notebook-trio.jpg',
+    badge: 'Creator Essential',
+  },
+  {
+    title: 'Warm Loom & Flax',
+    tagline: 'Waffle weave throws & unbleached table runners',
+    category: 'Textiles & Weaving',
+    image: '/images/products/waffle-weave-organic-cotton-throw.jpg',
+    badge: 'Pure Natural Fibers',
+  },
+];
+
+const MAKERS_SPOTLIGHT = [
+  {
+    name: 'Elena Vasquez',
+    craft: 'Wheel-Thrown Stoneware',
+    location: 'Portland, OR',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    status: 'Firing kiln today',
+  },
+  {
+    name: 'Marcus Vance',
+    craft: 'Bench Joinery',
+    location: 'Burlington, VT',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    status: 'Hand-planing walnut',
+  },
+  {
+    name: 'Aoi Takahashi',
+    craft: 'Natural Botanical Flax',
+    location: 'Kyoto / Brooklyn',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+    status: 'Natural indigo baths',
+  },
+  {
+    name: 'Liam O’Connor',
+    craft: 'Vegetable Saddle Leather',
+    location: 'Dublin Atelier',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+    status: 'Hand-stitching notebooks',
+  },
+];
 
 export function HomePage() {
   const { user } = useAppSelector((s) => s.auth);
@@ -63,6 +141,8 @@ export function HomePage() {
   const [featured, setFeatured] = useState<Product[]>([]);
   const [stores, setStores] = useState<StoreProfile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -92,18 +172,26 @@ export function HomePage() {
     };
   }, []);
 
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+  };
+
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* 1. EDITORIAL ASYMMETRIC HERO SECTION */}
-      <section className="grid gap-8 border-b border-hairline pb-14 lg:grid-cols-12 lg:items-center">
+      <section className="grid gap-8 border-b border-hairline pb-12 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
-          <div className="inline-flex items-center gap-2 rounded-full border border-terracotta/25 bg-linen/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-            <Sparkles className="h-3 w-3" aria-hidden="true" />
-            <span>Direct Studio Atelier</span>
+          {/* Studio Tag with Craft Kiln Flame Icon */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-terracotta/25 bg-linen/80 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+            <Flame className="h-3.5 w-3.5 text-terracotta animate-pulse-subtle" aria-hidden="true" />
+            <span>Drop 04 · Autumn Atelier Releases</span>
           </div>
 
-          <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.12] tracking-tight text-ink sm:text-5xl lg:text-[3.4rem]">
-            Every object carries the human hand.
+          <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
+            Every object carries <br className="hidden sm:inline" />
+            the human hand.
           </h1>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
@@ -111,28 +199,45 @@ export function HomePage() {
             bench-built joinery, and hand-loomed textiles sold directly from verified independent workshops.
           </p>
 
+          {/* Maker Community Live Presence Avatars */}
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="flex -space-x-2.5 overflow-hidden">
+              {MAKERS_SPOTLIGHT.map((maker) => (
+                <img
+                  key={maker.name}
+                  src={maker.avatar}
+                  alt={maker.name}
+                  className="inline-block h-8 w-8 rounded-full ring-2 ring-canvas object-cover"
+                />
+              ))}
+            </div>
+            <div className="text-xs text-ink-muted">
+              <span className="font-semibold text-ink">14 verified makers</span> firing kilns &amp; hand-looming right now
+            </div>
+          </div>
+
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
             <Link
               to="/shop"
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-md bg-terracotta px-6 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-terracotta-hover"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-lg bg-terracotta px-7 py-3 text-sm font-semibold text-white shadow-subtle transition-all duration-200 hover:bg-terracotta-hover active:scale-98"
             >
-              Explore Studio Catalog
+              Explore Studio Drops
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
 
             {user && !isVendor && (
               <Link
                 to="/become-a-seller"
-                className="inline-flex min-h-[44px] items-center rounded-md border border-hairline bg-surface px-5 py-3 text-sm font-medium text-ink transition hover:bg-linen"
+                className="inline-flex min-h-[46px] items-center rounded-lg border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
               >
-                Open Your Studio Store
+                Open Studio Storefront
               </Link>
             )}
 
             {isVendor && (
               <Link
                 to="/dashboard/seller"
-                className="inline-flex min-h-[44px] items-center rounded-md border border-hairline bg-surface px-5 py-3 text-sm font-medium text-ink transition hover:bg-linen"
+                className="inline-flex min-h-[46px] items-center rounded-lg border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
               >
                 Artisan Workbench
               </Link>
@@ -150,27 +255,27 @@ export function HomePage() {
 
         {/* Curator's Studio Spotlight Frame */}
         <div className="lg:col-span-5">
-          <div className="relative rounded-xl border border-hairline bg-surface p-3 shadow-subtle">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-linen">
+          <div className="relative rounded-2xl border border-hairline bg-surface p-3.5 shadow-subtle">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-linen">
               <img
                 src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=80"
                 alt="Master potter shaping wheel-thrown stoneware in Portland studio"
                 className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
-              <div className="absolute inset-x-4 bottom-4 text-white">
-                <span className="inline-block rounded bg-terracotta/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
+              <div className="absolute inset-x-5 bottom-5 text-white">
+                <span className="inline-block rounded-full bg-terracotta px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
                   Studio in Focus
                 </span>
-                <p className="mt-1.5 font-serif text-xl font-medium leading-snug">
+                <p className="mt-2 font-serif text-2xl font-medium leading-snug">
                   Kiln &amp; Birch Studio
                 </p>
-                <p className="mt-0.5 font-serif text-xs italic text-linen/90">
+                <p className="mt-1 font-serif text-xs italic text-linen/90">
                   &ldquo;Every touch of the finger is kept in the clay forever.&rdquo;
                 </p>
-                <p className="mt-1 flex items-center gap-1 text-[11px] text-linen/80">
-                  <MapPin className="h-3 w-3 text-terracotta" />
+                <p className="mt-2 flex items-center gap-1.5 text-[11px] text-linen/80">
+                  <MapPin className="h-3.5 w-3.5 text-terracotta" />
                   Portland, Oregon · Small-batch wood kiln firings
                 </p>
               </div>
@@ -179,135 +284,79 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 2. THE 4-STAGE CRAFT JOURNEY */}
-      <section className="border-b border-hairline py-12">
-        <div className="text-center">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-terracotta">
-            Our Studio Standard
-          </span>
-          <h2 className="mt-1 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            The Craft Journey
-          </h2>
-          <p className="mx-auto mt-2 max-w-xl text-xs text-ink-muted sm:text-sm">
-            From raw natural material to your home — every step is handled by the maker without industrial intermediaries.
-          </p>
-        </div>
+      {/* 2. INFINITE SMOOTH RUNNING MARQUEE (GEN-Z RETENTION RIBBON) */}
+      <Marquee theme="dark" className="my-10 rounded-xl shadow-xs" />
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-hairline bg-surface p-5 transition hover:border-hairline-dark">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-linen text-terracotta">
-              <Layers className="h-5 w-5" />
-            </span>
-            <p className="mt-4 font-serif text-base font-semibold text-ink">
-              1. Raw Sourcing
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
-              Unbleached European flax, speckled American stoneware, and sustainably harvested hardwoods with transparent provenance.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-hairline bg-surface p-5 transition hover:border-hairline-dark">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-linen text-sage">
-              <Compass className="h-5 w-5" />
-            </span>
-            <p className="mt-4 font-serif text-base font-semibold text-ink">
-              2. Human Benchwork
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
-              Wheel-turned, hand-knotted, and bench-planed by master craftspeople in dedicated studio spaces.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-hairline bg-surface p-5 transition hover:border-hairline-dark">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-linen text-ochre">
-              <Flame className="h-5 w-5" />
-            </span>
-            <p className="mt-4 font-serif text-base font-semibold text-ink">
-              3. Fire &amp; Vitrification
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
-              High-temperature 1200°C firings and hand-compounded natural glazes creating singular organic variations.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-hairline bg-surface p-5 transition hover:border-hairline-dark">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-hairline bg-linen text-terracotta">
-              <PackageCheck className="h-5 w-5" />
-            </span>
-            <p className="mt-4 font-serif text-base font-semibold text-ink">
-              4. Direct Dispatch
-            </p>
-            <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">
-              Wrapped in eco-conscious studio packaging and dispatched directly from the artisan workbench to your table.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. VISUAL CRAFT DISCIPLINES DISCOVERY */}
-      <section className="border-b border-hairline py-12">
+      {/* 3. SHOP BY VIBE & AESTHETIC (GEN-Z FAVORITE) */}
+      <section className="border-b border-hairline pb-14 pt-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-              Curated Catalog
-            </span>
-            <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-              Explore by Craft Discipline
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-terracotta">
+              <span>Curated Moods</span>
+            </div>
+            <h2 className="mt-1 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              Shop by Aesthetic Vibe
             </h2>
+            <p className="mt-1 text-xs text-ink-muted sm:text-sm">
+              Discover pieces that match your living space ethos and ritual.
+            </p>
           </div>
           <Link
             to="/shop"
             className="inline-flex items-center gap-1 text-xs font-semibold text-terracotta hover:underline"
           >
-            View all categories <ArrowRight className="h-3 w-3" />
+            Explore all vibes <ArrowRight className="h-3 w-3" />
           </Link>
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {PRODUCT_CATEGORIES.slice(0, 6).map((cat) => {
-            const preview = DISCIPLINE_PREVIEWS[cat];
-            return (
-              <Link
-                key={cat}
-                to={`/shop?category=${encodeURIComponent(cat)}`}
-                className="group relative overflow-hidden rounded-xl border border-hairline bg-surface p-4 transition hover:border-terracotta shadow-2xs"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-linen">
-                    <img
-                      src={preview?.image || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80'}
-                      alt={cat}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="font-serif text-base font-semibold text-ink group-hover:text-terracotta transition-colors">
-                      {cat}
-                    </p>
-                    <p className="mt-0.5 line-clamp-1 text-xs text-ink-muted">
-                      {preview?.blurb || 'Curated independent handcraft'}
-                    </p>
-                    <span className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-medium text-terracotta">
-                      Browse Studio Pieces →
-                    </span>
-                  </div>
+          {VIBE_MOODS.map((vibe) => (
+            <Link
+              key={vibe.title}
+              to={`/shop?category=${encodeURIComponent(vibe.category)}`}
+              className="group relative overflow-hidden rounded-2xl border border-hairline bg-surface p-4 shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-terracotta hover:shadow-md"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-linen">
+                  <img
+                    src={vibe.image}
+                    alt={vibe.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
                 </div>
-              </Link>
-            );
-          })}
+                <div className="min-w-0">
+                  <span className="inline-block rounded-full bg-linen px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-terracotta">
+                    {vibe.badge}
+                  </span>
+                  <p className="mt-1 font-serif text-base font-semibold text-ink group-hover:text-terracotta transition-colors">
+                    {vibe.title}
+                  </p>
+                  <p className="line-clamp-1 text-xs text-ink-muted">
+                    {vibe.tagline}
+                  </p>
+                  <span className="mt-1.5 inline-flex items-center gap-1 text-[11px] font-semibold text-terracotta">
+                    Shop Vibe →
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
       {/* 4. RECENT STUDIO ARRIVALS */}
-      <section className="py-12">
+      <section className="py-14 border-b border-hairline">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-              Studio Releases
+              Fresh Drops
             </span>
             <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
               Fresh from the Workbench
             </h2>
+            <p className="mt-1 text-xs text-ink-muted sm:text-sm">
+              Limited small-batch creations dispatched immediately from the maker.
+            </p>
           </div>
           <Link
             to="/shop"
@@ -320,11 +369,11 @@ export function HomePage() {
         {loading ? (
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="aspect-[4/5] animate-pulse rounded-lg bg-linen" />
+              <div key={i} className="aspect-[4/5] animate-pulse rounded-xl bg-linen" />
             ))}
           </div>
         ) : featured.length === 0 ? (
-          <div className="mt-8 rounded-xl border border-dashed border-hairline bg-surface p-12 text-center">
+          <div className="mt-8 rounded-2xl border border-dashed border-hairline bg-surface p-12 text-center">
             <p className="font-serif text-lg font-medium text-ink">No studio pieces published yet</p>
             <p className="mt-1 text-xs text-ink-muted">
               Sign in as an artisan or seed demo data to populate pieces.
@@ -339,9 +388,81 @@ export function HomePage() {
         )}
       </section>
 
-      {/* 5. VERIFIED INDEPENDENT STUDIOS */}
+      {/* 5. SLOW CRAFT VS FAST CONSUMERISM (GEN-Z TRANSPARENCY CARD) */}
+      <section className="py-14 border-b border-hairline">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-terracotta">
+            Our Antithesis
+          </span>
+          <h2 className="mt-1 font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            Why Indie Craft Hits Different
+          </h2>
+          <p className="mt-2 text-sm text-ink-muted">
+            The difference between disposable factory goods and objects made to outlast us.
+          </p>
+        </div>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {/* Fast Commerce Box */}
+          <div className="rounded-2xl border border-hairline bg-surface/50 p-6 opacity-75">
+            <span className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
+              Mass Market &amp; Fast E-Commerce
+            </span>
+            <ul className="mt-4 space-y-3 text-xs leading-relaxed text-ink-muted">
+              <li className="flex items-start gap-2">
+                <span className="text-ink-faint">✕</span>
+                <span>Anonymous factory assembly lines and synthetic resin fillers</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-ink-faint">✕</span>
+                <span>80% markups taken by corporate middlemen &amp; warehouses</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-ink-faint">✕</span>
+                <span>Excess plastic bubble-wrap packaging destined for landfill</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-ink-faint">✕</span>
+                <span>Disposable 6-month lifespan designed for obsolescence</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Artisan's Corner Studio Box */}
+          <div className="rounded-2xl border-2 border-terracotta/40 bg-surface p-6 shadow-subtle">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-terracotta">
+                Artisan&apos;s Corner Studio
+              </span>
+              <span className="rounded-full bg-linen px-2.5 py-0.5 text-[10px] font-semibold text-terracotta">
+                100% Ethical
+              </span>
+            </div>
+            <ul className="mt-4 space-y-3 text-xs leading-relaxed text-ink">
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
+                <span>Single-batch creations shaped by a named master craftsperson</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
+                <span>95% of your purchase directly funds the maker&apos;s workbench</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
+                <span>Plastic-free, 100% recyclable studio paper packaging</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
+                <span>Natural materials (walnut, flax, stoneware) that gain patina with age</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. VERIFIED INDEPENDENT STUDIOS */}
       {stores.length > 0 && (
-        <section className="border-t border-hairline pt-12 pb-6">
+        <section className="py-14 border-b border-hairline">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
             <div>
               <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
@@ -364,7 +485,7 @@ export function HomePage() {
               <Link
                 key={s._id}
                 to={`/stores/${s.slug}`}
-                className="group flex flex-col justify-between rounded-xl border border-hairline bg-surface p-5 transition hover:border-terracotta shadow-2xs"
+                className="group flex flex-col justify-between rounded-2xl border border-hairline bg-surface p-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta hover:shadow-md"
               >
                 <div>
                   <div className="flex items-center gap-3">
@@ -372,10 +493,10 @@ export function HomePage() {
                       <img
                         src={s.logoUrl}
                         alt={s.name}
-                        className="h-12 w-12 shrink-0 rounded-lg border border-hairline object-cover"
+                        className="h-12 w-12 shrink-0 rounded-xl border border-hairline object-cover"
                       />
                     ) : (
-                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-linen text-terracotta">
+                      <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-linen text-terracotta">
                         <Store className="h-6 w-6" />
                       </span>
                     )}
@@ -397,7 +518,7 @@ export function HomePage() {
                   </p>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between border-t border-hairline/70 pt-3 text-xs font-medium text-terracotta">
+                <div className="mt-5 flex items-center justify-between border-t border-hairline/70 pt-3 text-xs font-semibold text-terracotta">
                   <span>Visit Atelier Storefront</span>
                   <span>→</span>
                 </div>
@@ -406,6 +527,52 @@ export function HomePage() {
           </div>
         </section>
       )}
+
+      {/* 7. DROP REGISTRY / SECRET ATELIER CLUB (GEN-Z EMAIL CAPTURE) */}
+      <section className="py-14">
+        <div className="rounded-3xl border border-hairline bg-ink px-6 py-12 text-center text-linen sm:px-12 sm:py-16 shadow-lg">
+          <div className="mx-auto max-w-xl">
+            <span className="inline-block rounded-full bg-linen/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-linen">
+              Drop Registry
+            </span>
+            <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+              First dibs on 1-of-1 kiln &amp; studio drops.
+            </h2>
+            <p className="mt-3 text-xs leading-relaxed text-linen/70 sm:text-sm">
+              Because our pieces are handcrafted in small batches, popular drops sell out in hours. Join 4,200+ mindful collectors for private release notifications.
+            </p>
+
+            {subscribed ? (
+              <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-linen/10 px-4 py-2.5 text-xs font-semibold text-linen">
+                <CheckCircle2 className="h-4 w-4 text-terracotta" />
+                <span>You&apos;re on the private drop list! We&apos;ll notify you for Drop 05.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your personal email..."
+                  required
+                  className="min-h-[46px] min-w-[260px] rounded-xl border border-linen/20 bg-linen/10 px-4 py-2.5 text-xs text-white placeholder-linen/50 focus:border-terracotta focus:outline-none focus:ring-1 focus:ring-terracotta"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-terracotta px-6 py-2.5 text-xs font-semibold text-white shadow-subtle transition hover:bg-terracotta-hover active:scale-95"
+                >
+                  <span>Join Atelier Registry</span>
+                  <Send className="h-3.5 w-3.5" />
+                </button>
+              </form>
+            )}
+
+            <p className="mt-3 text-[10px] text-linen/50">
+              Zero spam. Unsubscribe anytime with 1 click.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

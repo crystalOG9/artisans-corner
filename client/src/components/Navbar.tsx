@@ -31,12 +31,15 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-canvas/95 backdrop-blur-md">
       {/* Editorial Announcement Banner */}
-      <div className="border-b border-hairline/60 bg-linen/70 px-4 py-1.5 text-center text-[11px] font-medium tracking-wide text-ink-muted">
-        <span>Direct Studio Commerce</span>
+      <div className="border-b border-hairline/60 bg-linen/80 px-4 py-1.5 text-center text-[11px] font-medium tracking-wide text-ink-muted">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="font-semibold text-ink">Live Atelier Releases</span>
+        </span>
         <span className="mx-2 text-hairline-dark">•</span>
-        <span className="font-semibold text-terracotta">95% of every purchase</span> goes directly to the independent maker
+        <span className="font-semibold text-terracotta">95% of every dollar</span> goes directly to the independent maker
         <span className="mx-2 hidden sm:inline text-hairline-dark">•</span>
-        <span className="hidden sm:inline">Small-batch authentic craftsmanship</span>
+        <span className="hidden sm:inline">Zero factory intermediaries</span>
       </div>
 
       <div className="mx-auto flex h-20 max-w-[1440px] items-center justify-between px-4 sm:px-8 lg:px-12">
