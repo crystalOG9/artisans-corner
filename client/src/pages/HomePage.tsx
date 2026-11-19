@@ -14,7 +14,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { http } from '../api/http';
-import { Marquee } from '../components/Marquee';
 import { ProductCard } from '../components/ProductCard';
 import { useAppSelector } from '../store';
 import {
@@ -284,10 +283,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 2. INFINITE SMOOTH RUNNING MARQUEE (GEN-Z RETENTION RIBBON) */}
-      <Marquee theme="dark" className="my-10 rounded-xl shadow-xs" />
-
-      {/* 3. SHOP BY VIBE & AESTHETIC (GEN-Z FAVORITE) */}
+      {/* 2. SHOP BY VIBE & AESTHETIC (GEN-Z FAVORITE) */}
       <section className="border-b border-hairline pb-14 pt-4">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
