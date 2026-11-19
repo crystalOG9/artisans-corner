@@ -554,7 +554,7 @@ export default function Stack({
               cursor: isTop ? (dragging ? 'grabbing' : 'grab') : 'default',
               touchAction: isTop ? 'pan-y' : 'auto'
             }}
-            onPointerDown={event => onDown(event, index)}
+            onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => onDown(event, index)}
           >
             <motion.div
               className="stack-card-face"
