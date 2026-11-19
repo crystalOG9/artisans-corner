@@ -14,47 +14,61 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { http } from '../api/http';
 import { ProductCard } from '../components/ProductCard';
+import Stack from '../components/Stack';
 import { useAppSelector } from '../store';
 import {
   PaginatedProductsResponse,
   Product,
-  PRODUCT_CATEGORIES,
   StoreProfile,
 } from '../types/marketplace';
 
-const DISCIPLINE_PREVIEWS: Record<
-  string,
-  { image: string; blurb: string }
-> = {
-  'Ceramics & Pottery': {
+const HERO_STUDIO_CARDS = [
+  {
+    title: 'Wheel-Thrown Stoneware Carafe',
+    category: 'Ceramics & Pottery',
+    studio: 'Kiln & Birch Studio',
+    location: 'Portland, OR',
+    price: '$84',
     image: '/images/products/speckled-stoneware-pour-over-carafe.jpg',
-    blurb: 'Wheel-thrown stoneware, ash glazes & slow coffee carafes',
+    slug: 'speckled-stoneware-pour-over-carafe',
   },
-  'Textiles & Weaving': {
-    image: '/images/products/handwoven-european-flax-table-runner.jpg',
-    blurb: 'Hand-loomed European flax & natural botanical dyes',
-  },
-  Woodwork: {
+  {
+    title: 'End-Grain Black Walnut Board',
+    category: 'Woodwork',
+    studio: 'Vance Joinery',
+    location: 'Burlington, VT',
+    price: '$145',
     image: '/images/products/end-grain-black-walnut-cutting-board.jpg',
-    blurb: 'Bench-built joinery in walnut, white oak & cherry',
+    slug: 'end-grain-black-walnut-cutting-board',
   },
-  'Jewelry & Metalsmithing': {
-    image: '/images/products/forged-brass-botanical-pendant.jpg',
-    blurb: 'Hand-forged recycled brass, silver & raw gems',
-  },
-  Leathercraft: {
-    image: '/images/products/vegetable-tanned-saddle-leather-journal.jpg',
-    blurb: 'Vegetable-tanned hides with hand saddle-stitched edges',
-  },
-  'Home & Botanical': {
-    image: '/images/products/hand-poured-beeswax-pillar-candle-duo.jpg',
-    blurb: 'Studio-poured beeswax & hand-carved stone vessels',
-  },
-  'Paper & Printmaking': {
+  {
+    title: 'Botanical Woodblock Relief Print',
+    category: 'Paper & Printmaking',
+    studio: 'Loom & Flax Atelier',
+    location: 'Kyoto / Brooklyn',
+    price: '$65',
     image: '/images/products/hand-pressed-botanical-woodblock-print.jpg',
-    blurb: 'Relief woodblock prints & letterpress stationery',
+    slug: 'hand-pressed-botanical-woodblock-print',
   },
-};
+  {
+    title: 'Forged Brass Botanical Pendant',
+    category: 'Jewelry & Metalsmithing',
+    studio: 'Solstice Guild',
+    location: 'Dublin Atelier',
+    price: '$92',
+    image: '/images/products/forged-brass-botanical-pendant.jpg',
+    slug: 'forged-brass-botanical-pendant',
+  },
+  {
+    title: 'Minimalist Limestone Incense Vessel',
+    category: 'Home & Botanical',
+    studio: 'Atelier Kanso',
+    location: 'Santa Fe, NM',
+    price: '$48',
+    image: '/images/products/minimalist-limestone-incense-vessel.jpg',
+    slug: 'minimalist-limestone-incense-vessel',
+  },
+];
 
 const VIBE_MOODS = [
   {
@@ -110,6 +124,10 @@ export function HomePage() {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [heroCardIdx, setHeroCardIdx] = useState(0);
+  const [showBreakdown, setShowBreakdown] = useState(false);
+
+  const heroPiece = HERO_STUDIO_CARDS[heroCardIdx] || HERO_STUDIO_CARDS[0];
 
   useEffect(() => {
     let active = true;
@@ -147,8 +165,8 @@ export function HomePage() {
 
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
-      {/* 1. EDITORIAL ASYMMETRIC HERO SECTION */}
-      <section className="grid gap-8 border-b border-hairline pb-12 lg:grid-cols-12 lg:items-center">
+      {/* 1. EDITORIAL ASYMMETRIC HERO SECTION WITH INTERACTIVE 3D STUDIO STACK */}
+      <section className="grid gap-10 border-b border-hairline pb-14 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
           <h1 className="font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
             Every object carries <br className="hidden sm:inline" />
@@ -160,10 +178,33 @@ export function HomePage() {
             bench-built joinery, and hand-loomed textiles sold directly from verified independent workshops.
           </p>
 
+          {/* Interactive Craft Discipline Quick-Filter Pills */}
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint mr-1">
+              Explore Craft:
+            </span>
+            {[
+              { name: 'Ceramics', icon: '🏺', query: 'Ceramics & Pottery' },
+              { name: 'Woodwork', icon: '🪵', query: 'Woodwork' },
+              { name: 'Textiles', icon: '🧵', query: 'Textiles & Weaving' },
+              { name: 'Jewelry', icon: '💍', query: 'Jewelry & Metalsmithing' },
+              { name: 'Stationery', icon: '📜', query: 'Paper & Printmaking' },
+            ].map((craft) => (
+              <Link
+                key={craft.name}
+                to={`/shop?category=${encodeURIComponent(craft.query)}`}
+                className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1 text-xs font-medium text-ink shadow-2xs transition-all duration-200 hover:border-terracotta hover:bg-linen active:scale-95"
+              >
+                <span>{craft.icon}</span>
+                <span>{craft.name}</span>
+              </Link>
+            ))}
+          </div>
+
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
             <Link
               to="/shop"
-              className="inline-flex min-h-[46px] items-center gap-2 rounded-lg bg-terracotta px-7 py-3 text-sm font-semibold text-white shadow-subtle transition-all duration-200 hover:bg-terracotta-hover active:scale-98"
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-xl bg-terracotta px-7 py-3 text-sm font-semibold text-white shadow-subtle transition-all duration-200 hover:bg-terracotta-hover active:scale-98"
             >
               Explore Studio Drops
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -172,7 +213,7 @@ export function HomePage() {
             {user && !isVendor && (
               <Link
                 to="/become-a-seller"
-                className="inline-flex min-h-[46px] items-center rounded-lg border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
+                className="inline-flex min-h-[46px] items-center rounded-xl border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
               >
                 Open Studio Storefront
               </Link>
@@ -181,55 +222,149 @@ export function HomePage() {
             {isVendor && (
               <Link
                 to="/dashboard/seller"
-                className="inline-flex min-h-[46px] items-center rounded-lg border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
+                className="inline-flex min-h-[46px] items-center rounded-xl border border-hairline bg-surface px-6 py-3 text-sm font-semibold text-ink shadow-2xs transition-all duration-200 hover:bg-linen active:scale-98"
               >
                 Artisan Workbench
               </Link>
             )}
           </div>
 
-          {/* Maker Direct Micro-Note */}
-          <div className="mt-6 flex items-center gap-2 text-xs text-ink-muted">
-            <HeartHandshake className="h-4 w-4 text-terracotta shrink-0" aria-hidden="true" />
-            <span>
-              <strong className="text-ink">Direct Maker Economics:</strong> 95% of every dollar goes straight to the independent craftsperson.
-            </span>
+          {/* Interactive Direct Maker Economics Breakdown */}
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => setShowBreakdown(!showBreakdown)}
+              className="inline-flex items-center gap-2 text-xs font-medium text-ink-muted hover:text-ink transition-colors group cursor-pointer"
+            >
+              <HeartHandshake className="h-4 w-4 text-terracotta shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
+              <span>
+                <strong className="text-ink">Direct Maker Economics:</strong> 95% goes directly to the craftsperson.
+              </span>
+              <span className="text-[11px] font-semibold text-terracotta underline ml-1">
+                {showBreakdown ? 'Hide ▴' : 'See breakdown ▾'}
+              </span>
+            </button>
+
+            {showBreakdown && (
+              <div className="mt-3 max-w-md rounded-2xl border border-hairline bg-surface p-4 text-xs shadow-subtle animate-in fade-in duration-200">
+                <p className="font-semibold text-ink">Transparent Maker Payout Structure</p>
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center justify-between text-ink">
+                    <span className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-terracotta" />
+                      <span>Artisan Labor &amp; Workshop Materials</span>
+                    </span>
+                    <strong className="font-serif">95%</strong>
+                  </div>
+                  <div className="flex items-center justify-between text-ink-muted">
+                    <span className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-sage" />
+                      <span>Platform Hosting &amp; Carbon-Neutral Offset</span>
+                    </span>
+                    <strong className="font-serif">5%</strong>
+                  </div>
+                  <div className="flex items-center justify-between text-ink-faint">
+                    <span className="flex items-center gap-2">
+                      <span className="h-2 w-2 rounded-full bg-hairline-dark" />
+                      <span>Corporate Distributor / Middleman Cut</span>
+                    </span>
+                    <strong className="font-serif">0%</strong>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Curator's Studio Spotlight Frame */}
-        <div className="lg:col-span-5">
-          <div className="relative rounded-2xl border border-hairline bg-surface p-3.5 shadow-subtle">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-linen">
-              <img
-                src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=80"
-                alt="Master potter shaping wheel-thrown stoneware in Portland studio"
-                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                loading="eager"
+        {/* Interactive 3D Studio Spotlight Deck Frame */}
+        <div className="lg:col-span-5 flex flex-col items-center">
+          <div className="w-full max-w-[340px] sm:max-w-[380px]">
+            <div className="flex items-center justify-between pb-3 px-1">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-terracotta">
+                <Layers className="h-3.5 w-3.5" />
+                <span>Tactile Studio Deck</span>
+              </span>
+              <span className="text-[11px] font-medium text-ink-faint">
+                {heroCardIdx + 1} of {HERO_STUDIO_CARDS.length}
+              </span>
+            </div>
+
+            <div className="relative mx-auto h-[340px] w-[270px] sm:h-[390px] sm:w-[310px]">
+              <Stack
+                layout="fan"
+                visible={HERO_STUDIO_CARDS.length}
+                spread={0.65}
+                depth={0.45}
+                radius={20}
+                frame={3}
+                frameColor="#FAF7F2"
+                shadow
+                tilt={28}
+                speed={1.1}
+                sendToBackOnClick
+                autoplay
+                autoplayDelay={4500}
+                pauseOnHover
+                onChange={(idx) => setHeroCardIdx(idx)}
+                cards={HERO_STUDIO_CARDS.map((card) => (
+                  <div key={card.slug} className="relative h-full w-full overflow-hidden rounded-[18px] bg-linen select-none">
+                    <img
+                      src={card.image}
+                      alt={card.title}
+                      className="h-full w-full object-cover pointer-events-none"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-transparent pointer-events-none" />
+                    <div className="absolute inset-x-4 bottom-4 text-white pointer-events-none">
+                      <span className="inline-block rounded-full bg-terracotta px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white">
+                        {card.category}
+                      </span>
+                      <p className="mt-1.5 font-serif text-lg font-semibold truncate leading-tight">
+                        {card.title}
+                      </p>
+                      <div className="mt-1 flex items-center justify-between text-xs">
+                        <span className="text-linen/90 font-medium truncate">
+                          {card.studio}
+                        </span>
+                        <span className="font-serif font-bold text-linen text-sm">
+                          {card.price}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
-              <div className="absolute inset-x-5 bottom-5 text-white">
-                <span className="inline-block rounded-full bg-terracotta px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
-                  Studio in Focus
-                </span>
-                <p className="mt-2 font-serif text-2xl font-medium leading-snug">
-                  Kiln &amp; Birch Studio
-                </p>
-                <p className="mt-1 font-serif text-xs italic text-linen/90">
-                  &ldquo;Every touch of the finger is kept in the clay forever.&rdquo;
-                </p>
-                <p className="mt-2 flex items-center gap-1.5 text-[11px] text-linen/80">
-                  <MapPin className="h-3.5 w-3.5 text-terracotta" />
-                  Portland, Oregon · Small-batch wood kiln firings
-                </p>
+            </div>
+
+            {/* Dynamic Active Card Details Card */}
+            <div className="mt-4 rounded-2xl border border-hairline bg-surface/90 p-4 shadow-subtle backdrop-blur-xs">
+              <div className="flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="font-serif text-sm sm:text-base font-semibold text-ink truncate">
+                    {heroPiece.title}
+                  </p>
+                  <p className="flex items-center gap-1 text-xs text-ink-muted truncate">
+                    <MapPin className="h-3 w-3 text-terracotta shrink-0" />
+                    <span className="truncate">{heroPiece.studio} · {heroPiece.location}</span>
+                  </p>
+                </div>
+                <Link
+                  to={`/products/${heroPiece.slug}`}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-terracotta px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-terracotta-hover active:scale-95"
+                >
+                  <span>Acquire</span>
+                  <ArrowRight className="h-3 w-3" />
+                </Link>
               </div>
+              <p className="mt-2 text-[11px] text-ink-faint text-center">
+                👉 Click top card or drag in 3D to shuffle studio releases
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* 2. SHOP BY VIBE & AESTHETIC (GEN-Z FAVORITE) */}
-      <section className="border-b border-hairline pb-14 pt-4">
+      <section className="border-b border-hairline pb-14 pt-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
             <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-terracotta">
@@ -285,7 +420,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 4. RECENT STUDIO ARRIVALS */}
+      {/* 3. RECENT STUDIO ARRIVALS */}
       <section className="py-14 border-b border-hairline">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <div>
@@ -329,7 +464,7 @@ export function HomePage() {
         )}
       </section>
 
-      {/* 5. SLOW CRAFT VS FAST CONSUMERISM (GEN-Z TRANSPARENCY CARD) */}
+      {/* 4. SLOW CRAFT VS FAST CONSUMERISM (GEN-Z TRANSPARENCY CARD) */}
       <section className="py-14 border-b border-hairline">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-terracotta">
@@ -401,7 +536,7 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* 6. VERIFIED INDEPENDENT STUDIOS */}
+      {/* 5. VERIFIED INDEPENDENT STUDIOS */}
       {stores.length > 0 && (
         <section className="py-14 border-b border-hairline">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
@@ -469,7 +604,7 @@ export function HomePage() {
         </section>
       )}
 
-      {/* 7. DROP REGISTRY / SECRET ATELIER CLUB (GEN-Z EMAIL CAPTURE) */}
+      {/* 6. DROP REGISTRY / SECRET ATELIER CLUB (GEN-Z EMAIL CAPTURE) */}
       <section className="py-14">
         <div className="rounded-3xl border border-hairline bg-ink px-6 py-12 text-center text-linen sm:px-12 sm:py-16 shadow-lg">
           <div className="mx-auto max-w-xl">
@@ -500,7 +635,7 @@ export function HomePage() {
                 />
                 <button
                   type="submit"
-                  className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-terracotta px-6 py-2.5 text-xs font-semibold text-white shadow-subtle transition hover:bg-terracotta-hover active:scale-95"
+                  className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-terracotta px-6 py-2.5 text-xs font-semibold text-white shadow-subtle transition hover:bg-terracotta-hover active:scale-95 cursor-pointer"
                 >
                   <span>Join Atelier Registry</span>
                   <Send className="h-3.5 w-3.5" />
