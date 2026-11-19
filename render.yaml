@@ -1,4 +1,5 @@
 services:
+  # 1. Backend REST API Service
   - type: web
     name: artisans-corner-api
     runtime: node
@@ -27,3 +28,16 @@ services:
       - key: PLATFORM_COMMISSION_BPS
         value: "500"
 
+  # 2. Frontend React / Vite Static Site
+  - type: static
+    name: artisans-corner-web
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
