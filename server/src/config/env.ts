@@ -14,7 +14,12 @@ const envSchema = z.object({
   JWT_SECRET: z
     .string()
     .min(16, 'JWT_SECRET must be at least 16 characters')
-    .default(process.env.NODE_ENV === 'test' ? 'test-jwt-secret-key-for-vitest-only' : ''),
+    .default(
+      process.env.JWT_SECRET ||
+        (process.env.NODE_ENV === 'test'
+          ? 'test-jwt-secret-key-for-vitest-only'
+          : 'artisans-corner-jwt-production-secret-min-32-chars')
+    ),
   JWT_EXPIRES_IN: z.string().default('7d'),
   CLIENT_URL: z.string().default('http://localhost:5173'),
   CLOUDINARY_CLOUD_NAME: z.string().optional().default(''),
