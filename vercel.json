@@ -1,15 +1,43 @@
 {
-  "version": 2,
-  "buildCommand": "npm run build",
-  "outputDirectory": "client/dist",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "artisans-corner-web": {
+      "root": "client",
+      "framework": "vite",
+      "buildCommand": "npm install && npm run build"
+    },
+    "artisans-corner-api": {
+      "root": "server",
+      "framework": "express",
+      "buildCommand": "npm install && npm run build",
+      "bindings": [
+        {
+          "type": "service",
+          "service": "artisans-corner-web",
+          "format": "url",
+          "env": "CLIENT_URL"
+        }
+      ]
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.js"
+      "destination": {
+        "service": "artisans-corner-api"
+      }
+    },
+    {
+      "source": "/api",
+      "destination": {
+        "service": "artisans-corner-api"
+      }
     },
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": {
+        "service": "artisans-corner-web"
+      }
     }
   ]
 }
