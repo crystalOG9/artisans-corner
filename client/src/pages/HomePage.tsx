@@ -60,13 +60,13 @@ const HERO_STUDIO_CARDS = [
     slug: 'forged-brass-botanical-pendant',
   },
   {
-    title: 'Minimalist Limestone Incense Vessel',
+    title: 'Limestone & Brass Incense Vessel',
     category: 'Home & Botanical',
     studio: 'Atelier Kanso',
     location: 'Santa Fe, NM',
     price: '$48',
-    image: '/images/products/minimalist-limestone-incense-vessel.jpg',
-    slug: 'minimalist-limestone-incense-vessel',
+    image: '/images/products/limestone-and-brass-incense-burner-vessel.jpg',
+    slug: 'limestone-and-brass-incense-burner-vessel',
   },
 ];
 
@@ -82,7 +82,7 @@ const VIBE_MOODS = [
     title: 'Wabi-Sabi Sanctuary',
     tagline: 'Raw limestone incense burners & beeswax pillars',
     category: 'Home & Botanical',
-    image: '/images/products/minimalist-limestone-incense-vessel.jpg',
+    image: '/images/products/limestone-and-brass-incense-burner-vessel.jpg',
     badge: 'Calm Living',
   },
   {
@@ -110,7 +110,7 @@ const VIBE_MOODS = [
     title: 'Warm Loom & Flax',
     tagline: 'Waffle weave throws & unbleached table runners',
     category: 'Textiles & Weaving',
-    image: '/images/products/waffle-weave-organic-cotton-throw.jpg',
+    image: '/images/products/waffle-weave-organic-cotton-studio-throw.jpg',
     badge: 'Pure Natural Fibers',
   },
 ];
