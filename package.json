@@ -11,7 +11,7 @@
     "install:all": "npm install --prefix client && npm install --prefix server",
     "build:client": "npm run build --prefix client",
     "build:server": "npm run build --prefix server",
-    "build": "npm run build --prefix client && npm run build --prefix server",
+    "build": "npm run build --prefix client && npm run build --prefix server && node scripts/bundle-api.js",
     "start": "node server/dist/server.js",
     "seed": "npm run seed --prefix server",
     "test": "npm test --prefix server"
