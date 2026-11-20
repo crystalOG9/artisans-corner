@@ -46,7 +46,7 @@ export function WishlistPage() {
       try {
         const res = await http.get<{
           data: PaginatedProductsResponse;
-        }>('/products?limit=100');
+        }>('/products?limit=50');
         if (active) {
           setProducts(res.data.data.items || []);
         }
