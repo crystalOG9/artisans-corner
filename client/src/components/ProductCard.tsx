@@ -1,6 +1,7 @@
 import { Check, Heart, MapPin, Plus, ShoppingBag, Star } from 'lucide-react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useToast } from '../context/ToastContext';
 import { useAppDispatch } from '../store';
 import { addToCart } from '../store/cartSlice';
 import { formatMoney, getStoreRef, Product } from '../types/marketplace';
@@ -11,6 +12,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const store = getStoreRef(product);
   const coverImage = product.images[0]?.url;
   const isLowStock = product.stock > 0 && product.stock <= 3;
@@ -35,11 +37,14 @@ export function ProductCard({ product }: ProductCardProps) {
       if (saved.includes(product._id)) {
         next = saved.filter((id) => id !== product._id);
         setIsSaved(false);
+        showToast(`Removed "${product.title}" from saved pieces`, 'info');
       } else {
         next = [...saved, product._id];
         setIsSaved(true);
+        showToast(`Saved "${product.title}" to wishlist`, 'heart');
       }
       localStorage.setItem('ac_wishlist', JSON.stringify(next));
+      window.dispatchEvent(new Event('ac_wishlist_updated'));
     } catch {
       setIsSaved(!isSaved);
     }
@@ -66,6 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
     );
 
     setAdded(true);
+    showToast(`Added "${product.title}" to studio bag`, 'cart');
     setTimeout(() => setAdded(false), 2000);
   };
 

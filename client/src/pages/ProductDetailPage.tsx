@@ -1,10 +1,15 @@
 import {
   ArrowLeft,
   Check,
+  ChevronDown,
+  ChevronUp,
+  Heart,
   HeartHandshake,
   Layers,
+  Leaf,
   MapPin,
   Minus,
+  Package,
   PackageCheck,
   Plus,
   ShieldCheck,
@@ -16,6 +21,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { extractErrorMessage, http } from '../api/http';
 import Stack from '../components/Stack';
+import { useToast } from '../context/ToastContext';
 import { useAppDispatch, useAppSelector } from '../store';
 import { addToCart } from '../store/cartSlice';
 import { formatMoney, getStoreRef, Product, ProductReview } from '../types/marketplace';
@@ -23,12 +29,15 @@ import { formatMoney, getStoreRef, Product, ProductReview } from '../types/marke
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
   const { user } = useAppSelector((s) => s.auth);
 
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [qty, setQty] = useState(1);
   const [addedFeedback, setAddedFeedback] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<'materials' | 'care' | 'dispatch' | null>('materials');
+  const [isSaved, setIsSaved] = useState(false);
 
   const [reviews, setReviews] = useState<ProductReview[]>([]);
   const [eligibility, setEligibility] = useState<{
@@ -67,6 +76,13 @@ export function ProductDetailPage() {
           }>(`/products/${loadedProduct._id}/reviews/eligibility`);
           if (active) setEligibility(eligRes.data.data);
         }
+
+        try {
+          const saved: string[] = JSON.parse(localStorage.getItem('ac_wishlist') || '[]');
+          if (active) setIsSaved(Array.isArray(saved) && saved.includes(loadedProduct._id));
+        } catch {
+          if (active) setIsSaved(false);
+        }
       } catch (err) {
         if (active) setError(extractErrorMessage(err));
       } finally {
@@ -78,6 +94,47 @@ export function ProductDetailPage() {
       active = false;
     };
   }, [slug, user]);
+
+  const toggleWishlist = () => {
+    if (!product) return;
+    try {
+      const saved: string[] = JSON.parse(localStorage.getItem('ac_wishlist') || '[]');
+      let next: string[];
+      if (saved.includes(product._id)) {
+        next = saved.filter((id) => id !== product._id);
+        setIsSaved(false);
+        showToast(`Removed "${product.title}" from saved pieces`, 'info');
+      } else {
+        next = [...saved, product._id];
+        setIsSaved(true);
+        showToast(`Saved "${product.title}" to wishlist`, 'heart');
+      }
+      localStorage.setItem('ac_wishlist', JSON.stringify(next));
+      window.dispatchEvent(new Event('ac_wishlist_updated'));
+    } catch {
+      setIsSaved(!isSaved);
+    }
+  };
+
+  const getCategoryCareGuide = (category?: string) => {
+    const cat = category?.toLowerCase() || '';
+    if (cat.includes('ceramic') || cat.includes('pottery')) {
+      return 'Hand wash gently with warm water and mild citrus dish soap. Microwave safe unless accented with metallic luster. Avoid rapid thermal shocks (do not plunge hot stoneware into cold water).';
+    }
+    if (cat.includes('textile') || cat.includes('flax') || cat.includes('linen') || cat.includes('cotton')) {
+      return 'Gentle wash cycle on cold (max 30°C) with eco-friendly detergent or hand wash. Air dry flat away from harsh direct sun to preserve botanical dye vibrancy. Iron while lightly damp.';
+    }
+    if (cat.includes('wood') || cat.includes('walnut') || cat.includes('cherry')) {
+      return 'Never soak in water or wash in a dishwasher. Wipe clean with a damp cloth and dry immediately. Recondition every 3–4 months with organic food-grade mineral oil or natural beeswax balm.';
+    }
+    if (cat.includes('leather')) {
+      return 'Natural vegetable-tanned leather gains character and rich amber patina over time. Keep away from excessive moisture. Treat annually with natural beeswax leather conditioner.';
+    }
+    if (cat.includes('jewel') || cat.includes('silver') || cat.includes('brass')) {
+      return 'Store in the complimentary cotton pouch when not worn. Clean gently with a microfiber polishing cloth. Avoid chlorinated pools and harsh household solvents.';
+    }
+    return 'Crafted with natural materials. Handle with mindful care; wipe gently with a soft dry lint-free cloth and keep away from prolonged water contact or extreme humidity.';
+  };
 
   const handleAddToCart = () => {
     if (!product || product.stock <= 0) return;
@@ -97,6 +154,7 @@ export function ProductDetailPage() {
       })
     );
     setAddedFeedback(true);
+    showToast(`Added ${qty} ${qty === 1 ? 'piece' : 'pieces'} of "${product.title}" to studio bag`, 'cart');
     setTimeout(() => setAddedFeedback(false), 2500);
   };
 
@@ -368,6 +426,19 @@ export function ProductDetailPage() {
                   </>
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={toggleWishlist}
+                aria-label={isSaved ? 'Remove from wishlist' : 'Save piece to wishlist'}
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded border transition-colors ${
+                  isSaved
+                    ? 'border-terracotta bg-terracotta text-white'
+                    : 'border-hairline bg-surface text-ink hover:bg-linen hover:text-terracotta'
+                }`}
+              >
+                <Heart className={`h-5 w-5 ${isSaved ? 'fill-white' : ''}`} />
+              </button>
             </div>
 
             {addedFeedback && (
@@ -378,7 +449,7 @@ export function ProductDetailPage() {
               </div>
             )}
 
-            {/* About this Piece & Materials */}
+            {/* About this Piece */}
             <div className="mt-8 border-t border-hairline pt-6">
               <h2 className="font-serif text-lg font-medium text-ink">
                 About this Piece
@@ -387,23 +458,117 @@ export function ProductDetailPage() {
                 {product.description}
               </p>
 
-              {product.materials && (
-                <div className="mt-4 rounded border border-hairline bg-linen/50 p-3.5">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-ink-faint block">
-                    Materiality & Sourcing
-                  </span>
-                  <div className="mt-1.5 flex flex-wrap gap-1.5">
-                    {product.materials.split(',').map((mat, i) => (
-                      <span
-                        key={i}
-                        className="rounded border border-hairline bg-surface px-2.5 py-0.5 text-xs font-medium text-ink"
-                      >
-                        {mat.trim()}
-                      </span>
-                    ))}
-                  </div>
+              {/* Studio Care & Materials Accordion */}
+              <div className="mt-6 space-y-2.5">
+                {/* 1. Materials & Provenance */}
+                <div className="rounded-xl border border-hairline bg-surface overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenAccordion((prev) => (prev === 'materials' ? null : 'materials'))
+                    }
+                    className="flex w-full items-center justify-between p-3.5 text-left text-xs font-semibold text-ink transition hover:bg-linen"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Leaf className="h-4 w-4 text-terracotta" />
+                      <span>Raw Materials &amp; Provenance</span>
+                    </span>
+                    {openAccordion === 'materials' ? (
+                      <ChevronUp className="h-4 w-4 text-ink-muted" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-ink-muted" />
+                    )}
+                  </button>
+                  {openAccordion === 'materials' && (
+                    <div className="border-t border-hairline bg-canvas/50 p-3.5 text-xs text-ink-muted">
+                      {product.materials ? (
+                        <>
+                          <p className="text-[11px] font-medium text-ink">
+                            Natural Material Sourcing:
+                          </p>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {product.materials.split(',').map((mat, i) => (
+                              <span
+                                key={i}
+                                className="rounded border border-hairline bg-surface px-2.5 py-0.5 text-xs font-medium text-ink"
+                              >
+                                {mat.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <p>Responsibly sourced organic natural materials.</p>
+                      )}
+                      <p className="mt-3 text-[11px] leading-relaxed text-ink-faint">
+                        Hand-selected by the artisan. No toxic binding agents or petroleum synthetics.
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
+
+                {/* 2. Care & Preservation */}
+                <div className="rounded-xl border border-hairline bg-surface overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenAccordion((prev) => (prev === 'care' ? null : 'care'))
+                    }
+                    className="flex w-full items-center justify-between p-3.5 text-left text-xs font-semibold text-ink transition hover:bg-linen"
+                  >
+                    <span className="flex items-center gap-2">
+                      <ShieldCheck className="h-4 w-4 text-sage" />
+                      <span>Studio Care &amp; Longevity Guide</span>
+                    </span>
+                    {openAccordion === 'care' ? (
+                      <ChevronUp className="h-4 w-4 text-ink-muted" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-ink-muted" />
+                    )}
+                  </button>
+                  {openAccordion === 'care' && (
+                    <div className="border-t border-hairline bg-canvas/50 p-3.5 text-xs text-ink-muted">
+                      <p className="leading-relaxed">
+                        {getCategoryCareGuide(product.category)}
+                      </p>
+                      <p className="mt-2 text-[11px] text-ink-faint">
+                        Crafted to acquire heirloom patina with mindful everyday stewardship.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* 3. Packaging & Dispatch */}
+                <div className="rounded-xl border border-hairline bg-surface overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenAccordion((prev) => (prev === 'dispatch' ? null : 'dispatch'))
+                    }
+                    className="flex w-full items-center justify-between p-3.5 text-left text-xs font-semibold text-ink transition hover:bg-linen"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Package className="h-4 w-4 text-terracotta" />
+                      <span>Atelier Packaging &amp; Insured Dispatch</span>
+                    </span>
+                    {openAccordion === 'dispatch' ? (
+                      <ChevronUp className="h-4 w-4 text-ink-muted" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4 text-ink-muted" />
+                    )}
+                  </button>
+                  {openAccordion === 'dispatch' && (
+                    <div className="border-t border-hairline bg-canvas/50 p-3.5 text-xs text-ink-muted space-y-2">
+                      <p className="leading-relaxed">
+                        Packaged in 100% recyclable honeycomb paper cushioning and unbleached kraft boxes. Includes an embossed maker provenance certificate.
+                      </p>
+                      <p className="text-[11px] text-ink-faint">
+                        Dispatched directly from the maker&apos;s workshop with full transit insurance.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 

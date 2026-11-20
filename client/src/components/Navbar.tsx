@@ -1,5 +1,5 @@
-import { LogOut, Menu, Search, ShoppingBag, User as UserIcon, X } from 'lucide-react';
-import React, { useState } from 'react';
+import { Heart, LogOut, Menu, Search, ShoppingBag, User as UserIcon, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store';
 import { logoutAccount } from '../store/authSlice';
@@ -14,6 +14,32 @@ export function Navbar() {
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [navSearch, setNavSearch] = useState('');
+  const [wishlistCount, setWishlistCount] = useState<number>(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('ac_wishlist') || '[]');
+      return Array.isArray(saved) ? saved.length : 0;
+    } catch {
+      return 0;
+    }
+  });
+
+  useEffect(() => {
+    const handleUpdate = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('ac_wishlist') || '[]');
+        setWishlistCount(Array.isArray(saved) ? saved.length : 0);
+      } catch {
+        setWishlistCount(0);
+      }
+    };
+
+    window.addEventListener('ac_wishlist_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+    return () => {
+      window.removeEventListener('ac_wishlist_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
+  }, []);
 
   const isVendor = user?.roles.includes('vendor');
   const isAdmin = user?.roles.includes('admin');
@@ -104,6 +130,29 @@ export function Navbar() {
           )}
 
           <NavLink
+            to="/wishlist"
+            aria-label={`Saved items wishlist with ${wishlistCount} pieces`}
+            className={({ isActive }) =>
+              `relative inline-flex items-center gap-1.5 rounded-md border border-hairline px-2.5 py-1.5 text-sm font-medium transition ${
+                isActive
+                  ? 'border-terracotta bg-linen text-terracotta'
+                  : 'bg-surface text-ink hover:bg-linen'
+              }`
+            }
+          >
+            <Heart
+              className={`h-4 w-4 ${wishlistCount > 0 ? 'fill-terracotta/20 text-terracotta' : ''}`}
+              aria-hidden="true"
+            />
+            <span>Saved</span>
+            {wishlistCount > 0 && (
+              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-terracotta px-1.5 text-xs font-semibold tabular-nums text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </NavLink>
+
+          <NavLink
             to="/cart"
             aria-label={`Shopping cart with ${cartCount} items`}
             className={({ isActive }) =>
@@ -158,6 +207,18 @@ export function Navbar() {
 
         {/* Mobile Actions */}
         <div className="flex items-center gap-2 md:hidden">
+          <Link
+            to="/wishlist"
+            aria-label={`Saved pieces with ${wishlistCount} items`}
+            className="relative inline-flex items-center gap-1 rounded-md border border-hairline bg-surface p-2 text-sm text-ink"
+          >
+            <Heart className={`h-4 w-4 ${wishlistCount > 0 ? 'fill-terracotta text-terracotta' : ''}`} />
+            {wishlistCount > 0 && (
+              <span className="rounded-full bg-terracotta px-1.5 text-[11px] font-semibold tabular-nums text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
           <Link
             to="/cart"
             aria-label={`Shopping cart with ${cartCount} items`}
@@ -215,6 +276,13 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
             >
               Shop
+            </NavLink>
+            <NavLink
+              to="/wishlist"
+              className={navLinkClass}
+              onClick={() => setMobileOpen(false)}
+            >
+              Saved Pieces {wishlistCount > 0 ? `(${wishlistCount})` : ''}
             </NavLink>
             {user && (
               <NavLink
