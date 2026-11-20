@@ -168,9 +168,11 @@ export function HomePage() {
       {/* 1. EDITORIAL ASYMMETRIC HERO SECTION WITH INTERACTIVE 3D STUDIO STACK */}
       <section className="grid gap-10 border-b border-hairline pb-14 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
-          <h1 className="font-serif text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
+          <h1 className="font-serif text-4xl font-semibold leading-[1.12] tracking-tight text-ink sm:text-5xl lg:text-[3.6rem]">
             Every object carries <br className="hidden sm:inline" />
-            the human hand.
+            <span className="font-handwriting font-bold text-terracotta text-5xl sm:text-6xl lg:text-[4.4rem] inline-block -rotate-1 mt-1 sm:mt-0 drop-shadow-2xs">
+              the human hand.
+            </span>
           </h1>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
@@ -181,21 +183,21 @@ export function HomePage() {
           {/* Interactive Craft Discipline Quick-Filter Pills */}
           <div className="mt-6 flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint mr-1">
-              Explore Craft:
+              Explore:
             </span>
             {[
-              { name: 'Ceramics', icon: '🏺', query: 'Ceramics & Pottery' },
-              { name: 'Woodwork', icon: '🪵', query: 'Woodwork' },
-              { name: 'Textiles', icon: '🧵', query: 'Textiles & Weaving' },
-              { name: 'Jewelry', icon: '💍', query: 'Jewelry & Metalsmithing' },
-              { name: 'Stationery', icon: '📜', query: 'Paper & Printmaking' },
+              { name: 'Ceramics & Pottery', query: 'Ceramics & Pottery' },
+              { name: 'Woodwork', query: 'Woodwork' },
+              { name: 'Textiles & Weaving', query: 'Textiles & Weaving' },
+              { name: 'Jewelry & Metals', query: 'Jewelry & Metalsmithing' },
+              { name: 'Paper & Prints', query: 'Paper & Printmaking' },
             ].map((craft) => (
               <Link
                 key={craft.name}
                 to={`/shop?category=${encodeURIComponent(craft.query)}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1 text-xs font-medium text-ink shadow-2xs transition-all duration-200 hover:border-terracotta hover:bg-linen active:scale-95"
+                className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3.5 py-1 text-xs font-medium text-ink shadow-2xs transition-all duration-200 hover:border-terracotta hover:bg-linen hover:text-terracotta active:scale-95"
               >
-                <span>{craft.icon}</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-terracotta/70" />
                 <span>{craft.name}</span>
               </Link>
             ))}
@@ -477,58 +479,51 @@ export function HomePage() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {/* Fast Commerce Box */}
-          <div className="rounded-2xl border border-hairline bg-surface/50 p-6 opacity-75">
-            <span className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
-              Mass Market &amp; Fast E-Commerce
+          <div className="rounded-2xl border border-hairline bg-linen/50 p-7">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-muted">
+              The Mass-Manufactured Cycle
             </span>
-            <ul className="mt-4 space-y-3 text-xs leading-relaxed text-ink-muted">
-              <li className="flex items-start gap-2">
-                <span className="text-ink-faint">✕</span>
-                <span>Anonymous factory assembly lines and synthetic resin fillers</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-ink-faint">✕</span>
-                <span>80% markups taken by corporate middlemen &amp; warehouses</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-ink-faint">✕</span>
-                <span>Excess plastic bubble-wrap packaging destined for landfill</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="text-ink-faint">✕</span>
-                <span>Disposable 6-month lifespan designed for obsolescence</span>
-              </li>
-            </ul>
+            <p className="mt-2 font-serif text-lg font-medium text-ink">
+              Engineered for rapid obsolescence
+            </p>
+            <div className="mt-5 space-y-3.5 text-xs leading-relaxed text-ink-muted">
+              <p className="border-l-2 border-hairline pl-3">
+                <strong className="text-ink">Synthetic resin &amp; fillers:</strong> Cheap pressed composites designed to deteriorate within seasons.
+              </p>
+              <p className="border-l-2 border-hairline pl-3">
+                <strong className="text-ink">80% middleman extraction:</strong> Multi-tiered distribution, overseas freight, and corporate warehouses.
+              </p>
+              <p className="border-l-2 border-hairline pl-3">
+                <strong className="text-ink">Excess non-biodegradable waste:</strong> Single-use polybags and synthetic styrofoam destined for landfills.
+              </p>
+            </div>
           </div>
 
           {/* Artisan's Corner Studio Box */}
-          <div className="rounded-2xl border-2 border-terracotta/40 bg-surface p-6 shadow-subtle">
+          <div className="rounded-2xl border border-terracotta/40 bg-surface p-7 shadow-subtle relative overflow-hidden">
+            <div className="absolute top-0 right-0 h-24 w-24 bg-gradient-to-bl from-terracotta/10 to-transparent pointer-events-none rounded-bl-full" />
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-terracotta">
-                Artisan&apos;s Corner Studio
+              <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
+                The Independent Studio Way
               </span>
               <span className="rounded-full bg-linen px-2.5 py-0.5 text-[10px] font-semibold text-terracotta">
-                100% Ethical
+                Heirloom Grade
               </span>
             </div>
-            <ul className="mt-4 space-y-3 text-xs leading-relaxed text-ink">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
-                <span>Single-batch creations shaped by a named master craftsperson</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
-                <span>95% of your purchase directly funds the maker&apos;s workbench</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
-                <span>Plastic-free, 100% recyclable studio paper packaging</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-terracotta" />
-                <span>Natural materials (walnut, flax, stoneware) that gain patina with age</span>
-              </li>
-            </ul>
+            <p className="mt-2 font-serif text-lg font-medium text-ink">
+              Objects made to outlast human hands
+            </p>
+            <div className="mt-5 space-y-3.5 text-xs leading-relaxed text-ink">
+              <p className="border-l-2 border-terracotta pl-3">
+                <strong className="text-ink">Raw, honest materials:</strong> Solid American black walnut, pure unbleached flax, and high-fire 1200°C stoneware that gain patina with age.
+              </p>
+              <p className="border-l-2 border-terracotta pl-3">
+                <strong className="text-ink">95% Direct maker equity:</strong> Your purchase directly finances the independent craftsperson&apos;s workbench and kiln.
+              </p>
+              <p className="border-l-2 border-terracotta pl-3">
+                <strong className="text-ink">Plastic-free atelier packaging:</strong> Ships in biodegradable embossed paper and recycled natural fiber twine.
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -32,6 +32,7 @@ export default {
       fontFamily: {
         serif: ['Fraunces', 'Georgia', 'serif'],
         sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        handwriting: ['Caveat', 'cursive'],
       },
     },
   },

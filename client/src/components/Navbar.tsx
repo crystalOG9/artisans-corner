@@ -1,5 +1,5 @@
-import { LogOut, Menu, ShoppingBag, User as UserIcon, X } from 'lucide-react';
-import { useState } from 'react';
+import { LogOut, Menu, Search, ShoppingBag, User as UserIcon, X } from 'lucide-react';
+import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store';
 import { logoutAccount } from '../store/authSlice';
@@ -13,6 +13,7 @@ export function Navbar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [navSearch, setNavSearch] = useState('');
 
   const isVendor = user?.roles.includes('vendor');
   const isAdmin = user?.roles.includes('admin');
@@ -21,6 +22,14 @@ export function Navbar() {
     await dispatch(logoutAccount());
     setMobileOpen(false);
     navigate('/');
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (navSearch.trim()) {
+      navigate(`/shop?search=${encodeURIComponent(navSearch.trim())}`);
+      setMobileOpen(false);
+    }
   };
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -45,6 +54,21 @@ export function Navbar() {
             </span>
           </div>
         </Link>
+
+        {/* Desktop Quick Search */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="relative hidden lg:flex items-center mx-4 flex-1 max-w-xs"
+        >
+          <Search className="pointer-events-none absolute left-3.5 h-3.5 w-3.5 text-ink-muted" />
+          <input
+            type="search"
+            value={navSearch}
+            onChange={(e) => setNavSearch(e.target.value)}
+            placeholder="Search ceramics, walnut, linen..."
+            className="h-9 w-full rounded-full border border-hairline bg-surface/90 py-1.5 pl-9 pr-3 text-xs text-ink placeholder-ink-faint shadow-2xs transition-all duration-300 focus:border-terracotta focus:outline-none focus:ring-1 focus:ring-terracotta"
+          />
+        </form>
 
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
@@ -164,6 +188,18 @@ export function Navbar() {
           className="border-t border-hairline bg-surface px-4 py-4 md:hidden"
           aria-label="Mobile navigation"
         >
+          {/* Mobile Search Form */}
+          <form onSubmit={handleSearchSubmit} className="relative mb-3">
+            <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-ink-muted" />
+            <input
+              type="search"
+              value={navSearch}
+              onChange={(e) => setNavSearch(e.target.value)}
+              placeholder="Search studio pieces..."
+              className="h-10 w-full rounded-xl border border-hairline bg-linen/50 py-2 pl-9 pr-3 text-xs text-ink placeholder-ink-faint focus:border-terracotta focus:outline-none"
+            />
+          </form>
+
           <div className="flex flex-col gap-3">
             <NavLink
               to="/"

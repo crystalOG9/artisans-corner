@@ -11,15 +11,6 @@ import {
   PRODUCT_CATEGORIES,
 } from '../types/marketplace';
 
-const VIBE_SHORTCUTS = [
-  { label: '☕ Morning Ritual', category: 'Ceramics & Pottery' },
-  { label: '🌿 Wabi-Sabi Sanctuary', category: 'Home & Botanical' },
-  { label: '🪵 Woodland Hearth', category: 'Woodwork' },
-  { label: '💍 Forged Heirlooms', category: 'Jewelry & Metalsmithing' },
-  { label: '📜 Desk Atelier', category: 'Paper & Printmaking' },
-  { label: '🧶 Loom & Flax', category: 'Textiles & Weaving' },
-];
-
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -110,32 +101,8 @@ export function ShopPage() {
           Explore authentic small-batch creations dispatched directly from verified maker workshops.
         </p>
 
-        {/* Gen-Z Mood / Vibe Quick Pills */}
-        <div className="mt-5 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
-          <span className="shrink-0 self-center text-[10px] font-semibold uppercase tracking-wider text-ink-faint mr-1">
-            Vibes:
-          </span>
-          {VIBE_SHORTCUTS.map((v) => {
-            const active = category === v.category;
-            return (
-              <button
-                key={v.label}
-                type="button"
-                onClick={() => updateParam('category', active ? null : v.category)}
-                className={`shrink-0 rounded-full border px-3.5 py-1 text-xs font-medium transition-all duration-200 active:scale-95 ${
-                  active
-                    ? 'border-terracotta bg-terracotta text-white shadow-xs'
-                    : 'border-hairline bg-surface text-ink hover:bg-linen hover:border-hairline-dark'
-                }`}
-              >
-                {v.label}
-              </button>
-            );
-          })}
-        </div>
-
         {/* Tactile Category Quick-Pill Strip */}
-        <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
+        <div className="mt-6 -mx-4 flex gap-2 overflow-x-auto px-4 pb-2 sm:mx-0 sm:flex-wrap sm:px-0 scrollbar-none">
           <button
             type="button"
             onClick={() => updateParam('category', null)}
