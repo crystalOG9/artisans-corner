@@ -108,8 +108,8 @@ export function WishlistPage() {
 
         {savedProducts.length > 0 && (
           <div className="flex items-center gap-4">
-            <span className="text-xs font-medium tabular-nums text-ink-muted">
-              {savedProducts.length} {savedProducts.length === 1 ? 'piece' : 'pieces'} earmarked
+            <span className="text-xs font-medium text-ink-muted">
+              Curated pieces earmarked
             </span>
             <button
               type="button"

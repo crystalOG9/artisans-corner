@@ -141,8 +141,8 @@ export function StoreDetailPage() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="rounded-lg border border-hairline bg-linen/50 px-3 py-1.5 text-xs font-medium text-ink tabular-nums">
-                {products.length} {products.length === 1 ? 'piece' : 'pieces'} crafted
+              <span className="rounded-lg border border-hairline bg-linen/50 px-3 py-1.5 text-xs font-medium text-ink">
+                Studio Collection
               </span>
             </div>
           </div>
@@ -165,7 +165,7 @@ export function StoreDetailPage() {
                 <div className="text-xs">
                   <p className="font-semibold text-ink">Direct Maker Economics</p>
                   <p className="mt-1 text-[11px] leading-relaxed text-ink-muted">
-                    Acquiring directly from this workshop directs <strong className="text-terracotta">95%</strong> of proceeds back to the artisan, supporting local craft heritage.
+                    Acquiring directly from this workshop directs <strong className="text-terracotta">the vast majority</strong> of proceeds back to the artisan, supporting local craft heritage.
                   </p>
                 </div>
               </div>

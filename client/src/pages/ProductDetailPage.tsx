@@ -122,10 +122,10 @@ export function ProductDetailPage() {
       return 'Hand wash gently with warm water and mild citrus dish soap. Microwave safe unless accented with metallic luster. Avoid rapid thermal shocks (do not plunge hot stoneware into cold water).';
     }
     if (cat.includes('textile') || cat.includes('flax') || cat.includes('linen') || cat.includes('cotton')) {
-      return 'Gentle wash cycle on cold (max 30°C) with eco-friendly detergent or hand wash. Air dry flat away from harsh direct sun to preserve botanical dye vibrancy. Iron while lightly damp.';
+      return 'Gentle wash cycle on cold with eco-friendly detergent or hand wash. Air dry flat away from harsh direct sun to preserve botanical dye vibrancy. Iron while lightly damp.';
     }
     if (cat.includes('wood') || cat.includes('walnut') || cat.includes('cherry')) {
-      return 'Never soak in water or wash in a dishwasher. Wipe clean with a damp cloth and dry immediately. Recondition every 3–4 months with organic food-grade mineral oil or natural beeswax balm.';
+      return 'Never soak in water or wash in a dishwasher. Wipe clean with a damp cloth and dry immediately. Recondition regularly with organic food-grade mineral oil or natural beeswax balm.';
     }
     if (cat.includes('leather')) {
       return 'Natural vegetable-tanned leather gains character and rich amber patina over time. Keep away from excessive moisture. Treat annually with natural beeswax leather conditioner.';
@@ -228,7 +228,7 @@ export function ProductDetailPage() {
             className="h-full w-full object-cover pointer-events-none"
           />
           <div className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-3 py-1 text-[11px] font-medium tracking-wide text-white backdrop-blur-xs">
-            Studio Angle {idx + 1} of {product.images.length}
+            Studio Perspective
           </div>
         </div>
       ))
@@ -255,7 +255,7 @@ export function ProductDetailPage() {
                   <span>Tactile Multi-Angle Deck</span>
                 </span>
                 <span className="text-[11px] text-ink-faint">
-                  Perspective {activeImageIdx + 1} of {product.images.length}
+                  Studio Perspective
                 </span>
               </div>
 
@@ -342,10 +342,7 @@ export function ProductDetailPage() {
               {product.ratingCount > 0 && (
                 <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
                   <Star className="h-3.5 w-3.5 fill-terracotta text-terracotta" />
-                  <span className="font-semibold text-ink tabular-nums">
-                    {product.ratingAvg.toFixed(1)}
-                  </span>
-                  <span>({product.ratingCount} verified reviews)</span>
+                  <span className="font-semibold text-ink">Verified reviews</span>
                 </span>
               )}
             </div>
@@ -359,8 +356,8 @@ export function ProductDetailPage() {
               {product.stock > 0 ? (
                 <span className="text-xs font-medium text-sage">
                   {product.stock <= 3
-                    ? `Small batch — only ${product.stock} pieces remaining in this run`
-                    : `In stock — ${product.stock} studio pieces ready to dispatch`}
+                    ? `Small batch — limited studio pieces remaining`
+                    : `In stock — studio pieces ready to dispatch`}
                 </span>
               ) : (
                 <span className="text-xs font-semibold uppercase tracking-wider text-red-700">
@@ -376,7 +373,7 @@ export function ProductDetailPage() {
                 <div>
                   <p className="font-semibold text-ink">Direct Maker Economics</p>
                   <p className="mt-0.5 text-[11px] leading-relaxed text-ink-muted">
-                    <strong className="text-terracotta">95% ({formatMoney(Math.round(product.priceCents * 0.95))})</strong> goes straight to {store?.name || 'the artisan workshop'}. No corporate distributor cuts.
+                    <strong className="text-terracotta">Direct studio proceeds</strong> go straight to {store?.name || 'the artisan workshop'}. No corporate distributor cuts.
                   </p>
                 </div>
               </div>
@@ -560,7 +557,7 @@ export function ProductDetailPage() {
                   {openAccordion === 'dispatch' && (
                     <div className="border-t border-hairline bg-canvas/50 p-3.5 text-xs text-ink-muted space-y-2">
                       <p className="leading-relaxed">
-                        Packaged in 100% recyclable honeycomb paper cushioning and unbleached kraft boxes. Includes an embossed maker provenance certificate.
+                        Packaged in fully recyclable honeycomb paper cushioning and unbleached kraft boxes. Includes an embossed maker provenance certificate.
                       </p>
                       <p className="text-[11px] text-ink-faint">
                         Dispatched directly from the maker&apos;s workshop with full transit insurance.

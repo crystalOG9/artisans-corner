@@ -102,7 +102,7 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
           {isLowStock && (
             <span className="rounded-full border border-terracotta/40 bg-surface/95 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-terracotta shadow-xs backdrop-blur-xs">
-              Only {product.stock} left in atelier
+              Limited batch remaining in atelier
             </span>
           )}
         </div>

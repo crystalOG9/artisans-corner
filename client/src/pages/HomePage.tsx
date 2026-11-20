@@ -240,7 +240,7 @@ export function HomePage() {
             >
               <HeartHandshake className="h-4 w-4 text-terracotta shrink-0 group-hover:scale-110 transition-transform" aria-hidden="true" />
               <span>
-                <strong className="text-ink">Direct Maker Economics:</strong> 95% goes directly to the craftsperson.
+                <strong className="text-ink">Direct Maker Economics:</strong> Proceeds go directly to the craftsperson.
               </span>
               <span className="text-[11px] font-semibold text-terracotta underline ml-1">
                 {showBreakdown ? 'Hide ▴' : 'See breakdown ▾'}
@@ -256,21 +256,21 @@ export function HomePage() {
                       <span className="h-2 w-2 rounded-full bg-terracotta" />
                       <span>Artisan Labor &amp; Workshop Materials</span>
                     </span>
-                    <strong className="font-serif">95%</strong>
+                    <strong className="font-serif text-terracotta">Direct Share</strong>
                   </div>
                   <div className="flex items-center justify-between text-ink-muted">
                     <span className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-sage" />
                       <span>Platform Hosting &amp; Carbon-Neutral Offset</span>
                     </span>
-                    <strong className="font-serif">5%</strong>
+                    <strong className="font-serif text-sage">Fair Fee</strong>
                   </div>
                   <div className="flex items-center justify-between text-ink-faint">
                     <span className="flex items-center gap-2">
                       <span className="h-2 w-2 rounded-full bg-hairline-dark" />
                       <span>Corporate Distributor / Middleman Cut</span>
                     </span>
-                    <strong className="font-serif">0%</strong>
+                    <strong className="font-serif text-ink-muted">Zero Cut</strong>
                   </div>
                 </div>
               </div>
@@ -287,7 +287,7 @@ export function HomePage() {
                 <span>Tactile Studio Deck</span>
               </span>
               <span className="text-[11px] font-medium text-ink-faint">
-                {heroCardIdx + 1} of {HERO_STUDIO_CARDS.length}
+                Studio Collection
               </span>
             </div>
 
@@ -491,7 +491,7 @@ export function HomePage() {
                 <strong className="text-ink">Synthetic resin &amp; fillers:</strong> Cheap pressed composites designed to deteriorate within seasons.
               </p>
               <p className="border-l-2 border-hairline pl-3">
-                <strong className="text-ink">80% middleman extraction:</strong> Multi-tiered distribution, overseas freight, and corporate warehouses.
+                <strong className="text-ink">Corporate middleman extraction:</strong> Multi-tiered distribution, overseas freight, and corporate warehouses.
               </p>
               <p className="border-l-2 border-hairline pl-3">
                 <strong className="text-ink">Excess non-biodegradable waste:</strong> Single-use polybags and synthetic styrofoam destined for landfills.
@@ -515,10 +515,10 @@ export function HomePage() {
             </p>
             <div className="mt-5 space-y-3.5 text-xs leading-relaxed text-ink">
               <p className="border-l-2 border-terracotta pl-3">
-                <strong className="text-ink">Raw, honest materials:</strong> Solid American black walnut, pure unbleached flax, and high-fire 1200°C stoneware that gain patina with age.
+                <strong className="text-ink">Raw, honest materials:</strong> Solid American black walnut, pure unbleached flax, and high-fire stoneware that gain patina with age.
               </p>
               <p className="border-l-2 border-terracotta pl-3">
-                <strong className="text-ink">95% Direct maker equity:</strong> Your purchase directly finances the independent craftsperson&apos;s workbench and kiln.
+                <strong className="text-ink">Direct maker equity:</strong> Your purchase directly finances the independent craftsperson&apos;s workbench and kiln.
               </p>
               <p className="border-l-2 border-terracotta pl-3">
                 <strong className="text-ink">Plastic-free atelier packaging:</strong> Ships in biodegradable embossed paper and recycled natural fiber twine.
@@ -596,7 +596,7 @@ export function HomePage() {
         </section>
       )}
 
-      {/* 6. DROP REGISTRY / SECRET ATELIER CLUB (GEN-Z EMAIL CAPTURE) */}
+      {/* 6. DROP REGISTRY / SECRET ATELIER CLUB */}
       <section className="py-14">
         <div className="rounded-3xl border border-hairline bg-ink px-6 py-12 text-center text-linen sm:px-12 sm:py-16 shadow-lg">
           <div className="mx-auto max-w-xl">
@@ -604,16 +604,16 @@ export function HomePage() {
               Drop Registry
             </span>
             <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
-              First dibs on 1-of-1 kiln &amp; studio drops.
+              First dibs on bespoke kiln &amp; studio drops.
             </h2>
             <p className="mt-3 text-xs leading-relaxed text-linen/70 sm:text-sm">
-              Because our pieces are handcrafted in small batches, popular drops sell out in hours. Join 4,200+ mindful collectors for private release notifications.
+              Because our pieces are handcrafted in small batches, popular drops sell out quickly. Join mindful collectors for private release notifications.
             </p>
 
             {subscribed ? (
               <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-linen/10 px-4 py-2.5 text-xs font-semibold text-linen">
                 <CheckCircle2 className="h-4 w-4 text-terracotta" />
-                <span>You&apos;re on the private drop list! We&apos;ll notify you for Drop 05.</span>
+                <span>You&apos;re on the private drop list! We&apos;ll notify you for upcoming studio releases.</span>
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:justify-center">
@@ -636,7 +636,7 @@ export function HomePage() {
             )}
 
             <p className="mt-3 text-[10px] text-linen/50">
-              Zero spam. Unsubscribe anytime with 1 click.
+              Zero spam. Unsubscribe anytime.
             </p>
           </div>
         </div>

@@ -331,10 +331,7 @@ export function ShopPage() {
         ) : (
           <div>
             <div className="mb-4 flex items-center justify-between text-xs text-ink-muted">
-              <span>
-                Showing <strong className="text-ink">{data.items.length}</strong> of{' '}
-                <strong className="text-ink">{data.pagination.total}</strong> pieces
-              </span>
+              <span>Curated Studio Pieces</span>
               {category && (
                 <span className="font-medium text-terracotta">Filter: {category}</span>
               )}
@@ -361,8 +358,7 @@ export function ShopPage() {
                   Previous
                 </button>
                 <span className="px-3 text-xs text-ink-muted">
-                  Page <strong className="text-ink">{page}</strong> of{' '}
-                  <strong className="text-ink">{data.pagination.totalPages}</strong>
+                  Page Navigation
                 </span>
                 <button
                   type="button"

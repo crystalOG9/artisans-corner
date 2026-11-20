@@ -15,10 +15,10 @@ export function Footer() {
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-ink">
-                95% Direct Maker Net
+                Direct Maker Net
               </p>
               <p className="mt-1 text-xs leading-relaxed text-ink-muted">
-                Our 5% platform commission guarantees independent craftspeople retain the true value of their labor.
+                Our low platform commission guarantees independent craftspeople retain the true value of their labor.
               </p>
             </div>
           </div>

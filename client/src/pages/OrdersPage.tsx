@@ -189,8 +189,10 @@ export function OrdersPage() {
                             >
                               {isCompleted ? (
                                 <CheckCircle2 className="h-4 w-4" />
+                              ) : isCurrent ? (
+                                <span className="h-2 w-2 rounded-full bg-terracotta" />
                               ) : (
-                                <span>{step.id}</span>
+                                <span className="h-1.5 w-1.5 rounded-full bg-ink-faint" />
                               )}
                             </div>
                             <span
@@ -289,8 +291,8 @@ export function OrdersPage() {
                         />
                       ))}
                       {allItems.length > 3 && (
-                        <span className="flex h-12 w-12 items-center justify-center rounded-lg border-2 border-surface bg-linen text-xs font-semibold text-ink-muted">
-                          +{allItems.length - 3}
+                        <span className="flex h-12 w-12 items-center justify-center rounded-lg border-2 border-surface bg-linen text-[11px] font-semibold text-ink-muted">
+                          +More
                         </span>
                       )}
                     </div>
@@ -311,10 +313,7 @@ export function OrdersPage() {
                         </span>
                       </div>
                       <p className="text-xs text-ink-muted">
-                        Placed on {new Date(order.createdAt).toLocaleDateString()} ·{' '}
-                        {order.vendorOrders.length}{' '}
-                        {order.vendorOrders.length === 1 ? 'studio' : 'studios'} ·{' '}
-                        {allItems.reduce((sum, it) => sum + it.quantity, 0)} items
+                        Placed on {new Date(order.createdAt).toLocaleDateString()} · Studio dispatch · Handcrafted goods
                       </p>
                     </div>
                   </div>

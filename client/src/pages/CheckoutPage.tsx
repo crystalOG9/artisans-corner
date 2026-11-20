@@ -259,7 +259,7 @@ export function CheckoutPage() {
       <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-terracotta">
         <span>Checkout</span>
         <span>·</span>
-        <span>{step === 'address' ? '1. Shipping Address' : '2. Payment'}</span>
+        <span>{step === 'address' ? 'Shipping Address' : 'Payment'}</span>
       </div>
       <h1 className="mt-1 font-serif text-3xl font-semibold text-ink">
         Complete Your Order
@@ -477,7 +477,7 @@ export function CheckoutPage() {
               <span>Studio Dispatch Guarantee</span>
             </div>
             <p className="mt-1 text-[11px] leading-relaxed text-ink-faint">
-              Funds are held securely. Artisans receive 95% net payout automatically recorded to the platform ledger upon fulfillment.
+              Funds are held securely. Artisans receive direct net payout automatically recorded to the platform ledger upon fulfillment.
             </p>
           </div>
 

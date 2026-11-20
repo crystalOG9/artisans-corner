@@ -146,15 +146,13 @@ export function Navbar() {
             />
             <span>Saved</span>
             {wishlistCount > 0 && (
-              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-terracotta px-1.5 text-xs font-semibold tabular-nums text-white">
-                {wishlistCount}
-              </span>
+              <span className="inline-block h-2 w-2 rounded-full bg-terracotta" />
             )}
           </NavLink>
 
           <NavLink
             to="/cart"
-            aria-label={`Shopping cart with ${cartCount} items`}
+            aria-label={`Shopping cart with items`}
             className={({ isActive }) =>
               `relative inline-flex items-center gap-1.5 rounded-md border border-hairline px-2.5 py-1.5 text-sm font-medium transition ${
                 isActive
@@ -166,9 +164,7 @@ export function Navbar() {
             <ShoppingBag className="h-4 w-4" aria-hidden="true" />
             <span>Cart</span>
             {cartCount > 0 && (
-              <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-terracotta px-1.5 text-xs font-semibold tabular-nums text-white">
-                {cartCount}
-              </span>
+              <span className="inline-block h-2 w-2 rounded-full bg-terracotta" />
             )}
           </NavLink>
 
@@ -209,26 +205,22 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:hidden">
           <Link
             to="/wishlist"
-            aria-label={`Saved pieces with ${wishlistCount} items`}
+            aria-label="Saved pieces"
             className="relative inline-flex items-center gap-1 rounded-md border border-hairline bg-surface p-2 text-sm text-ink"
           >
             <Heart className={`h-4 w-4 ${wishlistCount > 0 ? 'fill-terracotta text-terracotta' : ''}`} />
             {wishlistCount > 0 && (
-              <span className="rounded-full bg-terracotta px-1.5 text-[11px] font-semibold tabular-nums text-white">
-                {wishlistCount}
-              </span>
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-terracotta" />
             )}
           </Link>
           <Link
             to="/cart"
-            aria-label={`Shopping cart with ${cartCount} items`}
+            aria-label="Shopping cart"
             className="relative inline-flex items-center gap-1 rounded-md border border-hairline bg-surface px-2.5 py-2 text-sm text-ink"
           >
             <ShoppingBag className="h-4 w-4" />
             {cartCount > 0 && (
-              <span className="rounded-full bg-terracotta px-1.5 text-[11px] font-semibold tabular-nums text-white">
-                {cartCount}
-              </span>
+              <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-terracotta" />
             )}
           </Link>
           <button
@@ -282,7 +274,7 @@ export function Navbar() {
               className={navLinkClass}
               onClick={() => setMobileOpen(false)}
             >
-              Saved Pieces {wishlistCount > 0 ? `(${wishlistCount})` : ''}
+              Saved Pieces
             </NavLink>
             {user && (
               <NavLink

@@ -74,9 +74,7 @@ export function MobileNav() {
                 }`}
               />
               {wishlistCount > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-terracotta px-1 text-[10px] font-bold tabular-nums text-white shadow-2xs">
-                  {wishlistCount}
-                </span>
+                <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-terracotta" />
               )}
             </div>
             <span className="mt-1 tracking-tight">Saved</span>
@@ -92,9 +90,7 @@ export function MobileNav() {
                 className={`h-5 w-5 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`}
               />
               {cartCount > 0 && (
-                <span className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-terracotta px-1 text-[10px] font-bold tabular-nums text-white shadow-2xs">
-                  {cartCount}
-                </span>
+                <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-terracotta" />
               )}
             </div>
             <span className="mt-1 tracking-tight">Cart</span>

@@ -176,7 +176,7 @@ export function CartPage() {
           <h2 className="font-serif text-xl font-semibold text-ink">Studio Order Summary</h2>
           <div className="mt-4 space-y-2.5 border-b border-hairline pb-4 text-xs">
             <div className="flex justify-between text-ink-muted">
-              <span>Selected Studio Pieces ({items.reduce((s, i) => s + i.quantity, 0)})</span>
+              <span>Selected Studio Pieces</span>
               <span className="font-medium tabular-nums text-ink">{formatMoney(subtotalCents)}</span>
             </div>
             <div className="flex justify-between text-ink-muted">
@@ -193,13 +193,13 @@ export function CartPage() {
             </div>
             <div className="mt-2 space-y-1 text-ink-muted">
               <div className="flex justify-between">
-                <span>95% Goes Directly to Makers:</span>
+                <span>Direct Maker Share:</span>
                 <span className="font-semibold text-terracotta tabular-nums">
                   {formatMoney(Math.round(subtotalCents * 0.95))}
                 </span>
               </div>
               <div className="flex justify-between text-[10px] text-ink-faint">
-                <span>5% Platform Stewardship:</span>
+                <span>Platform Stewardship:</span>
                 <span className="tabular-nums">{formatMoney(Math.round(subtotalCents * 0.05))}</span>
               </div>
             </div>
