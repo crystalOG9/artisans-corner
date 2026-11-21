@@ -54,7 +54,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {/* Floating Toasts Viewport */}
       <div
         aria-live="polite"
-        className="pointer-events-none fixed bottom-20 right-4 z-50 flex max-w-sm flex-col gap-2.5 sm:bottom-6 sm:right-6"
+        className="pointer-events-none fixed bottom-6 right-4 z-50 flex max-w-sm flex-col gap-2.5 sm:right-6"
       >
         {toasts.map((toast) => (
           <div
