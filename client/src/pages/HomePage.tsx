@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Store,
 } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { http } from '../api/http';
@@ -115,6 +116,53 @@ const VIBE_MOODS = [
   },
 ];
 
+const CRAFT_EXPLORE_OPTIONS = [
+  { name: 'Ceramics & Pottery', query: 'Ceramics & Pottery' },
+  { name: 'Woodwork', query: 'Woodwork' },
+  { name: 'Textiles & Weaving', query: 'Textiles & Weaving' },
+  { name: 'Jewelry & Metals', query: 'Jewelry & Metalsmithing' },
+  { name: 'Paper & Prints', query: 'Paper & Printmaking' },
+  { name: 'Home & Botanical', query: 'Home & Botanical' },
+];
+
+const exploreContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.04,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      staggerChildren: 0.04,
+      staggerDirection: -1,
+    },
+  },
+};
+
+const exploreItemVariants = {
+  hidden: { opacity: 0, x: -14, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      type: 'spring',
+      damping: 18,
+      stiffness: 280,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: -8,
+    scale: 0.92,
+    transition: { duration: 0.15 },
+  },
+};
+
 export function HomePage() {
   const { user } = useAppSelector((s) => s.auth);
   const isVendor = user?.roles.includes('vendor');
@@ -126,8 +174,17 @@ export function HomePage() {
   const [subscribed, setSubscribed] = useState(false);
   const [heroCardIdx, setHeroCardIdx] = useState(0);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [exploreOpen, setExploreOpen] = useState(false);
 
   const heroPiece = HERO_STUDIO_CARDS[heroCardIdx] || HERO_STUDIO_CARDS[0];
+
+  useEffect(() => {
+    // Unfold craft explore options with smooth staggered spring cascade shortly after mount
+    const timer = setTimeout(() => {
+      setExploreOpen(true);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -180,27 +237,63 @@ export function HomePage() {
             bench-built joinery, and hand-loomed textiles sold directly from verified independent workshops.
           </p>
 
-          {/* Interactive Craft Discipline Quick-Filter Pills */}
-          <div className="mt-6 flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-faint mr-1">
-              Explore:
-            </span>
-            {[
-              { name: 'Ceramics & Pottery', query: 'Ceramics & Pottery' },
-              { name: 'Woodwork', query: 'Woodwork' },
-              { name: 'Textiles & Weaving', query: 'Textiles & Weaving' },
-              { name: 'Jewelry & Metals', query: 'Jewelry & Metalsmithing' },
-              { name: 'Paper & Prints', query: 'Paper & Printmaking' },
-            ].map((craft) => (
-              <Link
-                key={craft.name}
-                to={`/shop?category=${encodeURIComponent(craft.query)}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3.5 py-1 text-xs font-medium text-ink shadow-2xs transition-all duration-200 hover:border-terracotta hover:bg-linen hover:text-terracotta active:scale-95"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-terracotta/70" />
-                <span>{craft.name}</span>
-              </Link>
-            ))}
+          {/* Interactive Craft Discipline Quick-Filter Pills with 3-Dot Animated Cascade */}
+          <div className="mt-6 flex flex-wrap items-center gap-2 min-h-[38px] max-w-full">
+            {/* 3-Dot Trigger Button */}
+            <button
+              type="button"
+              onClick={() => setExploreOpen((prev) => !prev)}
+              aria-expanded={exploreOpen}
+              title={exploreOpen ? 'Click to fold craft options' : 'Click to unfold craft options'}
+              className="group inline-flex items-center gap-2 rounded-full border border-hairline bg-surface/90 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-wider text-ink shadow-2xs backdrop-blur-xs transition-all duration-200 hover:border-terracotta hover:bg-linen hover:text-terracotta active:scale-95 cursor-pointer shrink-0"
+            >
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-ink-muted group-hover:text-terracotta transition-colors">
+                Explore
+              </span>
+              {/* 3 Animated Terracotta Dots */}
+              <span className="flex items-center gap-1.5" aria-hidden="true">
+                <motion.span
+                  className="h-1.5 w-1.5 rounded-full bg-terracotta"
+                  animate={{ scale: [1, 1.45, 1], opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: 0 }}
+                />
+                <motion.span
+                  className="h-1.5 w-1.5 rounded-full bg-terracotta"
+                  animate={{ scale: [1, 1.45, 1], opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                />
+                <motion.span
+                  className="h-1.5 w-1.5 rounded-full bg-terracotta"
+                  animate={{ scale: [1, 1.45, 1], opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 1.1, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                />
+              </span>
+            </button>
+
+            {/* Staggered Animated Craft Options Cascade */}
+            <AnimatePresence>
+              {exploreOpen && (
+                <motion.div
+                  variants={exploreContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  className="flex flex-wrap items-center gap-2 max-w-full"
+                >
+                  {CRAFT_EXPLORE_OPTIONS.map((craft) => (
+                    <motion.div key={craft.name} variants={exploreItemVariants} className="shrink-0">
+                      <Link
+                        to={`/shop?category=${encodeURIComponent(craft.query)}`}
+                        className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-hairline bg-surface px-3 py-1 text-xs font-medium text-ink shadow-2xs transition-all duration-200 hover:border-terracotta hover:bg-linen hover:text-terracotta active:scale-95"
+                      >
+                        <span className="h-1.5 w-1.5 rounded-full bg-terracotta/70" />
+                        <span>{craft.name}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="mt-8 flex flex-wrap items-center gap-3.5">
