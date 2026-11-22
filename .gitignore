@@ -48,4 +48,7 @@ model_capabilities.yaml
 scripts/search_repo.*
 scripts/setup_search.*
 scripts/validate-*
+scripts/generate_submission_pkg.py
 server/src/scripts/
+Artisans_Corner_Submission/
+Artisans_Corner_Submission.zip
