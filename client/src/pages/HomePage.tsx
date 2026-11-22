@@ -150,7 +150,7 @@ const exploreItemVariants = {
     x: 0,
     scale: 1,
     transition: {
-      type: 'spring',
+      type: 'spring' as const,
       damping: 18,
       stiffness: 280,
     },

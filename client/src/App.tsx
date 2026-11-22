@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { ThreeLoadingScreen } from './components/ThreeLoadingScreen';
 import { ToastProvider } from './context/ToastContext';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { BecomeSellerPage } from './pages/BecomeSellerPage';
@@ -28,6 +29,7 @@ export function App() {
 
   return (
     <BrowserRouter>
+      <ThreeLoadingScreen />
       <ToastProvider>
         <Routes>
           <Route element={<Layout />}>
