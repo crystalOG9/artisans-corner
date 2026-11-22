@@ -51,6 +51,12 @@ The backend features multi-layered defenses verified by automated security suite
 - **Database**: MongoDB Atlas + Mongoose ODM (relational indexing, compound unique constraints, purchase-time order snapshots).
 - **External Services**: Cloudinary (studio logo & product photography), Stripe API (`PaymentIntent` + webhook verification in Test Mode).
 
+### 📚 Extended Technical Documentation
+- 📐 **[System Architecture & Security Model](./docs/architecture.md)** — Architectural layers, data flow, and threat model.
+- 🛠️ **[Local Setup & Development Guide](./docs/setup-guide.md)** — Step-by-step setup, database seeding, and testing.
+- 📡 **[Complete REST API Specification](./docs/api-documentation.md)** — Detailed endpoint reference with request/response payloads.
+- 📊 **[Database Schema ER Diagram](./docs/database-schema.png)** — High-resolution database entity relationship diagram.
+
 ---
 
 ## 📊 Database Schema Diagram
@@ -142,15 +148,15 @@ CLIENT_URL=http://localhost:5173
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-STRIPE_SECRET_KEY=sk_test_placeholder_key
-STRIPE_WEBHOOK_SECRET=whsec_placeholder_key
+STRIPE_SECRET_KEY=your_stripe_test_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 PLATFORM_COMMISSION_BPS=500
 ```
 
 ### `client/.env`
 ```ini
 VITE_API_URL=http://localhost:5000/api
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_placeholder_key
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 ```
 
 ---
