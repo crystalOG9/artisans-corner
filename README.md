@@ -55,7 +55,75 @@ The backend features multi-layered defenses verified by automated security suite
 
 ## 📊 Database Schema Diagram
 
-![Artisan's Corner Database Schema Diagram](./docs/database-schema.svg)
+![Artisan's Corner Database Schema Diagram](./docs/database-schema.png)
+
+---
+
+## 📡 REST API Reference
+
+The backend exposes a RESTful JSON API prefixed by `/api`. Secured routes require `Authorization: Bearer <jwt_token>` (or HTTP-only session cookie).
+
+### Authentication (`/api/auth`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/auth/register` | Public | Register buyer/artisan (`name`, `email`, `password`, `role`) |
+| `POST` | `/api/auth/login` | Public | Constant-time authenticated sign-in; returns JWT |
+| `POST` | `/api/auth/logout` | Public | Clears authentication session cookie |
+| `GET` | `/api/auth/me` | Authenticated | Retrieves current authenticated session user profile |
+
+### Artisan Stores (`/api/stores`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/stores` | Public | List approved public artisan studios |
+| `GET` | `/api/stores/:slug` | Public | Retrieve public studio details and active catalog |
+| `POST` | `/api/stores/become-seller` | Authenticated | Onboard as artisan studio with logo upload (`multipart/form-data`) |
+| `GET` | `/api/stores/me` | Vendor | Fetch current vendor's owned studio profile |
+| `PATCH` | `/api/stores/me` | Vendor | Update store story, craft specializations, and location |
+
+### Products & Reviews (`/api/products`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/products` | Public | Paginated product search with craft category, price, and sorting |
+| `GET` | `/api/products/:slug` | Public | Fetch product detail with populated studio information |
+| `POST` | `/api/products` | Vendor | Create new craft listing with up to 5 image uploads |
+| `PATCH` | `/api/products/:id` | Vendor / Admin | Update product details, inventory, pricing, or media |
+| `DELETE` | `/api/products/:id` | Vendor / Admin | Delete owned product or archive listing |
+| `GET` | `/api/products/mine` | Vendor | List all products owned by current artisan studio |
+| `GET` | `/api/products/:id/reviews` | Public | List customer reviews and ratings for a product |
+| `GET` | `/api/products/:id/reviews/eligibility` | Authenticated | Check if current user has an unreviewed verified purchase |
+| `POST` | `/api/products/:id/reviews` | Authenticated | Submit verified-purchase review (enforces single review per buyer) |
+
+### Orders & Cart Validation (`/api/orders`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `POST` | `/api/orders/validate-cart` | Public | Server-side cart price, active status, and stock availability check |
+| `GET` | `/api/orders/my` | Authenticated | Buyer order history with line items and shipment tracking |
+| `GET` | `/api/orders/:id` | Authenticated | Single order details with itemized artisan breakdowns |
+
+### Payments & Checkout (`/api/payments`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/payments/config` | Public | Returns Stripe publishable key |
+| `POST` | `/api/payments/create-intent` | Authenticated | Validates stock, calculates server totals, creates Stripe PaymentIntent |
+| `POST` | `/api/payments/verify` | Authenticated | Verifies payment, creates order, decrements stock atomically, creates payouts |
+
+### Seller Workbench (`/api/seller`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/seller/analytics` | Vendor | Real-time revenue, order volume, net payouts, and top products |
+| `GET` | `/api/seller/orders` | Vendor | Vendor-specific order fulfillment list |
+| `PATCH` | `/api/seller/orders/:orderId/status` | Vendor | Update studio fulfillment status (`processing`, `shipped`, `delivered`) |
+| `GET` | `/api/seller/payouts` | Vendor | Ledger of 95% net earnings per completed order |
+| `POST` | `/api/seller/payouts/:payoutId/simulate-settle` | Vendor | Demo simulated bank transfer settlement |
+
+### Admin Moderation (`/api/admin`)
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/admin/overview` | Admin | Platform-wide GMV, active stores, order count, and system health |
+| `GET` | `/api/admin/stores` | Admin | List all registered artisan studios |
+| `PATCH` | `/api/admin/stores/:id/status` | Admin | Moderate store status (`approved`, `suspended`, `rejected`) |
+| `GET` | `/api/admin/products` | Admin | Platform-wide catalog audit |
+| `PATCH` | `/api/admin/products/:id/archive` | Admin | Archive or delist prohibited products |
 
 ---
 
@@ -67,7 +135,7 @@ Create `server/.env` (from `server/.env.example`) and `client/.env` (from `clien
 ```ini
 PORT=5000
 NODE_ENV=development
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.ddnl5ow.mongodb.net/artisans_corner?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/artisans_corner?retryWrites=true&w=majority
 JWT_SECRET=your_jwt_secret_min_16_chars
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:5173

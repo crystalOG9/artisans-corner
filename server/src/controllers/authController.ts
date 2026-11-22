@@ -19,6 +19,7 @@ export async function registerHandler(
       data: {
         user: result.user,
         store: null,
+        token: result.token,
       },
     });
   } catch (err) {
@@ -39,6 +40,7 @@ export async function loginHandler(
       data: {
         user: result.user,
         store: result.store,
+        token: result.token,
       },
     });
   } catch (err) {

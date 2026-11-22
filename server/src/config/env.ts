@@ -6,20 +6,22 @@ import { z } from 'zod';
 dotenv.config();
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config({ path: path.resolve(process.cwd(), 'server/.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../server/.env') });
 
-const DEFAULT_MONGODB_URI =
-  'mongodb+srv://pawarpiyush172_db_user:Artisan1234@cluster0.ddnl5ow.mongodb.net/artisans_corner?retryWrites=true&w=majority';
-const DEFAULT_JWT_SECRET =
-  '8381f992020be8128159e2c160f638bddc709deede58cd96ddda519d6bd22b98';
+const isTest = process.env.NODE_ENV === 'test';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(5000),
-  MONGODB_URI: z.string().min(1).default(process.env.MONGODB_URI || DEFAULT_MONGODB_URI),
+  MONGODB_URI: z
+    .string()
+    .min(1, 'MONGODB_URI is required')
+    .default(isTest ? 'mongodb://localhost:27017/test_db' : (process.env.MONGODB_URI || '')),
   JWT_SECRET: z
     .string()
     .min(16, 'JWT_SECRET must be at least 16 characters')
-    .default(process.env.JWT_SECRET || DEFAULT_JWT_SECRET),
+    .default(isTest ? 'test-jwt-secret-for-vitest-suite-32chars' : (process.env.JWT_SECRET || '')),
   JWT_EXPIRES_IN: z.string().default('7d'),
   CLIENT_URL: z.string().default(process.env.CLIENT_URL || '*'),
   CLOUDINARY_CLOUD_NAME: z.string().optional().default(''),
@@ -39,10 +41,10 @@ if (!parsed.success) {
 export const env = parsed.success
   ? parsed.data
   : {
-      NODE_ENV: (process.env.NODE_ENV as any) || 'production',
+      NODE_ENV: (process.env.NODE_ENV as any) || 'development',
       PORT: parseInt(process.env.PORT || '5000', 10),
-      MONGODB_URI: process.env.MONGODB_URI || DEFAULT_MONGODB_URI,
-      JWT_SECRET: process.env.JWT_SECRET || DEFAULT_JWT_SECRET,
+      MONGODB_URI: process.env.MONGODB_URI || (isTest ? 'mongodb://localhost:27017/test_db' : ''),
+      JWT_SECRET: process.env.JWT_SECRET || (isTest ? 'test-jwt-secret-for-vitest-suite-32chars' : ''),
       JWT_EXPIRES_IN: '7d',
       CLIENT_URL: process.env.CLIENT_URL || '*',
       CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || '',
@@ -54,10 +56,10 @@ export const env = parsed.success
     };
 
 export function assertServerEnv(): void {
-  if (!env.MONGODB_URI) {
+  if (!env.MONGODB_URI && env.NODE_ENV !== 'test') {
     throw new Error('MONGODB_URI is required in server/.env to start the API server.');
   }
-  if (!env.JWT_SECRET || env.JWT_SECRET.length < 16) {
+  if ((!env.JWT_SECRET || env.JWT_SECRET.length < 16) && env.NODE_ENV !== 'test') {
     throw new Error('JWT_SECRET (min 16 characters) is required in server/.env.');
   }
 }

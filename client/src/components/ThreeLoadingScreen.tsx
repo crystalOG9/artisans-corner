@@ -14,9 +14,23 @@ export function ThreeLoadingScreen({
   const [progress, setProgress] = useState(0);
   const [phaseText, setPhaseText] = useState('Centering the clay...');
   const [isFadingOut, setIsFadingOut] = useState(false);
-  const [isDone, setIsDone] = useState(false);
+  const [isDone, setIsDone] = useState(() => {
+    try {
+      if (typeof window === 'undefined') return false;
+      const alreadySeen = sessionStorage.getItem('artisan_loader_seen') === 'true';
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      return alreadySeen || prefersReduced;
+    } catch {
+      return false;
+    }
+  });
 
   useEffect(() => {
+    if (isDone) {
+      onComplete?.();
+      return;
+    }
+
     const container = mountRef.current;
     if (!container) return;
 
@@ -31,11 +45,20 @@ export function ThreeLoadingScreen({
     camera.position.set(0, 1.8, 6.2);
     camera.lookAt(0, 1.1, 0);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.shadowMap.enabled = true;
-    container.appendChild(renderer.domElement);
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.shadowMap.enabled = true;
+      container.appendChild(renderer.domElement);
+    } catch {
+      // Graceful WebGL fallback: mark complete immediately without blocking UI
+      sessionStorage.setItem('artisan_loader_seen', 'true');
+      setIsDone(true);
+      onComplete?.();
+      return;
+    }
 
     // 2. Lighting
     const ambientLight = new THREE.AmbientLight(0xfff5ea, 0.85);

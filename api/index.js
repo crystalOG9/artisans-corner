@@ -50,13 +50,14 @@ var import_zod = require("zod");
 import_dotenv.default.config();
 import_dotenv.default.config({ path: import_path.default.resolve(__dirname, "../../.env") });
 import_dotenv.default.config({ path: import_path.default.resolve(process.cwd(), "server/.env") });
-var DEFAULT_MONGODB_URI = "mongodb+srv://pawarpiyush172_db_user:Artisan1234@cluster0.ddnl5ow.mongodb.net/artisans_corner?retryWrites=true&w=majority";
-var DEFAULT_JWT_SECRET = "8381f992020be8128159e2c160f638bddc709deede58cd96ddda519d6bd22b98";
+import_dotenv.default.config({ path: import_path.default.resolve(__dirname, "../.env") });
+import_dotenv.default.config({ path: import_path.default.resolve(__dirname, "../../server/.env") });
+var isTest = process.env.NODE_ENV === "test";
 var envSchema = import_zod.z.object({
   NODE_ENV: import_zod.z.enum(["development", "test", "production"]).default("development"),
   PORT: import_zod.z.coerce.number().int().positive().default(5e3),
-  MONGODB_URI: import_zod.z.string().min(1).default(process.env.MONGODB_URI || DEFAULT_MONGODB_URI),
-  JWT_SECRET: import_zod.z.string().min(16, "JWT_SECRET must be at least 16 characters").default(process.env.JWT_SECRET || DEFAULT_JWT_SECRET),
+  MONGODB_URI: import_zod.z.string().min(1, "MONGODB_URI is required").default(isTest ? "mongodb://localhost:27017/test_db" : process.env.MONGODB_URI || ""),
+  JWT_SECRET: import_zod.z.string().min(16, "JWT_SECRET must be at least 16 characters").default(isTest ? "test-jwt-secret-for-vitest-suite-32chars" : process.env.JWT_SECRET || ""),
   JWT_EXPIRES_IN: import_zod.z.string().default("7d"),
   CLIENT_URL: import_zod.z.string().default(process.env.CLIENT_URL || "*"),
   CLOUDINARY_CLOUD_NAME: import_zod.z.string().optional().default(""),
@@ -71,10 +72,10 @@ if (!parsed.success) {
   console.warn("Environment validation warning:", parsed.error.flatten().fieldErrors);
 }
 var env = parsed.success ? parsed.data : {
-  NODE_ENV: process.env.NODE_ENV || "production",
+  NODE_ENV: process.env.NODE_ENV || "development",
   PORT: parseInt(process.env.PORT || "5000", 10),
-  MONGODB_URI: process.env.MONGODB_URI || DEFAULT_MONGODB_URI,
-  JWT_SECRET: process.env.JWT_SECRET || DEFAULT_JWT_SECRET,
+  MONGODB_URI: process.env.MONGODB_URI || (isTest ? "mongodb://localhost:27017/test_db" : ""),
+  JWT_SECRET: process.env.JWT_SECRET || (isTest ? "test-jwt-secret-for-vitest-suite-32chars" : ""),
   JWT_EXPIRES_IN: "7d",
   CLIENT_URL: process.env.CLIENT_URL || "*",
   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || "",
@@ -1194,7 +1195,8 @@ async function registerHandler(req, res, next) {
       success: true,
       data: {
         user: result.user,
-        store: null
+        store: null,
+        token: result.token
       }
     });
   } catch (err) {
@@ -1209,7 +1211,8 @@ async function loginHandler(req, res, next) {
       success: true,
       data: {
         user: result.user,
-        store: result.store
+        store: result.store,
+        token: result.token
       }
     });
   } catch (err) {

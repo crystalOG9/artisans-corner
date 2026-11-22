@@ -685,15 +685,29 @@ export function ProductDetailPage() {
                 </button>
               </form>
             ) : eligibility.alreadyReviewed ? (
-              <p className="mt-4 rounded-lg bg-linen/70 px-4 py-3 text-sm text-ink-muted">
-                You have already submitted a verified review for this product.
-              </p>
+              <div className="mt-4 rounded-xl border border-hairline bg-surface p-4 text-xs sm:text-sm text-ink-muted">
+                <span className="font-semibold text-ink">✓ Verified Review Submitted</span>
+                <p className="mt-1">You have already shared your verified feedback for this creation.</p>
+              </div>
             ) : (
-              <p className="mt-4 rounded-lg bg-linen/70 px-4 py-3 text-sm text-ink-muted">
-                {user
-                  ? 'Purchase this piece to unlock verified review submission.'
-                  : 'Sign in with a verified purchase to leave a review.'}
-              </p>
+              <div className="mt-4 rounded-xl border border-hairline bg-linen/60 p-4 text-xs sm:text-sm text-ink-muted space-y-1.5">
+                <p className="font-semibold text-ink">
+                  {user
+                    ? 'Verified Purchase Required'
+                    : 'Sign in to Submit a Verified Review'}
+                </p>
+                <p className="leading-relaxed">
+                  {user ? (
+                    <span>
+                      In accordance with Persevex marketplace integrity standards, only collectors who have purchased and received this piece can submit a rating and review.
+                    </span>
+                  ) : (
+                    <span>
+                      Please <Link to="/login" className="font-medium text-terracotta underline hover:text-terracotta-hover">sign in</Link> to an account with a verified purchase to leave a review.
+                    </span>
+                  )}
+                </p>
+              </div>
             )}
           </div>
 

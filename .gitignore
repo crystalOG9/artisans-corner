@@ -37,3 +37,15 @@ Thumbs.db
 .vscode/
 .idea/
 .agents/
+.agent/
+.gemini/
+.gsd/
+GSD-STYLE.md
+PROJECT_RULES.md
+VERSION
+adapters/
+model_capabilities.yaml
+scripts/search_repo.*
+scripts/setup_search.*
+scripts/validate-*
+server/src/scripts/

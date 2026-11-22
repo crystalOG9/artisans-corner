@@ -90,11 +90,7 @@ export function ShopPage() {
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
       {/* Header Banner */}
       <div className="border-b border-hairline pb-8">
-        <div className="inline-flex items-center gap-2 rounded-full border border-terracotta/25 bg-linen/80 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-          <Flame className="h-3.5 w-3.5 text-terracotta" />
-          <span>Curated Studio Marketplace</span>
-        </div>
-        <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Shop Independent Craft
         </h1>
         <p className="mt-2 text-sm text-ink-muted">
@@ -217,11 +213,7 @@ export function ShopPage() {
         >
           <div className="grid items-center gap-8 lg:grid-cols-12">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-terracotta/20 bg-linen/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-terracotta">
-                <Layers className="h-3.5 w-3.5" />
-                <span>Interactive Studio Stack</span>
-              </div>
-              <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
                 Touch, flick &amp; discover bench-crafted objects
               </h2>
               <p className="mt-2 max-w-xl text-sm leading-relaxed text-ink-muted">
