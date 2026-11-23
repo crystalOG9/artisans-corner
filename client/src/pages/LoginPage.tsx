@@ -98,63 +98,6 @@ export function LoginPage() {
           </button>
         </form>
 
-        {/* Evaluator Quick-Fill Section */}
-        <div className="mt-6 rounded-lg border border-hairline bg-canvas p-3.5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-ink-muted">
-            Evaluator Demo Quick-Fill
-          </p>
-          <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('vendor@artisanscorner.demo');
-                setPassword('DemoVendor123!');
-                setValidationError(null);
-                dispatch(clearAuthError());
-              }}
-              className="rounded border border-hairline bg-surface px-2.5 py-1.5 text-left font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
-            >
-              Ceramics Vendor
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('weaver@artisanscorner.demo');
-                setPassword('DemoVendor123!');
-                setValidationError(null);
-                dispatch(clearAuthError());
-              }}
-              className="rounded border border-hairline bg-surface px-2.5 py-1.5 text-left font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
-            >
-              Textiles Vendor
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('buyer@artisanscorner.demo');
-                setPassword('DemoBuyer123!');
-                setValidationError(null);
-                dispatch(clearAuthError());
-              }}
-              className="rounded border border-hairline bg-surface px-2.5 py-1.5 text-left font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
-            >
-              Demo Buyer
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('admin@artisanscorner.demo');
-                setPassword('DemoAdmin123!');
-                setValidationError(null);
-                dispatch(clearAuthError());
-              }}
-              className="rounded border border-hairline bg-surface px-2.5 py-1.5 text-left font-medium text-ink transition hover:border-terracotta hover:text-terracotta"
-            >
-              Platform Admin
-            </button>
-          </div>
-        </div>
-
         <p className="mt-6 text-center text-sm text-ink-muted">
           New to Artisan&apos;s Corner?{' '}
           <Link to="/register" className="font-medium text-terracotta hover:underline">
