@@ -1,9 +1,15 @@
 # Artisan's Corner — Multi-Vendor Handmade Goods Marketplace
 
-[![Tests](https://img.shields.io/badge/tests-14%2F14%20passing-brightgreen.svg)](file:///d:/PROJECTS/Artisan's%20Corner/server/tests)
-[![TypeScript](https://img.shields.io/badge/typescript-strict%200%20errors-blue.svg)](file:///d:/PROJECTS/Artisan's%20Corner)
-[![Security](https://img.shields.io/badge/security-hardened-success.svg)](file:///d:/PROJECTS/Artisan's%20Corner/server/tests/security.test.ts)
-[![Design](https://img.shields.io/badge/design-atelier%20editorial-orange.svg)](file:///d:/PROJECTS/Artisan's%20Corner/client/src/styles/tokens.css)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-artisans--corner--web--three.vercel.app-success?style=for-the-badge&logo=vercel)](https://artisans-corner-web-three.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/crystalOG9/artisans-corner)
+
+> 🚀 **Live Production Application:** [https://artisans-corner-web-three.vercel.app/](https://artisans-corner-web-three.vercel.app/)  
+> 📦 **GitHub Repository:** [https://github.com/crystalOG9/artisans-corner](https://github.com/crystalOG9/artisans-corner)
+
+[![Tests](https://img.shields.io/badge/tests-14%2F14%20passing-brightgreen.svg)](server/tests)
+[![TypeScript](https://img.shields.io/badge/typescript-strict%200%20errors-blue.svg)](client)
+[![Security](https://img.shields.io/badge/security-hardened-success.svg)](server/tests/security.test.ts)
+[![Design](https://img.shields.io/badge/design-atelier%20editorial-orange.svg)](client/src/styles/tokens.css)
 
 Artisan's Corner is a production-grade multi-vendor marketplace designed for bespoke handmade goods and independent studios. Built for the Persevex Web Development Internship, the platform connects discerning buyers directly with master craftspeople across ceramics, textiles, woodwork, leatherwork, and fine metals.
 
@@ -217,7 +223,9 @@ npm run build --prefix client
 
 ---
 
-## 🚢 Deployment
+## 🚢 Deployment & Live Links
 
+- **Live Deployed Application**: [https://artisans-corner-web-three.vercel.app/](https://artisans-corner-web-three.vercel.app/)
+- **GitHub Repository**: [https://github.com/crystalOG9/artisans-corner](https://github.com/crystalOG9/artisans-corner)
 - **Backend (Render / Railway)**: Deploy `server/` with `npm install && npm run build` and `npm start`. Configure environment variables and set `CLIENT_URL` to your production frontend domain.
 - **Frontend (Vercel / Netlify)**: Deploy `client/` using [client/vercel.json](./client/vercel.json) for SPA routing rewrites. Set `VITE_API_URL` to your production backend URL.
