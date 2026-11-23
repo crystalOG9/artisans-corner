@@ -11,7 +11,7 @@ import {
   Wallet,
   X,
 } from 'lucide-react';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Area,
@@ -312,11 +312,48 @@ export function SellerDashboardPage() {
     }
   };
 
-  const chartData = (analytics?.salesHistory || []).map((pt) => ({
-    date: pt.date,
-    netDollars: Number((pt.netCents / 100).toFixed(2)),
-    grossDollars: Number((pt.grossCents / 100).toFixed(2)),
-  }));
+  const chartData = useMemo(() => {
+    const raw = analytics?.salesHistory || [];
+    if (raw.length === 0) return [];
+
+    const salesMap = new Map<string, { grossDollars: number; netDollars: number }>();
+    raw.forEach((pt) => {
+      salesMap.set(pt.date, {
+        grossDollars: Number((pt.grossCents / 100).toFixed(2)),
+        netDollars: Number((pt.netCents / 100).toFixed(2)),
+      });
+    });
+
+    const sortedDates = raw.map((r) => r.date).sort();
+    const latestDate = sortedDates[sortedDates.length - 1];
+    const today = new Date().toISOString().slice(0, 10);
+    const endAnchor = latestDate > today ? latestDate : today;
+    const endDate = new Date(endAnchor + 'T00:00:00Z');
+
+    const daysToShow = Math.max(7, sortedDates.length);
+    const series: Array<{
+      date: string;
+      label: string;
+      grossDollars: number;
+      netDollars: number;
+    }> = [];
+
+    for (let i = daysToShow - 1; i >= 0; i--) {
+      const d = new Date(endDate);
+      d.setUTCDate(d.getUTCDate() - i);
+      const iso = d.toISOString().slice(0, 10);
+      const match = salesMap.get(iso);
+      const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+      series.push({
+        date: iso,
+        label,
+        grossDollars: match ? match.grossDollars : 0,
+        netDollars: match ? match.netDollars : 0,
+      });
+    }
+
+    return series;
+  }, [analytics?.salesHistory]);
 
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
@@ -476,7 +513,7 @@ export function SellerDashboardPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={chartData}>
                     <CartesianGrid stroke="#E4DDD3" strokeDasharray="3 3" />
-                    <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#5E584F' }} />
+                    <XAxis dataKey="label" tick={{ fontSize: 12, fill: '#5E584F' }} />
                     <YAxis
                       tick={{ fontSize: 12, fill: '#5E584F' }}
                       tickFormatter={(v) => `$${v}`}
@@ -486,21 +523,28 @@ export function SellerDashboardPage() {
                         `$${Number(value ?? 0).toFixed(2)}`,
                         name === 'netDollars' ? 'Net Earnings (95%)' : 'Gross Sales',
                       ]}
+                      labelFormatter={(label) => `Date: ${label}`}
                     />
                     <Area
                       type="monotone"
                       dataKey="grossDollars"
+                      name="grossDollars"
                       stroke="#5E584F"
                       fill="#F2EDE4"
-                      strokeWidth={1.5}
+                      strokeWidth={2}
+                      dot={{ r: 3, fill: '#5E584F', strokeWidth: 1 }}
+                      activeDot={{ r: 6, stroke: '#FFFFFF', strokeWidth: 2 }}
                     />
                     <Area
                       type="monotone"
                       dataKey="netDollars"
+                      name="netDollars"
                       stroke="#B4533C"
                       fill="#B4533C"
-                      fillOpacity={0.18}
+                      fillOpacity={0.2}
                       strokeWidth={2}
+                      dot={{ r: 3, fill: '#B4533C', strokeWidth: 1 }}
+                      activeDot={{ r: 6, stroke: '#FFFFFF', strokeWidth: 2 }}
                     />
                   </AreaChart>
                 </ResponsiveContainer>
