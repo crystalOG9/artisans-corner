@@ -38,6 +38,7 @@ import {
 } from '../types/marketplace';
 
 type SellerTab = 'overview' | 'products' | 'orders' | 'payouts' | 'store';
+type ChartRange = '7d' | '30d' | 'months';
 
 interface SellerOrderItem {
   _id: string;
@@ -53,6 +54,7 @@ export function SellerDashboardPage() {
   const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = useState<SellerTab>('overview');
+  const [chartRange, setChartRange] = useState<ChartRange>('7d');
   const [products, setProducts] = useState<Product[]>([]);
   const [analytics, setAnalytics] = useState<SellerAnalytics | null>(null);
   const [sellerOrders, setSellerOrders] = useState<SellerOrderItem[]>([]);
@@ -316,6 +318,47 @@ export function SellerDashboardPage() {
     const raw = analytics?.salesHistory || [];
     if (raw.length === 0) return [];
 
+    if (chartRange === 'months') {
+      const monthlyMap = new Map<string, { grossDollars: number; netDollars: number; orders: number }>();
+      raw.forEach((pt) => {
+        const monthKey = pt.date.slice(0, 7); // "YYYY-MM"
+        const existing = monthlyMap.get(monthKey) || { grossDollars: 0, netDollars: 0, orders: 0 };
+        existing.grossDollars += Number((pt.grossCents / 100).toFixed(2));
+        existing.netDollars += Number((pt.netCents / 100).toFixed(2));
+        existing.orders += pt.orders || 1;
+        monthlyMap.set(monthKey, existing);
+      });
+
+      const monthsSeries: Array<{
+        date: string;
+        label: string;
+        grossDollars: number;
+        netDollars: number;
+      }> = [];
+
+      const today = new Date();
+      const currentYear = today.getUTCFullYear();
+      const currentMonth = today.getUTCMonth();
+
+      // Past 6 calendar months
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(Date.UTC(currentYear, currentMonth - i, 1));
+        const monthKey = d.toISOString().slice(0, 7);
+        const match = monthlyMap.get(monthKey);
+        const label = d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+        monthsSeries.push({
+          date: monthKey,
+          label,
+          grossDollars: match ? Number(match.grossDollars.toFixed(2)) : 0,
+          netDollars: match ? Number(match.netDollars.toFixed(2)) : 0,
+        });
+      }
+
+      return monthsSeries;
+    }
+
+    // Daily mode: '7d' or '30d'
+    const daysToShow = chartRange === '30d' ? 30 : 7;
     const salesMap = new Map<string, { grossDollars: number; netDollars: number }>();
     raw.forEach((pt) => {
       salesMap.set(pt.date, {
@@ -330,7 +373,6 @@ export function SellerDashboardPage() {
     const endAnchor = latestDate > today ? latestDate : today;
     const endDate = new Date(endAnchor + 'T00:00:00Z');
 
-    const daysToShow = Math.max(7, sortedDates.length);
     const series: Array<{
       date: string;
       label: string;
@@ -353,7 +395,7 @@ export function SellerDashboardPage() {
     }
 
     return series;
-  }, [analytics?.salesHistory]);
+  }, [analytics?.salesHistory, chartRange]);
 
   return (
     <div className="mx-auto max-w-[1440px] px-4 py-8 sm:px-8 lg:px-12 sm:py-12">
@@ -490,12 +532,57 @@ export function SellerDashboardPage() {
           </div>
 
           <div className="rounded-xl border border-hairline bg-surface p-6">
-            <h2 className="font-serif text-lg font-medium text-ink">
-              Sales History &amp; Net Earnings
-            </h2>
-            <p className="mt-0.5 text-xs text-ink-muted">
-              Calculated strictly from verified paid marketplace orders.
-            </p>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="font-serif text-lg font-medium text-ink">
+                  Sales History &amp; Net Earnings
+                </h2>
+                <p className="mt-0.5 text-xs text-ink-muted">
+                  {chartRange === 'months'
+                    ? 'Aggregated monthly net profits (95%) and gross revenue across past months.'
+                    : chartRange === '30d'
+                    ? 'Daily sales and net profit progression over the last 30 days.'
+                    : 'Daily sales and net profit progression over the last 7 days.'}
+                </p>
+              </div>
+
+              {/* Time Range Filter Controls */}
+              <div className="inline-flex items-center rounded-lg border border-hairline bg-canvas p-1 text-xs">
+                <button
+                  type="button"
+                  onClick={() => setChartRange('7d')}
+                  className={`rounded-md px-3 py-1 font-medium transition ${
+                    chartRange === '7d'
+                      ? 'bg-surface text-ink shadow-2xs font-semibold'
+                      : 'text-ink-muted hover:text-ink'
+                  }`}
+                >
+                  Last 7 Days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChartRange('30d')}
+                  className={`rounded-md px-3 py-1 font-medium transition ${
+                    chartRange === '30d'
+                      ? 'bg-surface text-ink shadow-2xs font-semibold'
+                      : 'text-ink-muted hover:text-ink'
+                  }`}
+                >
+                  Last 30 Days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChartRange('months')}
+                  className={`rounded-md px-3 py-1 font-medium transition ${
+                    chartRange === 'months'
+                      ? 'bg-surface text-terracotta shadow-2xs font-semibold'
+                      : 'text-ink-muted hover:text-ink'
+                  }`}
+                >
+                  Past Months (Monthly Profits)
+                </button>
+              </div>
+            </div>
 
             {loading ? (
               <div className="mt-6 h-64 animate-pulse rounded-lg bg-linen" />
@@ -523,7 +610,7 @@ export function SellerDashboardPage() {
                         `$${Number(value ?? 0).toFixed(2)}`,
                         name === 'netDollars' ? 'Net Earnings (95%)' : 'Gross Sales',
                       ]}
-                      labelFormatter={(label) => `Date: ${label}`}
+                      labelFormatter={(label) => (chartRange === 'months' ? `Month: ${label}` : `Date: ${label}`)}
                     />
                     <Area
                       type="monotone"
